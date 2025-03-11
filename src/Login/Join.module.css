@@ -1,0 +1,120 @@
+/* 전체 컨테이너 - 화면 중앙 정렬 */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* 세로 중앙 정렬 */
+  min-height: 100vh;
+  background-color: #fff;
+  font-family: Arial, sans-serif;
+}
+
+/* 메인 컨텐츠 */
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 100px 30px;
+  width: 100%;
+  max-width: 450px;
+  margin: 0 auto;
+}
+
+/* 제목 스타일 */
+.title {
+  font-size: 25px;
+  font-weight: bold;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+/* 설명 텍스트 */
+.description {
+  font-size: 20px;
+  color: #333;
+  text-align: left;
+  margin-bottom: 5px;
+  margin-top: 25px;
+  line-height: 1.3;
+  font-weight: bold;
+  width: 100%;
+  border-left: solid 4px rgb(15, 15, 15);
+  padding-left: 10px;
+}
+
+/* 추가 안내문 */
+.terms {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 30px;
+}
+
+/* 약관 동의 리스트 */
+.agreement-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 10px;
+  color : #888;
+}
+
+/* 체크박스 라벨 스타일 */
+.agreement-list label {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  color: #333;
+  cursor: pointer;
+}
+
+/* 기본 체크박스 숨기기 */
+.agreement-list input[type="checkbox"] {
+  display: none;
+}
+
+/* 커스텀 체크박스 만들기 */
+.agreement-list label::before {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border: 2px solid #333;
+  border-radius: 50%; /* 동그라미 모양 */
+  margin-right: 10px;
+  background-color: white;
+  transition: background 0.2s ease-in-out;
+}
+
+/* 체크되었을 때 스타일 */
+.agreement-list input[type="checkbox"]:checked + label::before {
+  background-color: #333; /* 검은색 동그라미 */
+}
+
+/* 버튼 스타일 */
+.button {
+  background-color: #222;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  width: 100%;
+  font-size: 16px;
+  text-transform: none;
+  font-weight: normal;
+  margin: 40px auto;
+  display: block;
+}
+
+.button:hover {
+  opacity: 0.8;
+}
+
+a {
+  text-decoration: underline;
+  color: #000;
+}

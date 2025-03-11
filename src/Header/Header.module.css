@@ -1,0 +1,180 @@
+/* 스크롤바 숨기기 */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* 헤더 스타일 */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transition: background-color 0.3s, color 0.3s;
+  z-index: 10;
+}
+
+/* 로고 스타일 */
+.logo {
+  display: flex;
+  align-items: center;
+  transition: filter 0.3s, color 0.3s;
+}
+
+.logoImage {
+  height: 17px;
+}
+
+/* 네비게이션 아이콘 */
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* 아이콘 간격 유지 */
+  margin-right: 30px; /* 📌 아이콘 왼쪽 이동 */
+}
+
+.nav button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  transition: filter 0.3s, color 0.3s;
+}
+
+/* 아이콘 기본 스타일 */
+.icon {
+  width: 21px;
+  height: 21px;
+  transition: filter 0.3s;
+}
+
+/* 카테고리 네비게이션 */
+.categoryNav {
+  position: absolute;
+  top: 51px;
+  left: 0px;
+  width: 100%;
+  transition: background-color 0.3s, color 0.3s;
+  text-align: center;
+}
+
+/* 카테고리 리스트 */
+.categoryList {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 12px;
+}
+
+.categoryItem {
+  margin: 0 15px;
+  cursor: pointer;
+  position: relative;
+  padding: 10px 7px;
+  color: black;
+  transition: color 0.3s;
+  font-size: 14px;
+}
+
+/* 📌 호버 시 전체 배경 반전 */
+.header:hover,
+.header:hover .categoryNav {
+  background-color: #fff; /* 호버 시에도 흰색 유지 */
+}
+
+/* 📌 텍스트 및 아이콘 색상 변경 */
+.header:hover .logo,
+.header:hover .nav button,
+.header:hover .categoryItem {
+  color: black;
+}
+
+/* 📌 아이콘이 반전되었을 때 검은색으로 유지 */
+.header:hover .icon {
+  filter: invert(1) brightness(0);
+}
+
+/* 📌 드롭다운 메뉴 */
+.categoryDropdown {
+  display: none;
+  position: absolute;
+  top: 35px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(255, 255, 255, 0.2);
+  width: 100px;
+  z-index: 1;
+  text-align: center;
+  overflow: hidden;
+}
+
+/* 📌 호버 시 드롭다운 표시 */
+.categoryItem:hover .categoryDropdown {
+  display: block;
+}
+
+/* 드롭다운 리스트 스타일 */
+.categoryDropdown ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.categoryDropdown li {
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.categoryDropdown li:hover {
+  background-color: #f6f6f6;
+}
+
+/* 검색 스타일 */
+.searchContainer {
+  display: flex;
+  align-items: center; /* Vertically align the button and input */
+}
+
+.searchInput {
+  /* Reset positioning */
+  position: relative;
+  left: 0;
+  top: 0;
+  transform: none;
+  /* Visual appearance */
+  width: 200px; /* Adjust as needed */
+  padding: 4px 15px;
+  border: 1px solid #ccc;
+  border-radius: 20px; /* Rounded corners */
+  outline: none;
+  font-size: 14px;
+  margin-left: 5px; /* Space between icon and input */
+}
+
+.searchButton {
+  /* Reset positioning */
+  position: relative;
+  /* Other styles */
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  transition: filter 0.3s, color 0.3s;
+}
+
+.icon {
+  width: 21px;
+  height: 21px;
+  transition: filter 0.3s;
+}

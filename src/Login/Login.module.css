@@ -1,0 +1,88 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #fff;
+  font-family: Arial, sans-serif;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* 변경: flex-start 유지 */
+  justify-content: center;
+  padding: 140px;
+  width: 100%;
+  max-width: 450px; /* 폭 변경 */
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 25px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  margin-left: 0; /* 초기화 */
+  text-align: center; /* 제목 가운데 정렬 */
+  width: 100%; /* 추가: 폭 100% */
+}
+
+.description {
+  font-size: 20px;
+  color: #333;
+  text-align: left;
+  margin-bottom: 30px;
+  margin-top: 25px;
+  margin-left: 0; /* 초기화 */
+  line-height: 1.3;
+  font-weight: bold;
+  width: 100%; /* 추가: 폭 100% */
+  border-left: solid 4px rgb(15, 15, 15);
+  padding-left: 10px;
+}
+
+.emailInput {
+  width: 100%; /* 폭 변경 */
+  padding: 12px 16px;
+  box-sizing: border-box;
+  margin-left: 0; /* 초기화 */
+  border: 1px solid #ccc;
+  border-radius: 0;
+  font-size: 16px;
+  text-align: left;
+  color: #333;
+}
+
+.terms {
+  font-size: 12px;
+  color: #888;
+  margin-top: 20px;
+  margin-left: 0; /* 초기화 */
+  line-height: 1.4;
+  width: 100%; /* 추가: 폭 100% */
+  text-align: left; /* 약관 가운데 정렬 */
+}
+
+.button {
+  background-color: #222;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  width: 100%; /* 폭 변경 */
+  font-size: 16px;
+  text-transform: none;
+  font-weight: normal;
+  margin: 20px auto;
+  display: block; /* 추가: 블록 요소 만들기 */
+}
+
+.button:hover {
+  opacity: 0.8;
+}
+
+a {
+  text-decoration: underline;
+  color: #888;
+}
