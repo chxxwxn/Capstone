@@ -1,0 +1,506 @@
+* {
+    font-family: 'Pretendard', sans-serif;
+    
+  }
+  body {
+    background-color: #ffffff;
+  }
+  
+  
+    
+    /* CategoryHeader 스타일 */
+    .categoryHeader {
+      display: flex;
+      flex-direction: column; /* 전체 구조는 세로 정렬 */
+      align-items: flex-start;
+      padding: 150px 400px 0px 400px;
+      box-sizing: border-box;
+      width: 100%;
+  }
+  
+  .categoryTop {
+      display: flex;
+      align-items: center; /* 같은 높이에 배치 */
+      gap: 20px; /* 타이틀과 아이템 사이 간격 */
+      width: 100%;
+  }
+  
+    
+  .categoryTitle {
+      font-size: 24px;
+      font-weight: 400;
+      white-space: nowrap; /* 줄 바꿈 방지 */
+  }
+    
+  
+  .categoryItems {
+      display: flex;
+      gap: 25px;
+  }
+  
+    .categoryItem {
+      gap: 25px;
+      display: flex;
+      font-size: 22px;
+      font-weight: 400;
+      word-wrap: break-word;
+    }
+    
+    .padding {
+      color: black;
+      border-bottom: 2px solid black; /* 언더라인 추가 */
+    }
+    
+    .jacket {
+      color: rgba(0, 0, 0, 0.50);
+    }
+    
+    
+    .coat {
+      color: rgba(0, 0, 0, 0.50);
+    }
+    
+    .cardigan {
+      color: rgba(0, 0, 0, 0.50);
+    }
+    
+    .etc {
+      color: rgba(0, 0, 0, 0.50);
+    }
+    .categoryLine {
+      width: 40px;
+      height: 1px;
+      background-color: black;
+      margin-top: 60px;
+      margin-bottom: 10px;
+  }
+  
+  
+
+    
+    /* 상품 그리드 */
+  .productList {
+      margin-top: 20px;
+      padding: 0px 400px 100px 400px;
+    }
+    
+    .productGrid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 70px 100px;
+      align-items: center;
+    }
+    
+  
+    .productImage {
+      width: 100%;
+      height: auto;
+      display: block;
+      border: 1px solid #ddd;
+    }
+    
+    .productHeader {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .productName {
+      font-size: 16px;
+      font-weight: 400;
+      cursor: pointer;
+    }
+    
+    .wishlistButton {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 20px; /* 아이콘 크기나 텍스트 크기 */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0;
+      margin: 0;
+    }
+   
+    .wishlistIconActive {
+      color: #FF4040; /* 찜하기 선택된 상태일 때 하트 색상 (예: 빨간색) */
+    }
+    
+    .productInfo {
+      justify-content: space-between;
+      align-items: center; /* 세로 중앙 정렬 (선택 사항) */
+  }
+    .productPrice {
+      font-style: normal;
+      font-weight: 400;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .productColor{
+      padding: 0;
+      margin: 0;
+    }
+   
+    .productLine {
+      width: 40px;
+      height: 1px;
+      background-color: #000;
+      opacity: 0.5;
+  }
+  
+  .productColorOptions{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .optionTitle {
+    font-size: 16px;
+    font-weight: 500;
+    padding-right: 15px;
+  }
+  
+  /* 사이즈 선택 */
+  .productSize{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .sizeOptions {
+    display: flex;
+    gap: 50px;
+  }
+  
+  .sizeButton {
+    width: 30px;
+    height: 30px;
+    padding: 0; /* 불필요한 padding 제거 */
+    border: 1px solid #ddd;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 50%; /* 완전한 원 */
+    box-sizing: border-box; /* border를 크기에 포함 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .sizeButton.selected {
+    background-color: black;
+    color: white;
+  }
+  
+  /* 색상 선택 */
+  .colorOptions {
+    display: flex;
+    gap: 50px;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .colorCircle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    box-sizing: border-box; /* border 두께 포함 */
+
+  }
+  
+  .colorCircle.selectedColor {
+    border: 1px solid black;
+  }
+  
+  /* 수량 선택 */
+  .productQuantity {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .quantityControl {
+    display: flex;
+    align-items: center;
+    gap: 63px;
+  }
+  
+  .quantityControl button {
+    width: 30px;
+    height: 30px;
+    border: 0px;
+    background: white;
+    cursor: pointer;
+    font-size: 22px;
+    color: #505050;
+  }
+  
+  /* 버튼 그룹 */
+  .buttonGroup {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .cartButton,
+  .buyButton {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  
+  .cartButton {
+    background-color: white;
+    border: 1px solid black;
+  }
+  
+  .buyButton {
+    background-color: black;
+    color: white;
+  }
+  
+  .productDetail {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;  /* 세로로 중앙 정렬 */
+    align-items: center;      /* 가로로 중앙 정렬 (선택 사항) */
+    padding: 20px 0px 20px 0px ;           /* 예시로 height 값을 설정 */
+
+  }
+  
+  .productDetailLine {
+    width: 30px;
+    height: 2px;
+    background-color: #ddd;
+    margin-bottom: 20px;
+  }
+  
+  .productDetailInfo {
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .imageGrid {
+    padding: 0px 400px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-items: center;
+
+}
+
+.imageGrid img {
+    width: 100%;
+    height: auto;
+    padding: 0px;
+}
+
+  
+.imageGridDetail {
+  padding: 0px 400px;
+  display: grid;
+  grid-template-columns: repeat(3, 2fr);
+  justify-items: center;
+  row-gap: 10px;
+}
+
+.imageGridDetail img {
+  width: 100%;
+  height: auto;
+  padding: 0px;
+}
+
+.productDetailInfoText {
+  text-align: center; /* 텍스트 중앙 정렬 */
+  display: flex; 
+  flex-direction: column; /* 수직 정렬 */
+  align-items: center; /* 내부 요소 중앙 정렬 */
+}
+
+/*리뷰&문의의*/
+
+.review, .ask {
+  margin-top: 100px;
+  padding: 0px 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ask{
+  margin-bottom: 0px;
+}
+
+.reviewHeader, .askHeader {
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+.reviewTitle, .askTitle{
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.reviewWrite, .askWrite{
+  background-color: #303030;
+  color: #fff;
+  padding: 4px 16px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 400;
+
+}
+
+.reviewPost,.askPost {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.reviewInfo ,.askInfo{
+  display: flex;
+  justify-content: space-between;  /* 좌측 정렬과 우측 정렬을 나누는 설정 */
+  align-items: center;  /* 수평 정렬 */
+  gap: 16px;  /* 항목 간 간격을 두기 위한 gap */
+  color: #505050;
+}
+
+.reviewStar,
+.reviewData,
+.askCategoryMark {
+  display: flex;
+  align-items: center;
+  gap: 4px;  /* 항목 간 간격 */
+}
+
+.askCategory{
+  background-color: #bebebe;
+  color: #fff;
+  padding: 4px 16px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.askTitleHeader{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.askContentOpen{
+  color: #505050;
+  font-size: 14px;
+}
+
+
+.askAnswer{
+  background-color: #303030;
+  color: #fff;
+  padding: 4px 16px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.reviewDate,
+.reviewId, .askDate, .askId {
+  color: #505050;
+  margin-left: auto;
+}
+
+
+.reviewContent ,.askContent{
+  font-size: 1rem;
+}
+
+.reviewLine ,.reviewLine{
+  margin-top: 8px;
+  border-top: 1px solid #ccc;
+}
+
+/* 리뷰 이미지 스타일 */
+.reviewImages {
+  display: flex;
+  gap: 10px; /* 이미지 간격 */
+  margin-top: 10px;
+}
+
+.reviewImage {
+  width: 100px; /* 고정 너비 */
+  height: 100px; /* 고정 높이 */
+  object-fit: cover; /* 비율 유지하면서 채우기 */
+  border-radius: 8px; /* 모서리 둥글게 */
+  cursor: pointer; /* 클릭 가능하도록 */
+  transition: transform 0.2s ease-in-out;
+}
+
+/* 모달 스타일 */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;  /* 수평 중앙 */
+  align-items: center;      /* 수직 중앙 */
+  z-index: 1000;
+}
+
+/* 모달 내용 */
+.modalContent {
+  position: relative;
+  max-width: 80%;  /* 최대 너비 제한 (화면의 80%) */
+  max-height: 80%; /* 최대 높이 제한 (화면의 80%) */
+  display: flex;
+  justify-content: center; /* 이미지 수평 중앙 정렬 */
+  align-items: center;     /* 이미지 수직 중앙 정렬 */
+}
+
+/* 모달 이미지 */
+.modalImage {
+  width: 60%;   /* 이미지 너비를 컨테이너에 맞게 조정 */
+  height: auto;  /* 높이는 자동으로 비율에 맞게 조정 */
+  object-fit: contain; /* 이미지 비율을 유지하면서 크기를 제한 */
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+.answerLine{
+  margin: 10px 0px;
+  border-top: 1px solid #ddd;
+}
+
+.askContentDetail {
+  opacity: 0;
+  transform: scaleY(0);
+  transform-origin: top;
+  max-height: 0;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out, max-height 0.3s ease-in-out;
+}
+
+.askContentDetail.open {
+  opacity: 1;
+  transform: scaleY(1);
+  max-height: 500px; /* 펼쳐질 때 충분한 크기로 설정 */
+}
+
+
