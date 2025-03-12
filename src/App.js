@@ -13,6 +13,8 @@ import Join2 from './Login/Join2';
 import MyPage from './MyPage/Mypage';
 import Pre from './ProductPre/Pre';
 import Padding from './Product/Padding';
+import Board from './Board/Board'; 
+import Faq from './Board/Faq'; 
 
 function App() {
   return (
@@ -29,6 +31,8 @@ function App() {
         <Route path="/Mypage" element={<MyPage />} />
         <Route path="/Padding/:id" element={<Padding />} />
         <Route path="/Padding" element={<Pre />} />
+        <Route path="/Board" element={<Board />} />
+        <Route path="/Faq" element={<Faq />} />
       </Routes>
       <Footer />
     </>

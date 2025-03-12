@@ -1,0 +1,79 @@
+/* Board.module.css */
+
+.container {
+    font-family: sans-serif;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+.title {
+    text-align: left;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.tabs {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.tab {
+    padding: 10px 20px;
+    border: none;
+    background-color: #f0f0f0;
+    color: #666;
+    cursor: pointer;
+    margin-right: 10px;
+    border-radius: 5px;
+}
+
+.tab:hover {
+    background-color: #ddd;
+}
+
+.postGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.post {
+    position: relative;
+}
+
+.imageContainer {
+    position: relative;
+    overflow: hidden;
+}
+
+.imageContainer img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.post:hover .overlay {
+    opacity: 1;
+}
+
+.date {
+    text-align: center;
+    color: #777;
+    margin-top: 5px;
+}
