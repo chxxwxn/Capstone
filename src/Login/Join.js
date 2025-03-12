@@ -36,14 +36,16 @@ function Join() {
   // 모든 필수 항목이 체크되었을 때만 다음 페이지로 이동
   const handleNext = () => {
     if (agreements.terms && agreements.privacy && agreements.thirdParty) {
-      navigate('/Join2');
+      setTimeout(() => {
+        navigate('/Join2');
+      }, 300); // 0.3초 딜레이 추가 (자연스럽게 이동)
     } else {
       alert('모든 필수 약관에 동의해야 합니다.');
     }
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} onKeyDown={(e) => e.key === 'Enter' && handleNext()} tabIndex={0}>
       <div className={styles.main}>
         <h1 className={styles.title}>JOIN</h1>
 

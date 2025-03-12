@@ -104,10 +104,11 @@
 /* 제품 이름 숨김 (기본) */
 .productName {
   position: relative;
-  bottom: 550px; /* BUY NOW보다 위쪽 */
-  left: 50%;
+  bottom: 690px; /* BUY NOW보다 위쪽 */
+  left: 52%;
   transform: translateX(-50%);
-  font-size: 12px;
+  font-size: 20px;
+  white-space: pre-line;
   color: rgb(131, 131, 131);
   background-color: transparent;
   padding: 8px 15px;
@@ -144,7 +145,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 90.6%;
+  height: 86%;
   background-color: rgba(67, 67, 67, 0.2); /* 회색 오버레이 */
   opacity: 0;
   transition: opacity 0.2s ease-in-out;
@@ -153,12 +154,12 @@
 /* BUY NOW 버튼 기본 숨김 */
 .buyNow {
   position: absolute;
-  bottom: 65px;
-  left: 14%;
+  bottom: 130px;
+  right: -5%;
   font-size: 12px;
   transform: translateX(-50%);
-  color: rgb(131, 131, 131);
-  background-color: transparent;
+  color: #f9f9f9;
+  background-color: #333;
   padding: 10px 20px;
   border: none;
   cursor: pointer;

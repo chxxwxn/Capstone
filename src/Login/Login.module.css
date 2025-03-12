@@ -64,7 +64,7 @@
 }
 
 .button {
-  background-color: #222;
+  background-color: #000;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -79,10 +79,16 @@
 }
 
 .button:hover {
-  opacity: 0.8;
+  opacity: 0.9;
 }
 
 a {
   text-decoration: underline;
   color: #888;
+}
+
+.error {
+  color: red; /* 빨간색 */
+  font-size: 13px; /* 글씨 작게 */
+  margin-top: 5px;
 }

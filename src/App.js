@@ -6,7 +6,8 @@ import Header from './Header/Header';
 import Banner from './Banner/Banner';
 import Footer from './Footer/Footer';
 import Password from './Login/Password';
-import findPw from './Login/findPw';
+import FindPw from './Login/FindPw';
+import FindPw2 from './Login/FindPw2';
 import Join from './Login/Join';
 import Join2 from './Login/Join2';
 import MyPage from './MyPage/Mypage';
@@ -23,7 +24,8 @@ function App() {
         <Route path="/Password" element={<Password />} />
         <Route path="/Join" element={<Join />} />
         <Route path="/Join2" element={<Join2 />} />
-        <Route path="/findPw" element={<findPw />} />
+        <Route path="/FindPw" element={<FindPw />} />
+        <Route path="/FindPw2" element={<FindPw2 />} />
         <Route path="/Mypage" element={<MyPage />} />
         <Route path="/Padding/:id" element={<Padding />} />
         <Route path="/Padding" element={<Pre />} />

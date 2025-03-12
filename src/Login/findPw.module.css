@@ -1,130 +1,177 @@
 .container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
-  
-  .header {
-    background-color: #fff;
-    padding: 20px;
-    text-align: left;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .logo {
-    font-size: 24px;
-    font-weight: bold;
-  }
-  
-  .navigation {
-    display: flex;
-  }
-  
-  .navItem {
-    margin-left: 20px;
-    text-decoration: none;
-    color: #333;
-  }
-  
-  .main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    background-color: #fff;
-  }
-  
-  .title {
-    font-size: 24px;
-    margin-bottom: 20px;
-    text-align: left;
-    width: 100%;
-  }
-  
-  .description {
-    font-size: 16px;
-    margin-bottom: 10px;
-    text-align: left;
-    width: 100%;
-  }
-  
-  .note {
-    font-size: 12px;
-    color: #888;
-    margin-bottom: 20px;
-    text-align: left;
-    width: 100%;
-  }
-  
-  .form {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 400px;
-  }
-  
-  .input {
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-  }
-  
-  .phoneInputGroup {
-    display: flex;
-    justify-content: flex-start;
-    margin-bottom: 15px;
-  }
-  
-  .phoneInput {
-    width: 30%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    text-align: center;
-  }
-  
-  .separator {
-    margin: 0 5px;
-    font-size: 16px;
-  }
-  
-  .buttonGroup {
-    display: flex;
-    justify-content: center; /* 버튼 가운데 정렬 */
-    margin-top: 20px;
-  }
-  
-  .cancelButton {
-    background-color: #fff;
-    color: #333;
-    border: 1px solid #ccc;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-right: 10px; /* 버튼 간 간격 추가 */
-  }
-  
-  .submitButton {
-    background-color: #000;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  .footer {
-    background-color: #f8f8f8;
-    padding: 20px;
-    text-align: center;
-    border-top: 1px solid #ddd;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  align-items: center;
+  padding: 20px;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 140px;
+  width: 100%;
+  max-width: 450px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 25px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  margin-left: 0;
+  text-align: center;
+  width: 100%;
+}
+
+.description {
+  font-size: 20px;
+  color: #333;
+  text-align: left;
+  margin-bottom: 5px;
+  margin-top: 25px;
+  margin-left: 0;
+  line-height: 1.3;
+  font-weight: bold;
+  width: 100%;
+  border-left: solid 4px rgb(15, 15, 15);
+  padding-left: 10px;
+}
+
+.note {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 20px;
+  text-align: left;
+  width: 100%;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+}
+
+.input {
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  width: 378px;
+}
+
+.phoneInputGroup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.phoneInput {
+  width: calc(26% - 10px);
+  padding: 10px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  text-align: center;
+}
+
+.separator {
+  font-size: 16px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: center;
+}
+
+.cancelButton {
+  background-color: #fff;
+  color: #333;
+  border: 1px solid #ccc;
+  padding: 10px 81px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+.submitButton {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  padding: 10px 81px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.submitButton:hover {
+  opacity: 0.9;
+}
+
+.sendCodeButton {
+  background-color: #353535;
+  color: #fff;
+  border: none;
+  gap: 10px;
+  padding: 3px 9px;
+  cursor: pointer;
+  text-align: center;
+  font-size: 12px;
+}
+
+.sendCodeButton:hover {
+  opacity: 0.9;
+}
+
+.verificationGroup.input1 {
+  width: 200px;
+}
+
+.inputnum {
+  padding: 10px;
+  margin-bottom: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  width: 300px;
+}
+
+.verificationGroup {
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+  display: flex;
+}
+
+.timer {
+  font-size: 14px;
+  color: #007bff;
+  margin-left: -53px; /* 기존 코드 유지 */
+}
+
+.verificationInput {
+  display: flex;
+  padding: 10px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.resendCodeButton {
+  background-color: #888;
+  color: #fff;
+  border: none;
+  padding: 5.5px 15px;
+  margin-bottom: 4px;
+  margin-left: 10px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.resendCodeButton:hover {
+  opacity: 0.9;
+}

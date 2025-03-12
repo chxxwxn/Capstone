@@ -4,10 +4,10 @@ import Footer from '../Footer/Footer'; // Footer 불러오기
 
 function Main() {
   const products = [
-    { id: 1, name: '2WAY HOOD DOWN JACKET', image: '/padding/1-1.jpg' },
-    { id: 2, name: 'CROPPED KNIT CARDIGAN', image: '/cardigan/1-1.jpg' },
-    { id: 3, name: 'WOOL FISHERMAN KNIT CARDIGAN', image: '/top/2-1.jpg' },
-    { id: 4, name: 'VELVET HOOD ZIP-UP', image: '/top/1-1.jpg' },
+    { id: 1, name: '2WAY HOOD DOWN\nJACKET', image: '/padding/1-1.jpg' },
+    { id: 2, name: 'CROPPED\nKNIT CARDIGAN', image: '/cardigan/1-1.jpg' },
+    { id: 3, name: 'WOOL FISHERMAN\nKNIT CARDIGAN', image: '/top/2-1.jpg' },
+    { id: 4, name: 'VELVET\nHOOD ZIP-UP', image: '/top/1-1.jpg' },
   ];
 
   const [scrollY, setScrollY] = useState(0);
