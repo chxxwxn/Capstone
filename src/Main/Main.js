@@ -4,9 +4,9 @@ import Footer from '../Footer/Footer'; // Footer 불러오기
 
 function Main() {
   const products = [
-    { id: 1, name: '2WAY HOOD DOWN JACKET', image: '/padding/1-1.jpg' },
-    { id: 2, name: 'CROPPED KNIT CARDIGAN', image: '/cardigan/1-1.jpg' },
-    { id: 3, name: 'WOOL FISHERMAN KNIT CARDIGAN', image: '/top/2-1.jpg' },
+    { id: 1, name: '2WAY HOOD\nDOWN JACKET', image: '/padding/1-1.jpg' },
+    { id: 2, name: 'CROPPED\nKNIT CARDIGAN', image: '/cardigan/1-1.jpg' },
+    { id: 3, name: 'WOOL\nFISHERMAN KNIT CARDIGAN', image: '/top/2-1.jpg' },
     { id: 4, name: 'VELVET HOOD ZIP-UP', image: '/top/1-1.jpg' },
   ];
 
@@ -22,10 +22,9 @@ function Main() {
   }, []);
 
   return (
-    <div className={styles.container}> {/* Wrap content in a container */}
+    <div className={styles.container}>
       <main className={styles.main}>
         {/* 📌 카테고리 섹션 추가 */}
-
 
         {/* Fit Mood 섹션 */}
         <section className={`${styles.fitMood} ${scrollY > 100 ? styles.visible : ''}`}>
@@ -45,14 +44,14 @@ function Main() {
         </section>
 
         {/* Best Products 섹션 */}
-        <section className={`${styles.bestProducts} ${scrollY > 300 ? styles.visible : ''}`}>
+        <section className={`${styles.bestProducts} ${scrollY > 300 ? styles.visible : ''}`}> {/* 스크롤 효과 유지 */}
           <h2>BEST</h2>
           <div className={styles.productsGrid}>
             {products.map((product) => (
               <div key={product.id} className={styles.product}>
                 <div className={styles.productImageWrapper}>
                   <img src={product.image} alt={product.name} />
-                  <div className={styles.productOverlay}>
+                  <div className={styles.productOverlay}> {/* 호버 효과는 그대로 유지 */}
                     <p className={styles.productName}>{product.name}</p>
                     <button className={styles.buyNow}>BUY NOW</button>
                   </div>
@@ -65,12 +64,7 @@ function Main() {
         {/* Brand Responsibility 섹션 */}
         <section className={`${styles.brandResponsibility} ${scrollY > 600 ? styles.visible : ''}`}>
           <div className={styles.brandImages}>
-            <img className={styles.ad1} src="/ad/1.jpg" alt="ad1" />
-            <img className={styles.ad2} src="/ad/2.jpg" alt="ad2" />
-            <img className={styles.ad3} src="/ad/3.jpg" alt="ad3" />
-            <img className={styles.ad4} src="/ad/4.jpg" alt="ad4" />
-            <img className={styles.ad5} src="/ad/5.jpg" alt="ad5" />
-            <img className={styles.ad6} src="/ad/6.jpg" alt="ad6" />
+            <img className={styles.ad} src="../ad/ad.png" alt="ad" />
           </div>
         </section>
       </main>

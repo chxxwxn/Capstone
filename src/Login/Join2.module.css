@@ -50,7 +50,6 @@
     width: 95%;
     padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 4px;
 }
   
 .emailInfo {
@@ -109,7 +108,6 @@
 .phoneInput {
     padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 4px;
 }
   
 .terms {

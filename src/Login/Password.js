@@ -31,7 +31,7 @@ function Password() {
         </div>
         <button 
           className={styles.findPasswordButton} 
-          onClick={() => navigate("/findPW")} // 클릭 시 findPW로 이동
+          onClick={() => navigate("/FindPw")} // 클릭 시 findPw로 이동
         >
           비밀번호 찾기
         </button>

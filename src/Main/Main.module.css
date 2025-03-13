@@ -1,13 +1,13 @@
 .container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* Ensure it covers the full viewport height */
+  min-height: 100vh;
 }
 
 .main {
   padding: 20px;
   background-color: #f9f9f9;
-  flex: 1; /* Allow main to grow and take up remaining space */
+  flex: 1;
 }
 
 /* Brand Responsibility 섹션 */
@@ -16,16 +16,16 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 0px; /* 이미지 사이 간격 없앰 */
-  padding: 0; /* Brand 섹션 양쪽 간격 없앰 */
-  margin-bottom: -130px; /* Footer와의 간격: 원하는 값으로 조절 */
+  gap: 0px;
+  padding: 0;
+  margin-bottom: -130px;
 }
 
 .brandImages {
-  width: 100%; /* Brand 섹션 전체 폭 차지 */
+  width: 100%;
 }
 
-/* 스크롤 애니메이션 효과 (기본: 숨김, 스크롤되면 등장) */
+/* 스크롤 애니메이션 효과 */
 .fitMood,
 .bestProducts,
 .brandResponsibility {
@@ -47,7 +47,6 @@
   margin-bottom: 40px;
 }
 
-/* Fit과 Mood 스타일 */
 .fitMood h1 {
   font-size: 50px;
   line-height: 1.5;
@@ -93,124 +92,88 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
-  background-color: transparent; /* 기존 배경 색 제거 */
+  background-color: transparent;
 }
 
 .product {
   text-align: left;
-  background-color: none; /* 제품 카드 배경 색 제거 */
+  background-color: none;
 }
 
-/* 제품 이름 숨김 (기본) */
+/* 제품 이름 */
 .productName {
-  position: relative;
-  bottom: 550px; /* BUY NOW보다 위쪽 */
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 12px;
-  color: rgb(131, 131, 131);
-  background-color: transparent;
-  padding: 8px 15px;
-  opacity: 0; /* 기본 숨김 */
-  transition: opacity 0.2s ease-in-out;
+  position: absolute;
+  top: 1%; /* 더 위쪽으로 조정 */
+  left: 5%;
+  transform: none;
+  font-size: 1vw;
+  white-space: pre-line;
+  color: #fff;
+  padding: 0.3em;
+  border-radius: 0.3em;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-/* 이미지 호버 시 제품 이름 표시 */
-.productImageWrapper:hover .productName {
-  opacity: 1;
+/* BUY NOW 버튼 */
+.buyNow {
+  position: absolute;
+  bottom: 5%;
+  right: 5%;
+  transform: none;
+  padding: 0.4em 0.8em;
+  font-size: 0.8vw;
+  color: #fff;
+  background-color: #333;
+  border: none;
   cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .productImageWrapper {
   position: relative;
-  overflow: hidden; /* 회색 배경이 보이는 문제 해결 */
-  background-color: transparent; /* 추가적으로 배경 제거 */
-  width: 100%; /* 부모 그리드에 맞춤 */
-  height: auto; /* 높이 자동 조정 */
+  overflow: hidden;
+  background-color: transparent;
+  width: 100%;
+  height: auto;
 }
 
 .product img {
   width: 100%;
-  height: auto; /* 부모 크기에 맞춤 */
-  object-fit: cover; /* 비율 유지하면서 채우기 */
-  display: block; /* 이미지 아래 여백 제거 */
-  background-color: transparent; /* 혹시 있을 수도 있는 이미지 배경 색 제거 */
+  height: auto;
+  object-fit: cover;
+  display: block;
   border: 1px solid #efecec;
+  transition: transform 0.3s ease;
 }
 
-.productImageWrapper::after {
+/* 오버레이 효과 */
+.productImageWrapper::before {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 90.6%;
-  background-color: rgba(67, 67, 67, 0.2); /* 회색 오버레이 */
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
   opacity: 0;
-  transition: opacity 0.2s ease-in-out;
+  transition: opacity 0.3s ease;
 }
 
-/* BUY NOW 버튼 기본 숨김 */
-.buyNow {
-  position: absolute;
-  bottom: 65px;
-  left: 14%;
-  font-size: 12px;
-  transform: translateX(-50%);
-  color: rgb(131, 131, 131);
-  background-color: transparent;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-  opacity: 0; /* 기본적으로 숨김 */
-  transition: opacity 0.2s ease-in-out;
+/* 호버 효과 */
+.productImageWrapper:hover::before {
+  opacity: 1;
 }
 
-/* 이미지 호버 시 오버레이 및 버튼 표시 */
-.productImageWrapper:hover::after,
+.productImageWrapper:hover .productName,
 .productImageWrapper:hover .buyNow {
   opacity: 1;
-  cursor: pointer;
 }
 
-.ad1 {
-  width: 30%;
+.ad {
+  width: 100%;
   height: auto;
-}
-
-.ad2 {
-  position: relative;
-  width: 70%;
-  height: 10%;
-  bottom: 194px;
-}
-
-.ad3 {
-  position: relative;
-  width: 30%;
-  height: 562px;
-  left: 0px;
-  bottom: 197.5px;
-}
-
-.ad4 {
-  position: relative;
-  width: 30%;
-  height: 754px;
-  left: 0px;
-  bottom: 198px;
-}
-
-.ad5 {
-  position: relative;
-  width: 40%;
-  left: 0px;
-  bottom: 387px;
-}
-
-.ad6 {
-  position: relative;
-  width: 40%;
-  left: 897px;
-  bottom: 449px;
+  margin-bottom: 200px;
 }
