@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Icon } from '@iconify/react';
-import styles from './Product.module.css';
-
+import styles from '../Product.module.css';
+import { useNavigate, useLocation } from "react-router-dom";
 
 
 
@@ -11,7 +11,14 @@ const Preview = () => {
   const [selectedColor, setSelectedColor] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(null); // 모달 이미지 상태 추가
+  const navigate = useNavigate();
+  const location = useLocation(); // 현재 경로 가져오기
 
+  const handleNavigation = (subcategory) => {
+    // 현재 경로에서 마지막 슬래시 이후의 부분을 제외하고 사용
+    const basePath = location.pathname.split("/")[1]; // 첫 번째 경로(segment) 가져오기
+    navigate(`/${basePath}/${subcategory.toLowerCase()}`);
+  };
   const products = [
     {
       id: 1,
@@ -102,16 +109,8 @@ const asks = [
       {/* 카테고리 헤더 */}
       <div className={styles.categoryHeader}>
         <div className={styles.categoryTop}>
-          <div className={styles.categoryTitle}>OUTER &gt;</div>
-          <div className={styles.categoryItems}>
-            <div className={styles.categoryItem}>
-              <div className={styles.padding}>Padding</div>
-              <div className={styles.jacket}>Jacket</div>
-              <div className={styles.coat}>Coat</div>
-              <div className={styles.cardigan}>Cardigan</div>
-              <div className={styles.etc}>Etc</div>
-            </div>
-          </div>
+          <div className={styles.categoryTitle}>OUTER</div>
+          
         </div>
         <div className={styles.categoryLine}></div>
       </div>

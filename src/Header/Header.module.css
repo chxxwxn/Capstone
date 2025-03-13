@@ -125,12 +125,18 @@
   list-style: none;
   padding: 0;
   margin: 0;
+ 
+}
+
+.categoryDropdownui ,.categoryLink{
+  text-decoration: none;
 }
 
 .categoryDropdown li {
   padding: 10px 15px;
   cursor: pointer;
   transition: background-color 0.2s;
+  
 }
 
 .categoryDropdown li:hover {
