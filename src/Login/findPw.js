@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from './FindPw.module.css';
+import styles from './findPw.module.css';
 
 function FindPw() {
   const [name, setName] = useState('');

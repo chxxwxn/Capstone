@@ -21,7 +21,7 @@ const Preview = () => {
   };
   const categories = [
     { name: "Denim", path: "Denim" },
-    { name: "Skirts", path: "Skirts" },
+    { name: "Skirt", path: "Skirt" },
     { name: "Pants", path: "Pants" },
     
   ];
@@ -125,8 +125,8 @@ const asks = [
                           className={styles.categoryItem}
                           style={{
                             cursor: "pointer",
-                            color: category.name === "Skirts" ? "black" : "rgba(0, 0, 0, 0.5)", 
-                            borderBottom: category.name === "Skirts" ? "2px solid black" : "none"
+                            color: category.name === "Skirt" ? "black" : "rgba(0, 0, 0, 0.5)", 
+                            borderBottom: category.name === "Skirt" ? "2px solid black" : "none"
                           }}
                           onClick={() => handleNavigation(category.path)}
                         >
