@@ -115,7 +115,6 @@ const Faq = () => {
           {filteredQnA.map((item) => getQnACard(item))}
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

@@ -1,79 +1,71 @@
-/* Board.module.css */
-
-.container {
-    font-family: sans-serif;
-    max-width: 800px;
-    margin: 20px auto;
+.board {
+    margin-top: 100px;
     padding: 20px;
-}
-
-.title {
-    text-align: left;
-    color: #333;
-    margin-bottom: 20px;
-}
-
-.tabs {
+  }
+  
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .tabs {
     display: flex;
-    margin-bottom: 20px;
-}
-
-.tab {
-    padding: 10px 20px;
-    border: none;
-    background-color: #f0f0f0;
-    color: #666;
-    cursor: pointer;
-    margin-right: 10px;
-    border-radius: 5px;
-}
-
-.tab:hover {
-    background-color: #ddd;
-}
-
-.postGrid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-}
-
-.post {
-    position: relative;
-}
-
-.imageContainer {
-    position: relative;
-    overflow: hidden;
-}
-
-.imageContainer img {
-    width: 100%;
-    height: auto;
-    display: block;
-}
-
-.overlay {
+    gap: 10px;
+    margin-top: 30px;
+    margin-bottom: 70px;
+    position: relative; /* 줄을 추가하기 위해 position 설정 */
+  }
+  
+  .tabs::after {
+    content: "";
     position: absolute;
-    top: 0;
+    bottom: -10px; /* 탭 아래쪽에 줄 위치 */
     left: 0;
     width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.post:hover .overlay {
-    opacity: 1;
-}
-
-.date {
+    height: 1px;
+    background-color: #ccc; /* 줄 색상 */
+  }
+  
+  .tabs button {
+    padding: 10px 20px;
+    border: none;
+    background-color: transparent; /* 배경 투명 */
+    cursor: pointer;
+  }
+  
+  .activeTab {
+    font-weight: bold; /* 활성화된 탭 강조 */
+  }
+  
+  
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+  }
+  
+  .card {
+    position: relative;
+  }
+  
+  .date {
+    position: absolute;
+    top: -40px; /* 사진 위로 이동 */
+    left: 0;
+    font-size: 14px;
+  }
+  
+  .image {
+    width: 100%;
+    height: auto; /* 이미지 비율 유지 */
+    margin-bottom: 50px;
+  }
+  
+  .empty {
     text-align: center;
-    color: #777;
-    margin-top: 5px;
-}
+    font-size: 16px;
+    color: #888;
+    margin-top: 50px;
+  }
+  
