@@ -42,12 +42,22 @@ function Header() {
         <ul className={styles.categoryList}>
           {Object.keys(categories).map((category, index) => (
             <li key={index} className={styles.categoryItem}>
-              {category}
+              <Link to={`/${category.toLowerCase()}`} className={styles.categoryLink}>
+                {category}
+              </Link>
               {hoveredCategory && categories[category].length > 0 && (
                 <div className={styles.categoryDropdown}>
                   <ul>
                     {categories[category].map((sub, subIndex) => (
-                      <li key={subIndex}>{sub}</li>
+                      <li key={subIndex}>
+                      {/* ✅ 서브 카테고리 링크 추가 */}
+                      <Link
+                        to={`/${category.toLowerCase()}/${sub.toLowerCase()}`}
+                        className={styles.categoryDropdownui}
+                      >
+                        {sub}
+                      </Link>
+                    </li>
                     ))}
                   </ul>
                 </div>

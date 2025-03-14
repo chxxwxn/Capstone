@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Icon } from '@iconify/react';
-import styles from './Pre.module.css';
+import styles from '../Pre.module.css';
+import { useNavigate, useLocation } from "react-router-dom";
 
 const Preview = () => {
   const [wishlist, setWishlist] = useState([]);
@@ -8,7 +9,14 @@ const Preview = () => {
   const [sortedProducts, setSortedProducts] = useState([]);
   const [selectedSort, setSelectedSort] = useState('best'); // 초기 상태를 'best'로 설정
   const itemsPerPage = 9;
-
+  const navigate = useNavigate();
+  const location = useLocation(); // 현재 경로 가져오기
+  
+  const categories = [
+    { name: "Ring", path: "Ring" },
+ 
+    
+  ];
   const products = [
     { id: 1, name: '2WAY HOOD DOWN JACKET', image: '/padding/1-1.jpg', price: 200000, color: ['#778D72', '#C3E5F0', '#303030'], date: '2025-02-01' },
     { id: 2, name: 'COLLAR DOWN JACKET', image: '/padding/2-1.jpg', price: 458000, color: ['#EECACA', '#332a25', '#1e2535'], date: '2025-01-01' },
@@ -21,7 +29,12 @@ const Preview = () => {
     { id: 9, name: 'LIGHT DOWN JACKET', image: '/padding/3-1.jpg', price: 358000, color: ['#ADA38C', '#adb5be', '#303030'], date: '2025-01-20' },
     { id: 10, name: 'LIGHT DOWN JACKET', image: '/padding/3-1.jpg', price: 358000, color: ['#ADA38C', '#adb5be', '#303030'], date: '2025-02-10' },
   ];
-
+  const handleNavigation = (subcategory) => {
+    // 현재 경로에서 마지막 슬래시 이후의 부분을 제외하고 사용
+    const basePath = location.pathname.split("/")[1]; // 첫 번째 경로(segment) 가져오기
+    navigate(`/${basePath}/${subcategory.toLowerCase()}`);
+  };
+  
   const toggleWishlist = (id) => {
     setWishlist((prevWishlist) =>
       prevWishlist.includes(id) ? prevWishlist.filter((item) => item !== id) : [...prevWishlist, id]
@@ -82,15 +95,25 @@ const Preview = () => {
       {/* Category Header 컴포넌트 */}
       <div className={styles.categoryHeader}>
         <div className={styles.categoryTop}>
-          <div className={styles.categoryTitle}>OUTER &gt;</div>
+          <div className={styles.categoryTitle}>ETC &gt;</div>
           <div className={styles.categoryItems}>
-          <div className={styles.categoryItem}>
-            <div className={styles.padding}>Padding</div>
-            <div className={styles.jacket}>Jacket</div>
-            <div className={styles.coat}>Coat</div>
-            <div className={styles.cardigan}>Cardigan</div>
-            <div className={styles.etc}>Etc</div>
-            </div>
+          <div className={styles.categoryItems}>
+          {categories.map((category, index) => (
+              <div
+                key={index}
+                className={styles.categoryItem}
+                style={{
+                  cursor: "pointer",
+                  color: "rgba(0, 0, 0, 0.5)", 
+                  borderBottom: "none"
+                }}
+                onClick={() => handleNavigation(category.path)}
+              >
+                {category.name}
+              </div>
+            ))}
+
+          </div>
           </div>
         </div>
         <div className={styles.categoryLine}></div>
@@ -129,7 +152,7 @@ const Preview = () => {
         <div className={styles.productGrid}>
           {paginatedProducts.map((product) => (
             <div key={product.id} className={styles.product}>
-              <a href={`/padding/${product.id}`}>
+              <a href={`/etc/${product.id}`}>
                   <img src={product.image} alt={product.name} className={styles.productImage} />
                 </a>
 
