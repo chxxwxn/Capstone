@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styles from './Header.module.css';
-import { Link } from 'react-router-dom'; // react-router-dom 임포트
+import { Link } from 'react-router-dom';
 
 function Header() {
   const categories = {
@@ -14,8 +14,10 @@ function Header() {
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const [searchVisible, setSearchVisible] = useState(false);
   const searchInputRef = useRef(null);
+  const [isFixed, setIsFixed] = useState(false);
 
-  const toggleSearch = () => {
+  const toggleSearch = (e) => {
+    e.preventDefault();
     setSearchVisible(!searchVisible);
   };
 
@@ -25,17 +27,29 @@ function Header() {
     }
   }, [searchVisible]);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsFixed(true);
+      } else {
+        setIsFixed(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <header className={styles.header}>
-      <Link to="/"> {/* Link 컴포넌트로 감싸기 */}
+    <header className={`${styles.header} ${isFixed ? styles.fixed : ''}`}>
+      <Link to="/">
         <div className={styles.logo}>
           <img src="/logo.png" alt="F.M. Logo" className={styles.logoImage} />
         </div>
       </Link>
 
-      {/* 📌 카테고리 네비게이션 */}
       <nav
-        className={styles.categoryNav}
+        className={`${styles.categoryNav} ${isFixed ? styles.fixed : ''}`} // 여기에 fixed 클래스 추가
         onMouseEnter={() => setHoveredCategory(true)}
         onMouseLeave={() => setHoveredCategory(false)}
       >
@@ -50,14 +64,13 @@ function Header() {
                   <ul>
                     {categories[category].map((sub, subIndex) => (
                       <li key={subIndex}>
-                      {/* ✅ 서브 카테고리 링크 추가 */}
-                      <Link
-                        to={`/${category.toLowerCase()}/${sub.toLowerCase()}`}
-                        className={styles.categoryDropdownui}
-                      >
-                        {sub}
-                      </Link>
-                    </li>
+                        <Link
+                          to={`/${category.toLowerCase()}/${sub.toLowerCase()}`}
+                          className={styles.categoryDropdownui}
+                        >
+                          {sub}
+                        </Link>
+                      </li>
                     ))}
                   </ul>
                 </div>
@@ -67,41 +80,37 @@ function Header() {
         </ul>
       </nav>
 
-      {/* 아이콘 영역 */}
       <nav className={styles.nav}>
-        <div className={styles.searchContainer}>
-          {/* Wrap search button and input */}
+        <div className={`${styles.searchContainer} ${searchVisible ? styles.open : ''}`}>
           <button
+            type="button"
             className={`${styles.iconButton} ${styles.searchButton}`}
             aria-label="검색"
             onClick={toggleSearch}
           >
             <img src="/icon/search1.png" alt="검색" className={styles.icon} />
           </button>
-          {searchVisible && (
-            <input
-              type="text"
-              placeholder="Search"
-              className={styles.searchInput}
-              ref={searchInputRef}
-            />
-          )}
+          <input
+            type="text"
+            placeholder="Search"
+            className={styles.searchInput}
+            ref={searchInputRef}
+          />
         </div>
         <Link to="/login">
-          {/* Link 컴포넌트로 감싸기 */}
-          <button className={styles.iconButton} aria-label="로그인">
+          <button type="button" className={styles.iconButton} aria-label="로그인">
             <img src="/icon/login1.png" alt="로그인" className={styles.icon} />
           </button>
         </Link>
         <Link to="/Board">
-        <button className={styles.iconButton} aria-label="장바구니">
-          <img src="/icon/cart1.png" alt="장바구니" className={styles.icon} />
-        </button>
+          <button type="button" className={styles.iconButton} aria-label="장바구니">
+            <img src="/icon/cart1.png" alt="장바구니" className={styles.icon} />
+          </button>
         </Link>
-        <Link to="/Faq">
-        <button className={styles.iconButton} aria-label="채팅">
-          <img src="/icon/chat1.png" alt="채팅" className={styles.icon} />
-        </button>
+        <Link to="">
+          <button type="button" className={styles.iconButton} aria-label="채팅">
+            <img src="/icon/chat1.png" alt="채팅" className={styles.icon} />
+          </button>
         </Link>
       </nav>
     </header>

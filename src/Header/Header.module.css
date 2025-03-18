@@ -9,12 +9,13 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
+  z-index: 1000;
+  width: 100%;
   transition: background-color 0.3s, color 0.3s;
-  z-index: 10;
 }
 
 /* 로고 스타일 */
@@ -28,14 +29,16 @@
   height: 17px;
 }
 
-/* 네비게이션 아이콘 */
+/* 네비게이션 아이콘 컨테이너 */
 .nav {
   display: flex;
   align-items: center;
-  gap: 10px; /* 아이콘 간격 유지 */
-  margin-right: 30px; /* 📌 아이콘 왼쪽 이동 */
+  justify-content: center; /* 아이콘을 중앙 정렬 */
+  gap: 5px; /* 아이콘 간격을 일정하게 설정 */
+  margin-right: 30px; /* 전체 네비게이션 오른쪽 여백 */
 }
 
+/* 네비게이션 버튼 */
 .nav button {
   background: none;
   border: none;
@@ -44,20 +47,19 @@
   align-items: center;
   justify-content: center;
   padding: 5px;
-  transition: filter 0.3s, color 0.3s;
 }
 
 /* 아이콘 기본 스타일 */
 .icon {
   width: 21px;
   height: 21px;
-  transition: filter 0.3s;
 }
+
 
 /* 카테고리 네비게이션 */
 .categoryNav {
   position: absolute;
-  top: 51px;
+  top: 52px;
   left: 0px;
   width: 100%;
   transition: background-color 0.3s, color 0.3s;
@@ -83,25 +85,25 @@
   font-size: 14px;
 }
 
-/* 📌 호버 시 전체 배경 반전 */
+/* 호버 시 전체 배경 반전 */
 .header:hover,
 .header:hover .categoryNav {
-  background-color: #fff; /* 호버 시에도 흰색 유지 */
+  background-color: #fff;
 }
 
-/* 📌 텍스트 및 아이콘 색상 변경 */
+/* 텍스트 및 아이콘 색상 변경 */
 .header:hover .logo,
 .header:hover .nav button,
 .header:hover .categoryItem {
   color: black;
 }
 
-/* 📌 아이콘이 반전되었을 때 검은색으로 유지 */
+/* 아이콘이 반전되었을 때 검은색으로 유지 */
 .header:hover .icon {
   filter: invert(1) brightness(0);
 }
 
-/* 📌 드롭다운 메뉴 */
+/* 드롭다운 메뉴 */
 .categoryDropdown {
   display: none;
   position: absolute;
@@ -115,7 +117,7 @@
   overflow: hidden;
 }
 
-/* 📌 호버 시 드롭다운 표시 */
+/* 호버 시 드롭다운 표시 */
 .categoryItem:hover .categoryDropdown {
   display: block;
 }
@@ -125,10 +127,9 @@
   list-style: none;
   padding: 0;
   margin: 0;
- 
 }
 
-.categoryDropdownui ,.categoryLink{
+.categoryDropdownui, .categoryLink {
   text-decoration: none;
 }
 
@@ -136,51 +137,78 @@
   padding: 10px 15px;
   cursor: pointer;
   transition: background-color 0.2s;
-  
 }
 
 .categoryDropdown li:hover {
   background-color: #f6f6f6;
 }
 
-/* 검색 스타일 */
+/* 검색 컨테이너 */
 .searchContainer {
+  position: relative;
   display: flex;
-  align-items: center; /* Vertically align the button and input */
+  align-items: center;
+  transition: width 0.3s ease-in-out;
+  width: 30px; /* 기본 너비 */
 }
 
-.searchInput {
-  /* Reset positioning */
-  position: relative;
-  left: 0;
-  top: 0;
-  transform: none;
-  /* Visual appearance */
-  width: 200px; /* Adjust as needed */
-  padding: 4px 15px;
-  border: 1px solid #ccc;
-  border-radius: 20px; /* Rounded corners */
-  outline: none;
-  font-size: 14px;
-  margin-left: 5px; /* Space between icon and input */
+.searchContainer.open {
+  width: 300px; /* 검색바가 열렸을 때 너비 */
 }
 
+/* 검색 버튼 */
 .searchButton {
-  /* Reset positioning */
-  position: relative;
-  /* Other styles */
   background: none;
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 5px;
-  transition: filter 0.3s, color 0.3s;
+  padding: 0px;
+  margin-right: 0px; /* 아이콘과 입력 필드 사이 간격 추가 */
 }
 
+/* 검색 아이콘 */
 .icon {
   width: 21px;
   height: 21px;
-  transition: filter 0.3s;
+}
+
+/* 검색 입력 필드 */
+.searchInput {
+  flex-grow: 1; /* 입력 필드가 남은 공간을 채우도록 설정 */
+  height: 30px;
+  border: none;
+  padding-left: 10px; /* 입력 필드 내부 왼쪽 여백 추가 */
+  font-size: 14px;
+  border-radius: 15px; /* 둥근 모서리 */
+  opacity: 0; /* 기본 상태에서 숨김 */
+  pointer-events: none; /* 기본 상태에서 클릭 불가 */
+  transition: opacity 0.3s ease-in-out; /* 투명도 변경 트랜지션 */
+}
+
+.searchContainer.open .searchInput {
+  opacity: 1; /* 열렸을 때 보임 */
+  pointer-events: auto; /* 열렸을 때 클릭 가능 */
+}
+
+.searchInput:focus {
+  outline: none; /* 포커스 시 테두리 제거 */
+}
+
+/* 스크롤 시 헤더 고정 스타일 */
+.header.fixed {
+  background-color: #fff;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+/* 스크롤 시 카테고리 메뉴 고정 */
+.categoryNav.fixed {
+  position: fixed;
+  top: 52px; /* 헤더 아래에 위치하도록 조정 */
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  transition: background-color 0.3s, box-shadow 0.3s;
+  z-index: 999;
 }
