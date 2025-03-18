@@ -101,3 +101,19 @@ a {
   font-size: 13px; /* 글자 크기 13px */
   margin-top: 5px; /* 위쪽 마진 5px */
 }
+
+.kakaoButton {
+  background-color: #FEE500; /* 카카오 옐로우 */
+  color: #3A1D1D; /* 약간 어두운 브라운 */
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  font-size: 16px;
+  margin-top: -5px; /* "계속" 버튼과의 간격 조정 */
+}
+
+.kakaoButton:hover {
+  opacity: 0.8;
+}
+
