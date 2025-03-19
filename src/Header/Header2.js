@@ -86,7 +86,7 @@ function Header() {
               aria-label="검색"
               onClick={toggleSearch}
             >
-              <img src="/icon/search2.png" alt="검색" className={styles.icon} />
+              <img src="/icon/search1.png" alt="검색" className={styles.icon} />
             </button>
             <input
               type="text"
