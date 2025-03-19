@@ -1,0 +1,188 @@
+/* 전체 페이지 레이아웃 설정 */
+.container {
+  display: flex; /* Flexbox 사용하여 요소 정렬 */
+  flex-direction: column; /* 요소를 세로 방향으로 정렬 */
+  min-height: 100vh; /* 최소 높이를 화면 전체 높이로 설정 */
+}
+
+/* 메인 콘텐츠 스타일 */
+.main {
+  padding: 20px; /* 내부 여백 추가 */
+  background-color: #f9f9f9; /* 배경색 지정 */
+  flex: 1; /* 가변 크기로 설정하여 화면을 꽉 채우도록 함 */
+}
+
+/* Brand Responsibility 섹션 */
+.brandResponsibility {
+  display: flex; /* Flexbox 사용 */
+  flex-wrap: wrap; /* 내용이 넘칠 경우 여러 줄로 표시 */
+  justify-content: center; /* 중앙 정렬 */
+  align-items: center; /* 수직 정렬 */
+  gap: 0px; /* 요소 간 간격 제거 */
+  padding: 0;
+  margin-bottom: -130px; /* 섹션 아래 여백 조정 */
+}
+
+/* 브랜드 이미지 설정 */
+.brandImages {
+  width: 100%; /* 이미지 너비를 부모 요소에 맞춤 */
+}
+
+/* 스크롤 애니메이션 효과 적용 */
+.fitMood,
+.bestProducts,
+.brandResponsibility {
+  opacity: 0; /* 처음에는 투명하게 설정 */
+  transform: translateY(50px); /* 아래에서 위로 이동하는 효과 */
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+/* 화면에 나타날 때 애니메이션 적용 */
+.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Fit Mood 섹션 스타일 */
+.fitMood {
+  display: flex;
+  justify-content: space-between; /* 좌우 배치 */
+  align-items: center; /* 수직 정렬 */
+  margin-bottom: 40px;
+}
+
+/* Fit Mood 제목 스타일 */
+.fitMood h1 {
+  font-size: 50px;
+  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Fit과 Mood 개별 스타일 */
+.fit,
+.mood {
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+}
+
+/* Fit Mood 오른쪽 정렬된 텍스트 */
+.detail {
+  text-align: right;
+  font-size: 22px;
+  color: #444;
+  min-width: 200px;
+  margin-right: 20px;
+}
+
+/* Fit Mood 아래 작은 텍스트 */
+.subtitle {
+  font-size: 13px;
+  color: #444;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  transform: translateY(5px);
+}
+
+/* Best Products 섹션 스타일 */
+.bestProducts {
+  margin-bottom: 40px;
+  text-align: left;
+  font-size: 20px;
+}
+
+/* 제품 목록을 그리드로 배치 */
+.productsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4개의 열로 정렬 */
+  gap: 20px;
+  background-color: transparent;
+}
+
+/* 개별 제품 스타일 */
+.product {
+  text-align: left;
+  background-color: none;
+}
+
+/* 제품 이름 스타일 */
+.productName {
+  position: absolute;
+  top: 1%; /* 위치 조정 */
+  left: 5%;
+  font-size: 1vw;
+  color: #fff;
+  padding: 0.3em;
+  border-radius: 0.3em;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* 텍스트 가독성을 높이기 위한 그림자 */
+}
+
+/* BUY NOW 버튼 스타일 */
+.buyNow {
+  position: absolute;
+  bottom: 5%;
+  right: 5%;
+  padding: 0.4em 0.8em;
+  font-size: 0.8vw;
+  color: #fff;
+  background-color: #333;
+  border: none;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* 제품 이미지 컨테이너 스타일 */
+.productImageWrapper {
+  position: relative;
+  overflow: hidden;
+  background-color: transparent;
+  width: 100%;
+  height: auto;
+}
+
+/* 제품 이미지 스타일 */
+.product img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
+  border: 1px solid #efecec;
+  transition: transform 0.3s ease;
+}
+
+/* 오버레이 효과 (마우스 호버 시 적용) */
+.productImageWrapper::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* 제품 이미지에 마우스 호버 시 오버레이 효과 적용 */
+.productImageWrapper:hover::before {
+  opacity: 1;
+}
+
+/* 제품 이름과 BUY NOW 버튼이 나타나는 효과 */
+.productImageWrapper:hover .productName,
+.productImageWrapper:hover .buyNow {
+  opacity: 1;
+}
+
+/* 광고 섹션 스타일 */
+.ad {
+  width: 100%;
+  height: auto;
+  margin-bottom: 200px;
+  margin-top: 30px;
+}
