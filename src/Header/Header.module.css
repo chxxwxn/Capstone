@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'DosKor';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-02@1.0/DosKor.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
 /* 스크롤바 숨기기 */
 ::-webkit-scrollbar {
   display: none;
@@ -12,17 +19,26 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 99%;
+  margin-left: -1%;
   z-index: 1000;
+  background-color: #fff; /* 헤더 배경을 흰색으로 변경 */
+  transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+}
+
+.headerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
-  transition: background-color 0.3s, color 0.3s;
 }
 
 /* 로고 스타일 */
 .logo {
-  display: flex;
-  align-items: center;
-  transition: filter 0.3s, color 0.3s;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1001; /* 로고를 다른 요소 위에 표시 */
 }
 
 .logoImage {
@@ -33,9 +49,8 @@
 .nav {
   display: flex;
   align-items: center;
-  justify-content: center; /* 아이콘을 중앙 정렬 */
+  justify-content: flex-end; /* 아이콘을 오른쪽 정렬 */
   gap: 5px; /* 아이콘 간격을 일정하게 설정 */
-  margin-right: 30px; /* 전체 네비게이션 오른쪽 여백 */
 }
 
 /* 네비게이션 버튼 */
@@ -55,15 +70,11 @@
   height: 21px;
 }
 
-
 /* 카테고리 네비게이션 */
 .categoryNav {
-  position: absolute;
-  top: 52px;
-  left: 0px;
-  width: 100%;
-  transition: background-color 0.3s, color 0.3s;
-  text-align: center;
+  flex-grow: 1;
+  display: flex;
+  justify-content: flex-start; /* 카테고리를 왼쪽으로 정렬 */
 }
 
 /* 카테고리 리스트 */
@@ -85,36 +96,19 @@
   font-size: 14px;
 }
 
-/* 호버 시 전체 배경 반전 */
-.header:hover,
-.header:hover .categoryNav {
-  background-color: #fff;
-}
-
-/* 텍스트 및 아이콘 색상 변경 */
-.header:hover .logo,
-.header:hover .nav button,
-.header:hover .categoryItem {
-  color: black;
-}
-
-/* 아이콘이 반전되었을 때 검은색으로 유지 */
-.header:hover .icon {
-  filter: invert(1) brightness(0);
-}
-
 /* 드롭다운 메뉴 */
 .categoryDropdown {
   display: none;
   position: absolute;
-  top: 35px;
+  top: 100%;
   left: 50%;
   transform: translateX(-50%);
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: #fff;
   width: 100px;
   z-index: 1;
   text-align: center;
   overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 /* 호버 시 드롭다운 표시 */
@@ -131,6 +125,8 @@
 
 .categoryDropdownui, .categoryLink {
   text-decoration: none;
+  font-family: 'DosKor', sans-serif;
+  color: black;
 }
 
 .categoryDropdown li {
@@ -168,12 +164,6 @@
   margin-right: 0px; /* 아이콘과 입력 필드 사이 간격 추가 */
 }
 
-/* 검색 아이콘 */
-.icon {
-  width: 21px;
-  height: 21px;
-}
-
 /* 검색 입력 필드 */
 .searchInput {
   flex-grow: 1; /* 입력 필드가 남은 공간을 채우도록 설정 */
@@ -198,8 +188,7 @@
 
 /* 스크롤 시 헤더 고정 스타일 */
 .header.fixed {
-  background-color: #fff;
-  transition: background-color 0.3s, box-shadow 0.3s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
 }
 
 /* 스크롤 시 카테고리 메뉴 고정 */
@@ -209,6 +198,5 @@
   left: 0;
   width: 100%;
   background-color: #fff;
-  transition: background-color 0.3s, box-shadow 0.3s;
   z-index: 999;
 }

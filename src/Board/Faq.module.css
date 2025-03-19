@@ -1,3 +1,10 @@
+@font-face {
+    font-family: 'DosKor';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-02@1.0/DosKor.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+  }
+
 /* 사이트 배경 */
 .back-img1 {
     background-color: #ffffff; /* 배경색 흰색 */
@@ -127,14 +134,14 @@
     background-color: #ddd; /* 배경색 변경 */
 }
 
-/* FAQ 질문 제목 스타일 */
+/* FAQ 제목 스타일 */
 .faqCardTitle {
     display: flex; /* Flexbox 적용 */
     align-items: center; /* 세로 중앙 정렬 */
     cursor: pointer; /* 클릭 가능하도록 변경 */
     font-size: 16px; /* 글자 크기 */
     color: #000; /* 글자색 */
-}
+  }  
 
 /* 물음표 아이콘 스타일 */
 .questionMark {
@@ -164,7 +171,8 @@
 }
 
 /* 제목 스타일 */
-h2 {
-    margin-top: 0px; /* 상단 여백 제거 */
+.title {
+    margin-top: -20px; /* 상단 여백 제거 */
     margin-bottom: 30px; /* 하단 여백 설정 */
+    font-family: 'DosKor', sans-serif;
 }

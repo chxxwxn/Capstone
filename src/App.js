@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Main from './Main/Main';
+import Main2 from './Main/Main2';
 import Login from './Login/Login';
 import Header from './Header/Header';
 import Banner from './Banner/Banner';
@@ -63,6 +64,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<><Banner /><Main /></>} />
+        <Route path="/Main2" element={<><Banner /><Main2 /></>} />
         <Route path="/login" element={<Login />} />
         <Route path="/Password" element={<Password />} />
         <Route path="/Join" element={<Join />} />
