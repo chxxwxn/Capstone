@@ -22,11 +22,11 @@
 /* 제목 스타일 */
 .title {
   font-size: 25px; /* 글자 크기 설정 */
-  font-weight: bold; /* 글자 굵기 설정 */
   margin-bottom: 30px; /* 아래쪽 여백 설정 */
   margin-left: 0; /* 왼쪽 여백 제거 */
   text-align: center; /* 텍스트 중앙 정렬 */
   width: 100%; /* 제목 너비를 100%로 설정 */
+  font-family: 'Paperlogy-8ExtraBold', sans-serif; 
 }
 
 /* 설명 스타일 */

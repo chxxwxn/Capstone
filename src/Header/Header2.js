@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import styles from './Header.module.css';
+import styles from './Header2.module.css';
 import { Link } from 'react-router-dom';
 
 function Header() {
@@ -86,7 +86,7 @@ function Header() {
               aria-label="검색"
               onClick={toggleSearch}
             >
-              <img src="/icon/search2.png" alt="검색" className={styles.icon} />
+              <img src="/icon/search1.png" alt="검색" className={styles.icon} />
             </button>
             <input
               type="text"
@@ -95,12 +95,12 @@ function Header() {
               ref={searchInputRef}
             />
           </div>
-          <Link to="/login">
+          <Link to="/mypage">
             <button type="button" className={styles.iconButton} aria-label="로그인">
               <img src="/icon/login2.png" alt="로그인" className={styles.icon} />
             </button>
           </Link>
-          <Link to="/Board">
+          <Link to="/Payment">
             <button type="button" className={styles.iconButton} aria-label="장바구니">
               <img src="/icon/cart2.png" alt="장바구니" className={styles.icon} />
             </button>

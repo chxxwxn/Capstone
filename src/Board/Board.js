@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styles from "./Board.module.css";
+import Header2 from "../Header/Header2"
 import { Link } from "react-router-dom";
 import moment from 'moment'; // moment 라이브러리 추가
 
@@ -180,9 +181,10 @@ const Board = () => {
   };
 
   return (
-    <div className={styles.board}>
-      <h1 className={styles.title}>게시판</h1>
-      <div className={styles.tabs}>
+    <div className={styles.Board}>
+      <Header2 />
+        <div className={styles.BoardTitle}>게시판</div>
+        <div className={styles.tabs}>
         <button
           className={activeTab === "review" ? styles.activeTab : ""}
           onClick={() => setActiveTab("review")}
@@ -289,7 +291,7 @@ const Board = () => {
             </button>
             {isEditing ? (
               <button onClick={saveChanges} className={styles.saveButton}>
-                Save
+                저장하기
               </button>
             ) : (
               <button onClick={handleEdit} className={styles.editButton}>

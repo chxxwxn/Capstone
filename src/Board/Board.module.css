@@ -23,12 +23,15 @@
 /* 공통 스타일 */
 
 /* 게시판 전체 스타일 */
-.board {
-  margin-top: 100px;
-  padding: 20px;
-  font-family: sans-serif;
-  min-height: 100vh; /* 최소 높이를 100vh로 설정 */
-  position: relative; /* 푸터 위치 설정을 위해 추가 */
+.Board{
+  padding: 150px 400px 100px 400px;
+}
+
+.BoardTitle{
+  font-weight: 600;
+  font-size: 22px;
+  padding-bottom: 40px;
+  color: #303030;
 }
 
 /* 제목 스타일 */
@@ -78,7 +81,6 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 30px;
-  margin-bottom: 100px;
 }
 
 /* 후기 카드 스타일 */
@@ -417,7 +419,7 @@
 /* 저장 버튼 스타일 */
 .saveButton {
   position: absolute;
-  top: 11px;
+  top: 10px;
   right: 30px;
   background: none;
   border: transparent;
@@ -463,4 +465,65 @@
   font-size: 12px; /* 글자 크기 설정 */
   color: #888; /* 글자 색상 설정 */
   margin-top: 5px; /* 상단 마진 설정 */
+}
+
+/* 반응형 디자인 추가 */
+@media screen and (max-width: 1200px) {
+  .Board {
+    padding: 150px 200px 0px 200px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .Board {
+    padding: 100px 50px 0px 50px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .inquiryContent .filterContainer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .inquiryContent .dateFilter {
+    margin-left: 0;
+    margin-top: 10px;
+  }
+
+  .inquiryContent .searchBar {
+    width: 100%;
+    margin-top: 10px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .Board {
+    padding: 80px 20px 0px 20px;
+  }
+
+  .BoardTitle {
+    font-size: 18px;
+  }
+
+  .tabs button {
+    padding: 8px 15px;
+    font-size: 14px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .popupContent {
+    width: 90%;
+    padding: 15px;
+  }
+
+  .imageContainer img {
+    width: 60px;
+    height: 60px;
+  }
 }

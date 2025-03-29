@@ -12,37 +12,36 @@ import FindPw2 from './Login/FindPw2';
 import Join from './Login/Join';
 import Join2 from './Login/Join2';
 import MyPage from './MyPage/Mypage';
-import Board from './Board/Board'; 
-import Faq from './Board/Faq';  
-
+import Board from './Board/Board';
+import Faq from './Board/Faq';
+import Payment from './Payment/Payment';
 /*outer*/
 import PaddingPre from './ProductPre/OuterPre/PaddingPre';
 import Padding from './Product/Outer/Padding';
 import JacketPre from './ProductPre/OuterPre/JacketPre';
 import Jacket from './Product/Outer/Jacket';
 import CoatPre from './ProductPre/OuterPre/CoatPre';
-import Coat from './Product/Outer/Coat'; 
+import Coat from './Product/Outer/Coat';
 import CardiganPre from './ProductPre/OuterPre/CardiganPre';
 import Cardigan from './Product/Outer/Cardigan';
-
 /* top */
 import HoodiePre from './ProductPre/TopPre/HoodiePre';
 import Hoodie from './Product/Top/Hoodie';
 import KnitPre from './ProductPre/TopPre/KnitPre';
 import Knit from './Product/Top/Knit';
 import MTMPre from './ProductPre/TopPre/MTMPre';
-import MTM from './Product/Top/MTM';  
+import MTM from './Product/Top/MTM';
 import Shirts from './Product/Top/Shirts';
 import ShirtsPre from './ProductPre/TopPre/ShirtsPre';
 import TeePre from './ProductPre/TopPre/TeePre';
-import Tee from './Product/Top/Tee'; 
+import Tee from './Product/Top/Tee';
 /*pants*/
 import DenimPre from './ProductPre/BottomPre/DenimPre';
-import Denim from './Product/Bottom/Denim'; 
+import Denim from './Product/Bottom/Denim';
 import PantsPre from './ProductPre/BottomPre/PantsPre';
-import Pants from './Product/Bottom/Pants'; 
+import Pants from './Product/Bottom/Pants';
 import SkirtPre from './ProductPre/BottomPre/SkirtPre';
-import Skirt from './Product/Bottom/Skirt'; 
+import Skirt from './Product/Bottom/Skirt';
 /*Etc*/
 import EtcPre from './ProductPre/EtcPre/EtcPre';
 import Etc from './Product/Etc/Etc';
@@ -56,7 +55,7 @@ import Outer from './Product/Outer/Outer';
 import TopPre from './ProductPre/TopPre/TopPre';
 import Top from './Product/Top/Top';
 import BottomPre from './ProductPre/BottomPre/BottomPre';
-import Bottom from './Product/Bottom/Bottom'; 
+import Bottom from './Product/Bottom/Bottom';
 
 function App() {
   return (
@@ -74,52 +73,48 @@ function App() {
         <Route path="/Mypage" element={<MyPage />} />
         <Route path="/Board" element={<Board />} />
         <Route path="/Faq" element={<Faq />} />
-        /* All */
-                <Route path="/all" element={<AllPre />} />
-                <Route path="/all/:id" element={<All />} />     
-        
-                /*OUTER*/
-                <Route path="/outer" element={<OuterPre />} />
-                <Route path="/outer/:id" element={<Outer />} />
-                <Route path="outer/Padding" element={<PaddingPre />} />
-                <Route path="outer/Padding/:id" element={<Padding />} />
-                <Route path="outer/Jacket" element={<JacketPre />} />
-                <Route path="outer/Jacket/:id" element={<Jacket />} />
-                <Route path="outer/Coat" element={<CoatPre />} />
-                <Route path="outer/Coat/:id" element={<Coat />} />
-                <Route path="outer/Cardigan" element={<CardiganPre />} />
-                <Route path="outer/Cardigan/:id" element={<Cardigan />} />
-        
-                /* top */
-                <Route path="/top" element={<TopPre />} />
-                <Route path="/top/:id" element={<Top />} />
-                <Route path="top/hoodie" element={<HoodiePre />} />
-                <Route path="top/hoodie/:id" element={<Hoodie />} />
-                <Route path="top/knit" element={<KnitPre />} />
-                <Route path="top/knit/:id" element={<Knit />} />
-                <Route path="top/mtm" element={<MTMPre />} />
-                <Route path="top/mtm/:id" element={<MTM />} />
-                <Route path="top/shirts" element={<ShirtsPre />} />
-                <Route path="top/shirts/:id" element={<Shirts />} />
-                <Route path="top/tee" element={<TeePre />} />
-                <Route path="top/tee/:id" element={<Tee />} />
-        
-                /*Bottom*/
-                <Route path="/bottom" element={<BottomPre />} />
-                <Route path="/bottom/:id" element={<Bottom />} />
-                <Route path="bottom/denim" element={<DenimPre />} />
-                <Route path="bottom/denim/:id" element={<Denim />} />
-                <Route path="bottom/pants" element={<PantsPre />} />
-                <Route path="bottom/pants/:id" element={<Pants />} />
-                <Route path="bottom/skirt" element={<SkirtPre />} />
-                <Route path="bottom/skirt/:id" element={<Skirt />} />
-        
-                /*Etc*/
-                <Route path="/etc" element={<EtcPre />} />
-                <Route path="/etc/:id" element={<Etc />} />
-                <Route path="etc/ring" element={<RingPre />} />
-                <Route path="etc/ring/:id" element={<Ring />} />
-        
+        <Route path="/Payment" element={<Payment />} />
+        {/* All */}
+        <Route path="/all" element={<AllPre />} />
+        <Route path="/all/:id" element={<All />} />
+        {/*OUTER*/}
+        <Route path="/outer" element={<OuterPre />} />
+        <Route path="/outer/:id" element={<Outer />} />
+        <Route path="outer/Padding" element={<PaddingPre />} />
+        <Route path="outer/Padding/:id" element={<Padding />} />
+        <Route path="outer/Jacket" element={<JacketPre />} />
+        <Route path="outer/Jacket/:id" element={<Jacket />} />
+        <Route path="outer/Coat" element={<CoatPre />} />
+        <Route path="outer/Coat/:id" element={<Coat />} />
+        <Route path="outer/Cardigan" element={<CardiganPre />} />
+        <Route path="outer/Cardigan/:id" element={<Cardigan />} />
+        {/* top */}
+        <Route path="/top" element={<TopPre />} />
+        <Route path="/top/:id" element={<Top />} />
+        <Route path="top/hoodie" element={<HoodiePre />} />
+        <Route path="top/hoodie/:id" element={<Hoodie />} />
+        <Route path="top/knit" element={<KnitPre />} />
+        <Route path="top/knit/:id" element={<Knit />} />
+        <Route path="top/mtm" element={<MTMPre />} />
+        <Route path="top/mtm/:id" element={<MTM />} />
+        <Route path="top/shirts" element={<ShirtsPre />} />
+        <Route path="top/shirts/:id" element={<Shirts />} />
+        <Route path="top/tee" element={<TeePre />} />
+        <Route path="top/tee/:id" element={<Tee />} />
+        {/*Bottom*/}
+        <Route path="/bottom" element={<BottomPre />} />
+        <Route path="/bottom/:id" element={<Bottom />} />
+        <Route path="bottom/denim" element={<DenimPre />} />
+        <Route path="bottom/denim/:id" element={<Denim />} />
+        <Route path="bottom/pants" element={<PantsPre />} />
+        <Route path="bottom/pants/:id" element={<Pants />} />
+        <Route path="bottom/skirt" element={<SkirtPre />} />
+        <Route path="bottom/skirt/:id" element={<Skirt />} />
+        {/*Etc*/}
+        <Route path="/etc" element={<EtcPre />} />
+        <Route path="/etc/:id" element={<Etc />} />
+        <Route path="etc/ring" element={<RingPre />} />
+        <Route path="etc/ring/:id" element={<Ring />} />
       </Routes>
       <Footer />
     </>

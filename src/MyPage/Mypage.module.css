@@ -273,3 +273,7 @@
   display: flex;
   align-items: center;
 }
+
+.BoardLink {
+  text-decoration: none;
+}

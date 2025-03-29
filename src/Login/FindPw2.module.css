@@ -22,10 +22,10 @@
 /* 제목 스타일 */
 .title {
   font-size: 25px; /* 글자 크기 설정 */
-  font-weight: bold; /* 글자 굵기 설정 */
   text-align: center; /* 텍스트 가운데 정렬 */
   width: 100%; /* 부모 요소의 100% 너비 */
   margin-bottom: 30px; /* 아래쪽 마진 설정 */
+  font-family: 'Paperlogy-8ExtraBold', sans-serif; 
 }
 
 /* 설명 스타일 */

@@ -5,6 +5,17 @@
     font-style: normal;
   }
 
+.Faq{
+    padding: 150px 400px 0px 400px;
+}
+  
+.FaqTitle{
+    font-weight: 600;
+    font-size: 22px;
+    padding-bottom: 40px;
+    color: #303030;
+}
+
 /* 사이트 배경 */
 .back-img1 {
     background-color: #ffffff; /* 배경색 흰색 */
@@ -21,7 +32,6 @@
     margin: 0 auto; /* 가운데 정렬 */
     background-color: #fff; /* 배경색 흰색 */
     padding: 30px; /* 내부 여백 */
-    margin-top: 150px; /* 상단 여백 */
     margin-bottom: 150px; /* 하단 여백 - Footer와 겹치는 문제 해결 */
 }
 
@@ -29,7 +39,7 @@
 .faqSearchAndTabs {
     display: flex; /* Flexbox 레이아웃 적용하여 가로 배치 */
     margin-bottom: 20px; /* 아래쪽 여백 */
-    width: 100%; /* 전체 너비 사용 */
+    width: 80%; /* 전체 너비 사용 */
 }
 
 /* 검색 입력창 */
@@ -170,9 +180,3 @@
     margin-right: 10px; /* 텍스트와 간격 */
 }
 
-/* 제목 스타일 */
-.title {
-    margin-top: -20px; /* 상단 여백 제거 */
-    margin-bottom: 30px; /* 하단 여백 설정 */
-    font-family: 'DosKor', sans-serif;
-}
