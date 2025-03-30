@@ -8,7 +8,7 @@
     width: 80%;
     margin: 100px auto;
     padding: 30px;
-    color: #303030; /* 글자 색상 변경 */
+    color: #303030;
 }
 
 /* 제목 스타일 */
@@ -17,6 +17,10 @@
     font-size: 22px;
     padding-bottom: 30px;
     color: #303030;
+}
+
+span {
+    font-weight: bold;
 }
 
 /* 좌우 영역 래퍼 */
@@ -46,11 +50,6 @@
     margin-bottom: 15px;
 }
 
-span {
-    font-weight: bold;
-    white-space: nowrap;
-}
-
 /* 상품 정보 */
 .productInfo {
     display: flex;
@@ -69,33 +68,75 @@ span {
 .productInfo p {
     font-size: 12px;
     line-height: 1.3;
-    white-space: pre;
 }
 
-/* 배송 정보 */
+/* 🚀 배송 정보 (주소 입력 UI 개선) */
 .shippingInfo {
     margin-bottom: 50px;
 }
 
-.shippingInfo button {
-    background-color: #fff;
-    border: solid 1px #fff;
+/* 버튼 스타일 一 (수정하기) */
+.editButton {
+    background-color: transparent;
+    color: #666;
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    margin-left: 82%;
 }
 
-.shippingInfo h2 {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 16px;
+.editButton:hover {
+    color: #aaa;
 }
 
-.shippingInfo div {
-    margin-bottom: 10px;
-}
-
-.shippingInfo div p {
+/* 🚀 배송 정보 (input 필드 스타일) */
+.shippingInfo input {
+    width: 60%;
+    padding: 8px;
+    border: 1px solid #ddd;
     font-size: 14px;
-    line-height: 1.6;
+    background-color: #f9f9f9;
+}
+
+/* 🚀 주소 입력 필드 */
+.addressInput {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.addressInput input {
+    width: 70%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    background-color: #f9f9f9;
+}
+
+/* 🚀 주소 저장 시 검색창 숨김 */
+.addressSaved .addressInput {
+    display: none;
+}
+
+.serachButton {
+    background-color: transparent;
+    border: 1px #fff;
+    color: #666;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    margin-left: 1%;
+}
+
+.saveButton {
+    background-color: transparent;
+    border: 1px #fff;
+    color: #666;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    margin-left: 1%;
 }
 
 /* 적립금 및 쿠폰 사용 */
@@ -104,8 +145,9 @@ span {
 }
 
 .rewardCouponSection h2 {
-    font-size: 16px;
-    margin-bottom: 10px;
+    font-size: 18px;
+    margin-bottom: 15px;
+    font-weight: bold;
 }
 
 .rewardCouponSection div {
@@ -115,37 +157,27 @@ span {
 }
 
 .rewardCouponSection label {
-    display: block;
     font-size: 14px;
     margin-bottom: 5px;
-    width: 100px; /* label의 너비 조정 */
+    width: 100px;
+    text-align: center;
 }
 
-.rewardCouponSection input[type="number"]
- {
-    width: 40%; /* 입력 필드 및 셀렉트 박스 너비 50%로 고정 */
+.rewardCouponSection input {
+    width: 40%;
     padding: 8px;
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 14px;
-    margin-right: 10px; /* 간격 추가 */
-    font-family: 'Pretendard', sans-serif; /* 폰트 스타일 통일 */
 }
 
 .rewardCouponSection select {
-    width: 42.5%; /* 입력 필드 및 셀렉트 박스 너비 50%로 고정 */
+    width: 42.2%;
     padding: 8px;
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 14px;
-    margin-right: 10px; /* 간격 추가 */
-    font-family: 'Pretendard', sans-serif; /* 폰트 스타일 통일 */
-}
-
-/* placeholder 스타일 */
-.rewardCouponSection input[type="number"]::placeholder {
-    color: #aaa; /* placeholder 색상 설정 */
-    font-style: italic; /* placeholder 스타일 설정 */
+    color: #777;
 }
 
 .rewardCouponSection button {
@@ -158,35 +190,45 @@ span {
     font-size: 14px;
 }
 
-/* 결제 수단 선택 */
-.paymentOptions {
-    margin-bottom: 20px;
+.rewardCouponSection button:hover {
+    background-color: #0056b3;
 }
 
-.paymentOptions h2 {
-    font-size: 16px;
-    margin-bottom: 10px;
-}
-
+/* 🚀 결제 수단 디자인 */
 .paymentOptions div {
-    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    transition: 0.3s;
 }
 
+.paymentOptions div:hover {
+    background: #eee;
+}
+
+/* 결제 수단 라벨 스타일 */
 .paymentOptions label {
     display: flex;
     align-items: center;
     font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    gap: 5px;
+    margin-bottom: 5px;
 }
 
 .paymentOptions input[type="radio"] {
-    margin-right: 5px;
+    margin-right: 8px;
 }
 
 /* 결제 정보 (우측 영역) */
 .rightSection h2 {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .rightSection p {
@@ -195,7 +237,7 @@ span {
     line-height: 1.4;
 }
 
-/* 결제 동의 및 결제하기 (우측 영역) */
+/* 결제 동의 및 결제하기 */
 .paymentAgreement {
     margin-top: 30px;
     text-align: left;
@@ -219,21 +261,21 @@ span {
     margin-top: 10px;
 }
 
+.paymentAgreement button:hover {
+    background-color: #218838;
+}
+
 /* 반응형 디자인 */
 @media (max-width: 768px) {
     .contentWrapper {
         flex-direction: column;
     }
 
-    .leftSection {
-        width: 100%;
-        padding-right: 0;
-    }
-
+    .leftSection,
     .rightSection {
         width: 100%;
+        padding: 0;
         border-left: none;
-        padding-left: 0;
     }
 
     .rewardCouponSection div {
@@ -246,13 +288,21 @@ span {
         margin-bottom: 5px;
     }
 
-    .rewardCouponSection input[type="text"],
+    .rewardCouponSection input,
     .rewardCouponSection select {
         width: 100%;
     }
 
     .rewardCouponSection button {
-        margin-left: 0;
         margin-top: 10px;
+    }
+
+    /* 🚀 반응형 주소 입력 필드 */
+    .addressInput {
+        flex-direction: column;
+    }
+
+    .addressInput input {
+        width: 100%;
     }
 }

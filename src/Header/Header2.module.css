@@ -19,8 +19,8 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 99%;
-  margin-left: -1%;
+  width: 100%; /* 변경: width를 100%로 설정 */
+  box-sizing: border-box; /* 추가: padding을 포함한 width를 사용 */
   z-index: 1000;
   background-color: #fff; /* 헤더 배경을 흰색으로 변경 */
   transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
@@ -72,14 +72,10 @@
 
 /* 카테고리 네비게이션 */
 .categoryNav {
+  flex-grow: 1;
   display: flex;
   justify-content: flex-start; /* 카테고리를 왼쪽으로 정렬 */
-  background-color: #fff; /* 배경색 추가 */
-  padding: 10px 20px; /* 패딩 추가 */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
-  position: sticky; /* 스크롤 시 상단에 고정 */
-  top: 79px; /* 헤더 높이 + 27px 만큼 아래에 위치 */
-  z-index: 999; /* 헤더 바로 아래에 위치 */
+  box-sizing: border-box; /* 추가: padding을 포함한 width를 사용 */
 }
 
 /* 카테고리 리스트 */

@@ -1,9 +1,11 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { debounce } from 'lodash';
+import styles from './AddressSearch.module.css'
 
 const AddressSearch = ({ onAddressSelect }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState([]);
+    const KAKAO_MAP_KEY = "648bc3a57b1fdfed62d7b08c8c6adf44"; // 카카오 JavaScript 키
 
     const delayedSearch = useCallback(
         debounce((term) => {
@@ -16,38 +18,44 @@ const AddressSearch = ({ onAddressSelect }) => {
         delayedSearch(e.target.value);
     };
 
+    const loadKakaoMap = () => {
+        if (window.kakao && window.kakao.maps) {
+            return Promise.resolve();
+        }
+
+        return new Promise((resolve) => {
+            const script = document.createElement('script');
+            script.src = `https://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${KAKAO_MAP_KEY}&libraries=services`;
+            script.onload = () => {
+                window.kakao.maps.load(resolve);
+            };
+            document.head.appendChild(script);
+        });
+    };
+
+    const searchAddress = () => {
+        const geocoder = new window.kakao.maps.services.Geocoder();
+        geocoder.addressSearch(searchTerm, (result, status) => {
+            if (status === window.kakao.maps.services.Status.OK) {
+                setSearchResults(
+                    result.map((item) => ({
+                        address_name: item.address_name,
+                        post_code: item.road_address ? item.road_address.zone_no : '',
+                    }))
+                );
+            } else {
+                setSearchResults([]);
+            }
+        });
+    };
+
     useEffect(() => {
-        const script = document.createElement('script');
-        script.src =
-            '//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=YOUR_KAKAO_JAVASCRIPT_KEY&libraries=services';
-        script.onload = () => {
-            window.kakao.maps.load(() => {
-                const geocoder = new window.kakao.maps.services.Geocoder();
+        if (!searchTerm) return;
 
-                const searchAddress = () => {
-                    geocoder.addressSearch(searchTerm, (result, status) => {
-                        if (status === window.kakao.maps.services.Status.OK) {
-                            setSearchResults(
-                                result.map((item) => ({
-                                    address_name: item.address_name,
-                                    post_code: item.road_address ? item.road_address.zone_no : '',
-                                }))
-                            );
-                        } else {
-                            setSearchResults([]);
-                        }
-                    });
-                };
-
-                if (searchTerm) {
-                    searchAddress();
-                }
-            });
-        };
-        document.head.appendChild(script);
+        loadKakaoMap().then(searchAddress);
 
         return () => {
-            document.head.removeChild(script);
+            setSearchResults([]);
         };
     }, [searchTerm]);
 
@@ -55,7 +63,7 @@ const AddressSearch = ({ onAddressSelect }) => {
         <div>
             <input
                 type="text"
-                placeholder="주소 검색"
+                placeholder="주소를 검색해주세요."
                 onChange={handleInputChange}
             />
             <ul>

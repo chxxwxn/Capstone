@@ -1,15 +1,18 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState } from 'react';
 import styles from './Payment.module.css';
-import AddressSearch from './AddressSearch'; // AddressSearch 컴포넌트 import
+import AddressSearch from './AddressSearch'; // 카카오맵 주소 검색 컴포넌트 추가
 
 const Payment = () => {
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
     const [paymentAgreement, setPaymentAgreement] = useState(false);
-    const [productPrice] = useState(59900); // 상품 가격
-    const [discount] = useState(5990); // 할인 금액
-    const [shippingCost] = useState(3000); // 배송비
-    const [rewardPoints, setRewardPoints] = useState(''); // 적립금 입력
-    const [couponDiscount, setCouponDiscount] = useState(0); // 쿠폰 할인 금액
+    const [productPrice] = useState(59900);
+    const [discount] = useState(5990);
+    const [shippingCost] = useState(3000);
+    const [rewardPoints, setRewardPoints] = useState('');
+    const [couponDiscount, setCouponDiscount] = useState(0);
+    const [selectedCoupon, setSelectedCoupon] = useState('');
+    const [showAddressSearch, setShowAddressSearch] = useState(false);
+
     const [shippingAddress, setShippingAddress] = useState({
         name: '홍길동',
         phone: '010-1111-2222',
@@ -17,49 +20,34 @@ const Payment = () => {
         detailAddress: '1동 002호',
         zipCode: '12345',
     });
+
     const [isEditingShipping, setIsEditingShipping] = useState(false);
-    const [selectedCoupon, setSelectedCoupon] = useState('');
+    const [tempAddress, setTempAddress] = useState(shippingAddress);
 
-    const handlePaymentMethodChange = (e) => {
-        setSelectedPaymentMethod(e.target.value);
+    // 주소 검색 버튼 클릭 시
+    const handleSearchAddressClick = () => {
+        setShowAddressSearch(true);
     };
 
-    const handlePaymentAgreementChange = (e) => {
-        setPaymentAgreement(e.target.checked);
-    };
-
-    const calculateTotal = () => {
-        const parsedRewardPoints = parseInt(rewardPoints) || 0;
-        return productPrice + shippingCost - discount - parsedRewardPoints - couponDiscount;
-    };
-
-    const handleEditShippingClick = () => {
-        setIsEditingShipping(true);
-    };
-
+    // AddressSearch 컴포넌트에서 주소 선택 시
     const handleAddressSelectFromSearch = (address) => {
-        setShippingAddress({
-            ...shippingAddress,
+        setTempAddress({
+            ...tempAddress,
             address: address.address_name,
-            detailAddress: address.post_code,
-            zipCode: address.zone_no, // 우편번호 저장
+            zipCode: address.post_code,
         });
+        setShowAddressSearch(false); // 주소 선택 후 AddressSearch 컴포넌트 숨김
+    };
+
+    // 주소 저장 버튼 클릭 시
+    const handleSaveAddress = () => {
+        setShippingAddress(tempAddress);
         setIsEditingShipping(false);
     };
 
+    // 적립금 사용
     const handleRewardPointsChange = (e) => {
         setRewardPoints(e.target.value);
-    };
-
-    const handleCouponChange = (e) => {
-        setSelectedCoupon(e.target.value);
-        if (e.target.value === '10') {
-            setCouponDiscount(productPrice * 0.1); // 10% 할인
-        } else if (e.target.value === 'free') {
-            setCouponDiscount(shippingCost); // 배송비 무료
-        } else {
-            setCouponDiscount(0); // 쿠폰 선택 해제 시 할인 초기화
-        }
     };
 
     const handleApplyRewardPoints = () => {
@@ -70,27 +58,37 @@ const Payment = () => {
         }
     };
 
+    // 쿠폰 사용
+    const handleCouponChange = (e) => {
+        setSelectedCoupon(e.target.value);
+        if (e.target.value === '10') {
+            setCouponDiscount(productPrice * 0.1);
+        } else if (e.target.value === 'free') {
+            setCouponDiscount(shippingCost);
+        } else {
+            setCouponDiscount(0);
+        }
+    };
+
+    // 결제
     const handlePayButtonClick = () => {
         if (!paymentAgreement) {
             alert('결제 내용을 확인하고 동의해야 합니다.');
             return;
         }
-
         if (!selectedPaymentMethod) {
             alert('결제 수단을 선택해야 합니다.');
             return;
         }
-
         alert(`결제 수단: ${selectedPaymentMethod} (으)로 결제를 진행합니다.`);
     };
 
-    const handleSaveAddress = () => {
-        // 주소 저장 로직
-        alert('주소가 저장되었습니다.');
-        setIsEditingShipping(false);
+    // 총 결제 금액 계산
+    const calculateTotal = () => {
+        const parsedRewardPoints = parseInt(rewardPoints) || 0;
+        return productPrice + shippingCost - discount - parsedRewardPoints - couponDiscount;
     };
 
-    const parsedRewardPoints = parseInt(rewardPoints) || 0;
     const totalAmount = calculateTotal();
 
     return (
@@ -112,24 +110,39 @@ const Payment = () => {
 
                     {/* 배송 정보 */}
                     <div className={styles.shippingInfo}>
-                        <h2>배송정보 <button onClick={handleEditShippingClick}>수정하기 &gt;</button></h2>
-                        <div>
-                            <p>수령인명</p>
-                            <p>{shippingAddress.name}</p>
-                        </div>
-                        <div>
-                            <p>전화번호</p>
-                            <p>{shippingAddress.phone}</p>
-                        </div>
-                        <div>
-                            <p>주소</p>
-                            <p>{shippingAddress.address} {shippingAddress.detailAddress} ({shippingAddress.zipCode})</p>
-                        </div>
-                        {isEditingShipping && (
-                            <div>
-                                <AddressSearch onAddressSelect={handleAddressSelectFromSearch} />
-                                <button onClick={handleSaveAddress}>주소 저장</button>
-                            </div>
+                        <h2>
+                            배송정보
+                            <button
+                                className={styles.editButton}
+                                onClick={() => setIsEditingShipping(!isEditingShipping)}
+                            >
+                                {isEditingShipping ? '취소' : '수정하기'} &gt;
+                            </button>
+                        </h2>
+                        {!isEditingShipping ? (
+                            <>
+                                <p>수령인명: {shippingAddress.name}</p>
+                                <p>전화번호: {shippingAddress.phone}</p>
+                                <p>주소: {shippingAddress.address} {shippingAddress.detailAddress} ({shippingAddress.zipCode})</p>
+                            </>
+                        ) : (
+                            <>
+                                <input
+                                    type="text"
+                                    value={tempAddress.address}
+                                    placeholder="주소를 입력하세요."
+                                    onChange={(e) => setTempAddress({ ...tempAddress, address: e.target.value })}
+                                />
+                                <button className={styles.serachButton} onClick={handleSearchAddressClick}>주소 찾기</button>
+                                {showAddressSearch && <AddressSearch onAddressSelect={handleAddressSelectFromSearch} />}
+                                <input
+                                    type="text"
+                                    value={tempAddress.detailAddress}
+                                    placeholder="상세 주소 입력"
+                                    onChange={(e) => setTempAddress({ ...tempAddress, detailAddress: e.target.value })}
+                                />
+                                <button className={styles.saveButton} onClick={handleSaveAddress}>주소 저장</button>
+                            </>
                         )}
                     </div>
 
@@ -160,50 +173,17 @@ const Payment = () => {
                     {/* 결제 수단 선택 */}
                     <div className={styles.paymentOptions}>
                         <h2>결제 수단 선택</h2>
-                        <div>
-                            <label>
+                        {['kakaopay', 'creditCard', 'bankTransfer'].map((method) => (
+                            <label key={method}>
                                 <input
                                     type="radio"
-                                    value="kakaopay"
-                                    checked={selectedPaymentMethod === 'kakaopay'}
-                                    onChange={handlePaymentMethodChange}
+                                    value={method}
+                                    checked={selectedPaymentMethod === method}
+                                    onChange={(e) => setSelectedPaymentMethod(e.target.value)}
                                 />
-                                카카오페이
+                                {method === 'kakaopay' ? '카카오페이' : method === 'creditCard' ? '신용카드' : '실시간 계좌이체'}
                             </label>
-                        </div>
-                        <div>
-                            <label>
-                                <input
-                                    type="radio"
-                                    value="naverpay"
-                                    checked={selectedPaymentMethod === 'naverpay'}
-                                    onChange={handlePaymentMethodChange}
-                                />
-                                네이버페이
-                            </label>
-                        </div>
-                        <div>
-                            <label>
-                                <input
-                                    type="radio"
-                                    value="creditCard"
-                                    checked={selectedPaymentMethod === 'creditCard'}
-                                    onChange={handlePaymentMethodChange}
-                                />
-                                신용카드
-                            </label>
-                        </div>
-                        <div>
-                            <label>
-                                <input
-                                    type="radio"
-                                    value="bankTransfer"
-                                    checked={selectedPaymentMethod === 'bankTransfer'}
-                                    onChange={handlePaymentMethodChange}
-                                />
-                                실시간 계좌이체
-                            </label>
-                        </div>
+                        ))}
                     </div>
                 </div>
 
@@ -213,26 +193,13 @@ const Payment = () => {
                     <p><span>상품 금액:</span> {productPrice.toLocaleString()}원</p>
                     <p><span>할인 금액:</span> -{discount.toLocaleString()}원</p>
                     <p><span>배송비:</span> {shippingCost.toLocaleString()}원</p>
-                    {parsedRewardPoints > 0 && (
-                        <p>
-                            <span>적립금 사용:</span> -{parsedRewardPoints.toLocaleString()}원
-                        </p>
-                    )}
-                    {couponDiscount > 0 && (
-                        <p>
-                            <span>쿠폰 할인:</span> -{couponDiscount.toLocaleString()}원
-                        </p>
-                    )}
+                    {parseInt(rewardPoints) > 0 && <p><span>적립금 사용:</span> -{parseInt(rewardPoints).toLocaleString()}원</p>}
+                    {couponDiscount > 0 && <p><span>쿠폰 할인:</span> -{couponDiscount.toLocaleString()}원</p>}
                     <p><span>총 결제 금액:</span> {totalAmount.toLocaleString()}원</p>
 
-                    {/* 결제 동의 및 결제하기 */}
                     <div className={styles.paymentAgreement}>
                         <label>
-                            <input
-                                type="checkbox"
-                                checked={paymentAgreement}
-                                onChange={handlePaymentAgreementChange}
-                            />
+                            <input type="checkbox" checked={paymentAgreement} onChange={(e) => setPaymentAgreement(e.target.checked)} />
                             위 주문 내역을 확인하였으며, 모든 약관에 동의합니다.
                         </label>
                         <button onClick={handlePayButtonClick}>결제하기</button>
