@@ -1,153 +1,182 @@
+@font-face {
+    font-family: 'DosKor';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-02@1.0/DosKor.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+.Faq{
+    padding: 150px 400px 0px 400px;
+}
+  
+.FaqTitle{
+    font-weight: 600;
+    font-size: 22px;
+    padding-bottom: 40px;
+    color: #303030;
+}
+
 /* 사이트 배경 */
-.back-img1{
-    background-color: #ffffff;
-    /* height: 100vh; 제거 */
-    min-height: 100vh; /* 최소 높이로 변경 */
-    background-size: cover;
-    background-position: center;
-    overflow: hidden;
+.back-img1 {
+    background-color: #ffffff; /* 배경색 흰색 */
+    /* height: 100vh; 제거하여 화면 전체를 덮지 않도록 변경 */
+    min-height: 100vh; /* 최소 높이를 100vh로 설정하여 콘텐츠가 적을 때도 기본적으로 화면을 채움 */
+    background-size: cover; /* 배경 이미지를 화면에 맞게 조정 */
+    background-position: center; /* 배경 이미지를 중앙 정렬 */
+    overflow: hidden; /* 넘치는 요소 숨김 */
 }
 
-/* FAQ 스타일 */
+/* FAQ 컨테이너 */
 .faqContainer {
-    max-width: 900px;
-    margin: 0 auto;
-    background-color: #fff;
-    padding: 30px;
-    margin-top: 150px;
-    margin-bottom: 150px; /* Footer와 겹치는 문제 해결 */
+    max-width: 900px; /* 최대 너비 설정 */
+    margin: 0 auto; /* 가운데 정렬 */
+    background-color: #fff; /* 배경색 흰색 */
+    padding: 30px; /* 내부 여백 */
+    margin-bottom: 150px; /* 하단 여백 - Footer와 겹치는 문제 해결 */
 }
 
+/* FAQ 검색 및 탭 컨테이너 */
 .faqSearchAndTabs {
-    display: flex; /* Flexbox 레이아웃 적용 */
-    margin-bottom: 20px;
-    width: 100%; /* Added to take full width */
+    display: flex; /* Flexbox 레이아웃 적용하여 가로 배치 */
+    margin-bottom: 20px; /* 아래쪽 여백 */
+    width: 80%; /* 전체 너비 사용 */
 }
-  
+
+/* 검색 입력창 */
 .searchInput {
-    width: 100%; /* 검색 입력창 너비 */
-    padding: 8px 15px;
-    border-bottom: 1px solid #e3e3e3;
-    border-top: none;
-    border-right: none;
-    border-left: none;
-    font-size: 16px;
-    outline: none;
-    transition: all 0.3s ease;
-    margin-right: 5px; /* 이미지 버튼과 간격 */
-    margin-top: -7%;
+    width: 100%; /* 입력창 너비를 100%로 설정 */
+    padding: 8px 15px; /* 내부 여백 */
+    border-bottom: 1px solid #e3e3e3; /* 아래쪽 테두리 */
+    border-top: none; /* 상단 테두리 제거 */
+    border-right: none; /* 우측 테두리 제거 */
+    border-left: none; /* 좌측 테두리 제거 */
+    font-size: 16px; /* 글자 크기 */
+    outline: none; /* 포커스 시 기본 스타일 제거 */
+    transition: all 0.3s ease; /* 부드러운 효과 적용 */
+    margin-right: 5px; /* 검색 버튼과의 간격 */
+    margin-top: -7%; /* 위치 조정 */
 }
 
+/* 검색 버튼 스타일 */
 .searchButton {
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  outline: none;
-  width: 20px; /* Adjust to the image's width */
-  height: auto;
-  margin-left: 10px; /* 이미지와 검색창 간격 */
-  margin-top: -5%;
+    background: none; /* 배경 제거 */
+    border: none; /* 테두리 제거 */
+    padding: 0; /* 패딩 제거 */
+    cursor: pointer; /* 클릭 가능하도록 변경 */
+    outline: none; /* 기본 포커스 효과 제거 */
+    width: 20px; /* 버튼 너비 (이미지 크기에 맞게 조정) */
+    height: auto; /* 높이 자동 조정 */
+    margin-left: 10px; /* 검색창과의 간격 */
+    margin-top: -5%; /* 위치 조정 */
 }
 
+/* 검색 버튼 이미지 스타일 */
 .searchButton img {
-  width: 100%; /* 이미지 크기를 버튼에 맞춤 */
-  height: auto;
-  vertical-align: middle;
+    width: 100%; /* 버튼 크기에 맞게 이미지 크기 조정 */
+    height: auto; /* 이미지 비율 유지 */
+    vertical-align: middle; /* 수직 정렬 */
 }
 
+/* FAQ 검색 컨테이너 */
 .faqSearch {
-    display: flex;
-    align-items: center;
+    display: flex; /* Flexbox 적용하여 검색창과 버튼 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
     padding-bottom: 5px; /* 줄과 검색창 사이 간격 */
-    width: auto; /* Changed to auto */
-    flex-grow: 1; /* Let it grow to fill available space */
+    width: auto; /* 자동 너비 조정 */
+    flex-grow: 1; /* 가용 공간을 채우도록 설정 */
 }
 
+/* FAQ 카테고리 탭 */
 .categoryTabs {
-    display: flex;
-    margin-bottom: 30px;
-    margin-right: 30px;
-    margin-left: 0px;
-    /* flex-grow: 1;  주석 처리 */
-    gap: 10px; /* tab 사이에 간격 10px */
-    flex-wrap: wrap; /* Added to allow tabs to wrap */
+    display: flex; /* 가로 정렬 */
+    margin-bottom: 30px; /* 아래 여백 */
+    margin-right: 30px; /* 오른쪽 여백 */
+    margin-left: 0px; /* 왼쪽 여백 */
+    gap: 10px; /* 탭 사이 간격 */
+    flex-wrap: wrap; /* 화면이 좁아지면 자동으로 줄바꿈 */
 }
-  
+
+/* 일반 탭 스타일 */
 .tab {
-    background-color: #eee;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-size: 16px;
-    color: #333;
-    display: flex;
-    white-space: nowrap; /* Added to prevent text from wrapping */
+    background-color: #eee; /* 연한 회색 배경 */
+    border: none; /* 테두리 제거 */
+    padding: 10px 20px; /* 내부 여백 */
+    cursor: pointer; /* 마우스 오버 시 포인터 변경 */
+    transition: background-color 0.3s ease; /* 배경색 변화 애니메이션 */
+    font-size: 16px; /* 글자 크기 */
+    color: #333; /* 글자색 */
+    display: flex; /* 텍스트 중앙 정렬 */
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
 }
-  
+
+/* 활성화된 탭 스타일 */
 .activeTab {
-    background-color: #e5e5e5;
-    color: #333;
-    font-weight: bold;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
+    background-color: #e5e5e5; /* 더 진한 회색 배경 */
+    color: #333; /* 글자색 */
+    font-weight: bold; /* 굵은 글씨 */
+    border: none; /* 테두리 없음 */
+    padding: 10px 20px; /* 내부 여백 */
+    font-size: 16px; /* 글자 크기 */
 }
-  
+
+/* 탭 마우스 오버 효과 */
 .tab:hover {
-    background-color: #ddd;
+    background-color: #ddd; /* 연한 회색 배경 */
 }
-  
+
+/* FAQ 목록 컨테이너 */
 .faqList {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+    display: flex; /* Flexbox 적용 */
+    flex-direction: column; /* 세로 정렬 */
+    gap: 15px; /* 각 항목 간격 */
 }
 
+/* FAQ 카드 스타일 */
 .faqCard {
-    background-color: #fafafa;
-    padding: 20px 20px;
-    transition: box-shadow 0.3s ease;
-}
-  
-.faqCard:hover {
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    background-color: #ddd;
-}
-  
-.faqCardTitle {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    font-size: 16px;
-    color: #000;
-}
-  
-.questionMark {
-    font-weight: bold;
-    color: #1f1f1f;
-    margin-right: 10px;
-}
-  
-.faqCardAnswer {
-    margin-top: 15px;
-    font-size: 14px;
-    color: #555;
-    white-space: pre-wrap;
-}
-  
-.faqCardNone {
-    display: none;
-}
-  
-.answerMark {
-    font-weight: bold;
-    color: #333;
-    margin-right: 10px; 
+    background-color: #fafafa; /* 연한 회색 배경 */
+    padding: 20px 20px; /* 내부 여백 */
+    transition: box-shadow 0.3s ease; /* 박스 그림자 효과 부드럽게 적용 */
 }
 
-h2 {
-    margin-top: 0px;
-    margin-bottom: 30px;
+/* 마우스 오버 시 FAQ 카드 스타일 변경 */
+.faqCard:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    background-color: #ddd; /* 배경색 변경 */
 }
+
+/* FAQ 제목 스타일 */
+.faqCardTitle {
+    display: flex; /* Flexbox 적용 */
+    align-items: center; /* 세로 중앙 정렬 */
+    cursor: pointer; /* 클릭 가능하도록 변경 */
+    font-size: 16px; /* 글자 크기 */
+    color: #000; /* 글자색 */
+  }  
+
+/* 물음표 아이콘 스타일 */
+.questionMark {
+    font-weight: bold; /* 굵은 글씨 */
+    color: #1f1f1f; /* 짙은 회색 */
+    margin-right: 10px; /* 텍스트와 간격 */
+}
+
+/* FAQ 답변 스타일 */
+.faqCardAnswer {
+    margin-top: 15px; /* 위쪽 여백 */
+    font-size: 14px; /* 글자 크기 */
+    color: #555; /* 중간 정도의 회색 */
+    white-space: pre-wrap; /* 줄바꿈 유지 */
+}
+
+/* 숨겨진 FAQ 답변 스타일 */
+.faqCardNone {
+    display: none; /* 기본적으로 숨김 */
+}
+
+/* 답변 마크 스타일 */
+.answerMark {
+    font-weight: bold; /* 굵은 글씨 */
+    color: #333; /* 글자색 */
+    margin-right: 10px; /* 텍스트와 간격 */
+}
+

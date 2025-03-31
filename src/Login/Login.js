@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Login.module.css';
 
@@ -24,7 +24,50 @@ function Login() {
       } else {
         navigate('/Join');
       }
-    }, 300); // 약간의 딜레이로 자연스럽게 전환
+    }, 300);
+  };
+
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://developers.kakao.com/sdk/js/kakao.js';
+    script.async = true;
+    script.onload = () => {
+      if (window.Kakao) {
+        window.Kakao.init('648bc3a57b1fdfed62d7b08c8c6adf44');
+        console.log('Kakao SDK initialized:', window.Kakao.isInitialized());
+      }
+    };
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
+  const handleKakaoLogin = () => {
+    if (window.Kakao) {
+      window.Kakao.Auth.login({
+        success: function (authObj) {
+          console.log(authObj);
+          window.Kakao.API.request({
+            url: '/v2/user/me',
+            success: function (res) {
+              console.log(res);
+              // 로그인 성공 후 Main2로 이동
+              navigate('/Main2', { state: { kakaoUserInfo: res } });
+            },
+            fail: function (error) {
+              console.error(error);
+            },
+          });
+        },
+        fail: function (err) {
+          console.error(err);
+        },
+      });
+    } else {
+      console.error('Kakao SDK not initialized');
+    }
   };
 
   return (
@@ -41,11 +84,11 @@ function Login() {
           value={email}
           onChange={(e) => {
             setEmail(e.target.value);
-            setError(false); // 입력할 때마다 경고 문구 초기화
+            setError(false);
           }}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
-              e.preventDefault(); // 기본 동작 방지
+              e.preventDefault();
               handleLogin();
             }
           }}
@@ -57,6 +100,9 @@ function Login() {
         </p>
         <button className={styles.button} onClick={handleLogin} disabled={!isValidEmail(email)}>
           계속
+        </button>
+        <button className={styles.kakaoButton} onClick={handleKakaoLogin}>
+          카카오 로그인
         </button>
       </main>
     </div>

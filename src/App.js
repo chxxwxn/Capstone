@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Main from './Main/Main';
+import Main2 from './Main/Main2';
 import Login from './Login/Login';
 import Header from './Header/Header';
 import Banner from './Banner/Banner';
@@ -13,10 +14,6 @@ import Join2 from './Login/Join2';
 import MyPage from './MyPage/Mypage';
 import Board from './Board/Board'; 
 import Faq from './Board/Faq';  
-import InfoEdit from './MyPage/InfoEdit';  
-import Coupon from './MyPage/Coupon';
-import SavingRate from './MyPage/Saving&Rate';
-import OrderHistory from './MyPage/OrderHistory';
 
 /*outer*/
 import PaddingPre from './ProductPre/OuterPre/PaddingPre';
@@ -24,7 +21,7 @@ import Padding from './Product/Outer/Padding';
 import JacketPre from './ProductPre/OuterPre/JacketPre';
 import Jacket from './Product/Outer/Jacket';
 import CoatPre from './ProductPre/OuterPre/CoatPre';
-import Coat from './Product/Outer/Coat'; 
+import Coat from './Product/Outer/Coat';
 import CardiganPre from './ProductPre/OuterPre/CardiganPre';
 import Cardigan from './Product/Outer/Cardigan';
 /* top */
@@ -33,18 +30,18 @@ import Hoodie from './Product/Top/Hoodie';
 import KnitPre from './ProductPre/TopPre/KnitPre';
 import Knit from './Product/Top/Knit';
 import MTMPre from './ProductPre/TopPre/MTMPre';
-import MTM from './Product/Top/MTM';  
+import MTM from './Product/Top/MTM';
 import Shirts from './Product/Top/Shirts';
 import ShirtsPre from './ProductPre/TopPre/ShirtsPre';
 import TeePre from './ProductPre/TopPre/TeePre';
-import Tee from './Product/Top/Tee'; 
+import Tee from './Product/Top/Tee';
 /*pants*/
 import DenimPre from './ProductPre/BottomPre/DenimPre';
-import Denim from './Product/Bottom/Denim'; 
+import Denim from './Product/Bottom/Denim';
 import PantsPre from './ProductPre/BottomPre/PantsPre';
-import Pants from './Product/Bottom/Pants'; 
+import Pants from './Product/Bottom/Pants';
 import SkirtPre from './ProductPre/BottomPre/SkirtPre';
-import Skirt from './Product/Bottom/Skirt'; 
+import Skirt from './Product/Bottom/Skirt';
 /*Etc*/
 import EtcPre from './ProductPre/EtcPre/EtcPre';
 import Etc from './Product/Etc/Etc';
@@ -58,7 +55,7 @@ import Outer from './Product/Outer/Outer';
 import TopPre from './ProductPre/TopPre/TopPre';
 import Top from './Product/Top/Top';
 import BottomPre from './ProductPre/BottomPre/BottomPre';
-import Bottom from './Product/Bottom/Bottom'; 
+import Bottom from './Product/Bottom/Bottom';
 
 function App() {
   return (
@@ -66,6 +63,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<><Banner /><Main /></>} />
+        <Route path="/Main2" element={<><Banner /><Main2 /></>} />
         <Route path="/login" element={<Login />} />
         <Route path="/Password" element={<Password />} />
         <Route path="/Join" element={<Join />} />
@@ -75,12 +73,7 @@ function App() {
         <Route path="/Mypage" element={<MyPage />} />
         <Route path="/Board" element={<Board />} />
         <Route path="/Faq" element={<Faq />} />
-        <Route path="/Mypage/InfoEdit" element={<InfoEdit />} />
-        <Route path="/Mypage/Coupon" element={<Coupon />} />
-        <Route path="/Mypage/Saving&Rate" element={<SavingRate />} />
-        <Route path="/Mypage/OrderHistory" element={<OrderHistory />} />
-
-                 /* All */
+        /* All */
                 <Route path="/all" element={<AllPre />} />
                 <Route path="/all/:id" element={<All />} />     
         

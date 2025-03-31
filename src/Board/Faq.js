@@ -10,8 +10,8 @@ const Faq = () => {
   const categories = [
     { name: '배송문의', value: 'category1' },
     { name: '교환/환불 문의', value: 'category2' },
-    { name: '주문/결제 문의', value: 'category3' },
-    { name: '회원문의', value: 'category4' }
+    { name: '회원문의', value: 'category3' },
+    { name: '주문/결제 문의', value: 'category4' }
   ];
 
   const qnaList = [
@@ -82,10 +82,10 @@ const Faq = () => {
   });
 
   return (
+    <div className={styles.Faq}>
     <div className={styles['back-img1']}>
-      <Header />
       <div className={styles.faqContainer}>
-        <h2>FAQ</h2>
+      <div className={styles.FaqTitle}>자주 묻는 질문</div>
         <div className={styles.faqSearchAndTabs}>
           <div className={styles.categoryTabs}>
             {categories.map((cat) => (
@@ -115,8 +115,8 @@ const Faq = () => {
           {filteredQnA.map((item) => getQnACard(item))}
         </div>
       </div>
-      <Footer />
     </div>
+  </div>
   );
 };
 

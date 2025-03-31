@@ -35,7 +35,10 @@ function Password() {
         >
           비밀번호 찾기
         </button>
-        <button className={styles.button}>로그인</button>
+        <button className={styles.button}onClick={() => navigate("/Main2")}
+        >
+          로그인
+        </button>
       </main>
     </div>
   );

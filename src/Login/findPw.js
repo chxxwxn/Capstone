@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from './findPw.module.css';
+import styles from './FindPw.module.css';
 
 function FindPw() {
   const [name, setName] = useState('');
@@ -32,7 +32,7 @@ function FindPw() {
 
   const handleSubmit = () => {
     if (!name || !phone1 || !phone2 || !phone3) {
-      alert('모든 필드를 입력해주세요.');
+      alert('모든 칸을 입력해주세요.');
       return;
     }
 

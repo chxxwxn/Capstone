@@ -151,8 +151,7 @@ const Join2 = () => {
           <p className={styles.warningMessage}>모든 필드를 입력하고 약관에 동의해주세요.</p>
         )}
         <button 
-          className={`${styles.submitButton} ${!formValid ? styles.disabledButton : ''}`} 
-          onClick={handleSubmit}
+          className={styles.submitButton}onClick={() => navigate("/Main2")}
           disabled={!formValid}
         >
           계속

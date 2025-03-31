@@ -95,7 +95,6 @@
   color: black;
   transition: color 0.3s;
   font-size: 14px;
-  box-sizing: border-box; /* 추가: padding을 포함한 width를 사용 */
 }
 
 /* 드롭다운 메뉴 */
@@ -110,7 +109,6 @@
   z-index: 1;
   text-align: center;
   overflow: hidden;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 /* 호버 시 드롭다운 표시 */
@@ -125,7 +123,8 @@
   margin: 0;
 }
 
-.categoryDropdownui, .categoryLink {
+.categoryDropdownui,
+.categoryLink {
   text-decoration: none;
   font-family: 'DosKor', sans-serif;
   color: black;
@@ -177,7 +176,6 @@
   opacity: 0; /* 기본 상태에서 숨김 */
   pointer-events: none; /* 기본 상태에서 클릭 불가 */
   transition: opacity 0.3s ease-in-out; /* 투명도 변경 트랜지션 */
-  box-sizing: border-box; /* 추가: padding을 포함한 width를 사용 */
 }
 
 .searchContainer.open .searchInput {
@@ -197,46 +195,9 @@
 /* 스크롤 시 카테고리 메뉴 고정 */
 .categoryNav.fixed {
   position: fixed;
-  top: 52px; /* 헤더 아래에 위치하도록 조정 */
+  top: 79px; /* 헤더 아래에 위치하도록 조정 */
   left: 0;
   width: 100%;
   background-color: #fff;
   z-index: 999;
-}
-
-/* 반응형 디자인 */
-@media (max-width: 768px) {
-  .header {
-    padding: 10px; /* 작은 화면에서 패딩 축소 */
-  }
-
-  .logo {
-    left: 20%; /* 로고 위치 조정 */
-    transform: translateX(-20%);
-  }
-
-  .categoryList {
-    font-size: 10px; /* 작은 화면에서 글자 크기 축소 */
-  }
-
-  .categoryItem {
-    margin: 0 5px; /* 작은 화면에서 간격 축소 */
-    padding: 5px; /* 작은 화면에서 패딩 축소 */
-  }
-
-  .searchContainer.open {
-    width: 200px; /* 작은 화면에서 검색바 너비 축소 */
-  }
-}
-
-/* 더 작은 화면 */
-@media (max-width: 480px) {
-  .logo {
-    left: 15%; /* 로고 위치 조정 */
-    transform: translateX(-15%);
-  }
-
-  .categoryList {
-    font-size: 9px; /* 더 작은 화면에서 글자 크기 추가 축소 */
-  }
 }
