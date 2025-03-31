@@ -13,6 +13,10 @@ import Join2 from './Login/Join2';
 import MyPage from './MyPage/Mypage';
 import Board from './Board/Board'; 
 import Faq from './Board/Faq';  
+import InfoEdit from './MyPage/InfoEdit';  
+import Coupon from './MyPage/Coupon';
+import SavingRate from './MyPage/Saving&Rate';
+import OrderHistory from './MyPage/OrderHistory';
 
 /*outer*/
 import PaddingPre from './ProductPre/OuterPre/PaddingPre';
@@ -23,7 +27,6 @@ import CoatPre from './ProductPre/OuterPre/CoatPre';
 import Coat from './Product/Outer/Coat'; 
 import CardiganPre from './ProductPre/OuterPre/CardiganPre';
 import Cardigan from './Product/Outer/Cardigan';
-
 /* top */
 import HoodiePre from './ProductPre/TopPre/HoodiePre';
 import Hoodie from './Product/Top/Hoodie';
@@ -72,7 +75,12 @@ function App() {
         <Route path="/Mypage" element={<MyPage />} />
         <Route path="/Board" element={<Board />} />
         <Route path="/Faq" element={<Faq />} />
-        /* All */
+        <Route path="/Mypage/InfoEdit" element={<InfoEdit />} />
+        <Route path="/Mypage/Coupon" element={<Coupon />} />
+        <Route path="/Mypage/Saving&Rate" element={<SavingRate />} />
+        <Route path="/Mypage/OrderHistory" element={<OrderHistory />} />
+
+                 /* All */
                 <Route path="/all" element={<AllPre />} />
                 <Route path="/all/:id" element={<All />} />     
         

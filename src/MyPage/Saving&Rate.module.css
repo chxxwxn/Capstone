@@ -1,0 +1,272 @@
+* {
+    font-family: 'Pretendard', sans-serif;
+    cursor: pointer;
+    
+  }
+  body {
+    background-color: #ffffff;
+  }
+  
+.Saving{
+  margin-bottom: 50px;
+}
+.SavingRate{
+  padding: 150px 400px 0px 400px;
+}
+
+.SavingRateTitle{
+    font-weight: 600;
+    font-size: 22px;
+    padding-bottom: 40px;
+    color: #303030;
+}
+
+.SavingTitle ,.RateTitle {
+    font-weight: 600;
+    font-size: 18px;
+    color: #303030;
+    padding-bottom: 10px;
+}
+
+.SavingTotal{
+    font-weight: 600;
+    font-size: 18px;
+    color: #303030;
+    padding-bottom: 10px;
+}
+
+.LostText ,.LostTotal {
+    font-weight: 500;
+    font-size: 14px;
+    color: #888;
+    padding-bottom: 10px;
+}
+
+.LostText{
+    margin-right: 10px;
+}
+
+.SavingHistoryTitle {
+  font-weight: 600;
+  font-size: 22px;
+  padding-bottom: 40px;
+  color: #303030;
+}
+
+.SavingHistoryState {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 10px;
+}
+
+.SavingHistoryBox {
+  width: 100%;
+  height: 100%;
+  border-top: 1px solid #30303080;
+  border-bottom: 1px solid #30303080;
+  margin-bottom: 50px;
+}
+
+.ListHeader, .List {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: #303030;
+  padding: 15px 5px 15px 5px;
+  gap: 50px;
+  position: relative; 
+}
+
+.List {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 0;
+  border-bottom: 1px solid #ccc; /* 쿠폰 간 구분선 추가 */
+}
+
+.List:last-child {
+  border-bottom: none; /* 마지막 항목에는 구분선이 보이지 않게 함 */
+}
+
+.Num, .NumDetail {
+  flex: 0.5;
+  text-align: center;
+}
+
+.Info, .InfoDetail {
+  flex: 4;
+  text-align: center;
+  display: flex;
+  flex-direction: column; /* 여러 줄 표시를 위해 세로 정렬 */
+  align-items: flex-start;
+  gap: 5px;
+}
+
+.Date, .DateDetail {
+  flex: 1;
+  text-align: center;
+}
+
+.Use, .UseDetail {
+  flex: 0.5;
+  text-align: center;
+  
+}
+
+.amount{
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.ProductName ,.Dead {
+  color: #888;
+}
+
+.Period {
+  display: flex;
+  gap: 8px;
+}
+
+.PeriodButton {
+  color: #ccc;
+  font-weight: 600;
+  font-size: 13px;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+}
+
+.State{
+  border: none;
+  padding: 0px;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.Selected {
+  color: #303030;
+}
+
+.Rate{
+  margin-bottom: 30px;
+}
+
+.RateMy{
+  margin-left: 10px;
+  font-weight: 500;
+    font-size: 14px;
+    color: #888;
+}
+
+.RateHeader{
+  margin-bottom: 15px;
+}
+
+.RateContainer{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+}
+
+.RateShow{
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+
+
+
+.RateIcon{
+  background-color: #ddd; /* 배경색 회색 */
+  width: 35px; /* 원의 크기 */
+  height: 35px; /* 원의 크기 */
+  border-radius: 50%; /* 원 모양으로 만들기 */
+  display: flex; /* flexbox 사용하여 텍스트 중앙 정렬 */
+  justify-content: center; /* 수평 중앙 정렬 */
+  align-items: center; /* 수직 중앙 정렬 */
+  font-size: 14px; /* 글자 크기 */
+  font-weight: 500;
+  color: #ffffff; /* 글자 색 */
+}
+
+.RateText{
+  font-size: 18px;
+    font-weight: 500;
+    color: #888;
+    margin-left: 10px;
+}
+
+.RateEx1 ,.RateEx2 {
+  display: flex;
+  font-size: 14px;
+  font-weight: 500;
+  color: #888;
+}
+
+.RateLine {
+  width: 20px;  /* 선의 두께 (너비) */
+  height: 1px; /* 선의 길이 (높이) */
+  background-color: #888; 
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.RateBox {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 250px; /* 적절한 크기로 조정 */
+  padding: 20px;
+  position: relative; /* ::after 위치 지정 */
+}
+
+/* 각 박스의 오른쪽에 선 추가 */
+.RateBox::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 10%; /* 선의 시작 위치 */
+  height: 80%; /* 선의 길이 조절 */
+  width: 2px;
+  background-color: #ddd;
+}
+
+/* 마지막 박스의 선 제거 */
+.RateBox:first-child::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10%; /* 선의 시작 위치 */
+  height: 85%; /* 선의 길이 조절 */
+  width: 2px;
+  background-color: #ddd;
+}
+.RateMyCurrentRate {
+  padding: 0px 5px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #303030;
+  text-decoration: underline;
+}
+
+.MoreButton {
+  display: block;
+  width: 300px;
+  padding: 10px;
+  border: none;
+  background-color: #f0f0f0;
+  cursor: pointer;
+  text-align: center;
+  font-size: 14px;
+  margin: 10px auto 10px; /* 중앙 정렬 */
+}
+
+.MoreButton:hover {
+  background-color: #ddd;
+}
+
+

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Icon } from '@iconify/react';
 import styles from './Mypage.module.css';
+import { Link } from 'react-router-dom'; // Link 컴포넌트를 가져옵니다.
+
 
 const orders = [
   {
@@ -40,7 +42,9 @@ const Mypage = () => {
             <div className={styles.ProfileBox}>
               <div className={styles.Profile}>
                 <div className={styles.RateIcon}>S</div>
-                <div className={styles.InfoEdit}>회원정보수정</div>
+                <div className={styles.InfoEdit}>
+                  <Link to="/mypage/infoedit" className={styles.InfoEditLink}>회원정보수정</Link>
+                </div>
               </div>
               <div className={styles.TextBox}>
                 <div className={styles.HelloBox}>안녕하세요! 홍길동 님.</div>
@@ -54,10 +58,12 @@ const Mypage = () => {
           <div className={styles.Box2}>
             <div className={styles.SavingBox}>
             <div className={styles.SavingIcon}>
+            <Link to="/mypage/Saving&Rate">
             <Icon
               icon={'material-symbols-light:money-bag-rounded'}
               className={styles.SavingIconcss}
             />
+            </Link>
             </div>
                   <div className={styles.SavingPcs}>1,000원</div>
               <div className={styles.SavingTotal}>총 적립금</div>
@@ -66,10 +72,12 @@ const Mypage = () => {
           <div className={styles.Box3}> 
             <div className={styles.CouponBox}>
             <div className={styles.CouponIcon}>
-            <Icon
-              icon={'mdi:coupon'}
-              className={styles.SavingIconcss}
-            />
+              <Link to="/mypage/coupon">
+                <Icon
+                  icon={'mdi:coupon'}
+                  className={styles.SavingIconcss}
+                />
+              </Link>
             </div>
                   <div className={styles.CouponPcs}>1개</div>
               <div className={styles.CouponTotal}>총 쿠폰</div>

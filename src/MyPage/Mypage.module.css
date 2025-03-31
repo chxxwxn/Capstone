@@ -99,7 +99,9 @@
  color: #505050;
 }
 
-
+.InfoEditLink {
+  text-decoration: none;
+}
 
 
 .SavingBox ,.CouponBox,.WishBox,.BoardBox{
@@ -273,3 +275,4 @@
   display: flex;
   align-items: center;
 }
+
