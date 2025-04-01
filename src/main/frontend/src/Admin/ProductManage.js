@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import styles from './Admin.module.css';
+import styles from './ProductManage.module.css';
 import { useNavigate } from "react-router-dom";
 
-const Admin = () => {
+const ProductManage = () => {
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
 
@@ -50,7 +50,8 @@ const Admin = () => {
         
                 {/* 메인 콘텐츠 영역 */}
                 <div className={styles.admin_content_wrap}>
-                    <div>{message || "관리자 페이지 입니다."}</div>
+                    <div class="admin_content_subject"><span>상품 관리</span>
+                    </div>
                 </div>
                 </div>
             </div>
@@ -58,4 +59,4 @@ const Admin = () => {
         );
     };
 
-export default Admin;
+export default ProductManage;
