@@ -1,3 +1,4 @@
+/* 기본 스타일 유지 */
 @font-face {
   font-family: 'DosKor';
   src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-02@1.0/DosKor.woff2') format('woff2');
@@ -19,11 +20,12 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%; /* 변경: width를 100%로 설정 */
-  box-sizing: border-box; /* 추가: padding을 포함한 width를 사용 */
+  width: 100%;
+  box-sizing: border-box;
   z-index: 1000;
-  background-color: #fff; /* 헤더 배경을 흰색으로 변경 */
+  background-color: #fff;
   transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+  height: 60px; /* 헤더 높이 지정 */
 }
 
 .headerContent {
@@ -33,24 +35,30 @@
   width: 100%;
 }
 
+/* 본문이 헤더에 가려지지 않도록 여백 추가 */
+main, .bodyContent {
+  padding-top: 80px; /* 헤더 높이에 맞게 조정 */
+}
+
 /* 로고 스타일 */
 .logo {
-  position: absolute;
+  position: fixed;
   left: 50%;
+  top: 15px;
   transform: translateX(-50%);
-  z-index: 1001; /* 로고를 다른 요소 위에 표시 */
+  z-index: 1001;
 }
 
 .logoImage {
-  height: 17px;
+  height: 20px;
 }
 
 /* 네비게이션 아이콘 컨테이너 */
 .nav {
   display: flex;
   align-items: center;
-  justify-content: flex-end; /* 아이콘을 오른쪽 정렬 */
-  gap: 5px; /* 아이콘 간격을 일정하게 설정 */
+  justify-content: flex-end;
+  gap: 5px;
 }
 
 /* 네비게이션 버튼 */
@@ -204,39 +212,104 @@
   z-index: 999;
 }
 
-/* 반응형 디자인 */
-@media (max-width: 768px) {
+/* 반응형 스타일 */
+@media all and (min-width: 1024px) and (max-width: 1279px) {
   .header {
-    padding: 10px; /* 작은 화면에서 패딩 축소 */
+    padding: 10px 15px;
   }
-
-  .logo {
-    left: 20%; /* 로고 위치 조정 */
-    transform: translateX(-20%);
-  }
-
-  .categoryList {
-    font-size: 10px; /* 작은 화면에서 글자 크기 축소 */
-  }
-
-  .categoryItem {
-    margin: 0 5px; /* 작은 화면에서 간격 축소 */
-    padding: 5px; /* 작은 화면에서 패딩 축소 */
-  }
-
-  .searchContainer.open {
-    width: 200px; /* 작은 화면에서 검색바 너비 축소 */
+  main, .bodyContent {
+    padding-top: 80px;
   }
 }
 
-/* 더 작은 화면 */
-@media (max-width: 480px) {
-  .logo {
-    left: 15%; /* 로고 위치 조정 */
-    transform: translateX(-15%);
+@media all and (min-width: 768px) and (max-width: 1023px) {
+  .header {
+    padding: 10px;
+  }
+  .categoryList {
+    font-size: 11px;
+  }
+  main, .bodyContent {
+    padding-top: 80px;
+  }
+}
+
+@media all and (min-width: 480px) and (max-width: 767px) {
+  .header {
+    padding: 8px;
+  }
+  .categoryList {
+    font-size: 10px;
+  }
+  main, .bodyContent {
+    padding-top: 80px;
+  }
+}
+
+@media all and (max-width: 479px) {
+
+  @media (hover: hover) {}
+
+  .header {
+    flex-direction: column;
+    height: auto;
   }
 
-  .categoryList {
-    font-size: 9px; /* 더 작은 화면에서 글자 크기 추가 축소 */
+  .logo {
+    position: relative;
+    margin-left: -660px;
+    top: auto;
+    transform: none;
+    margin-top: 20px; /* 상단 간격 추가 */
+    margin-bottom: 15px;
+  }
+
+  .headerContent {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .nav {
+    margin-top: -40px;
+    margin-left: 63%;
+  }
+  .menu {
+    order: 2;
+    display: flex;
+    justify-content: center;
+    position: relative;
+  }
+
+  .categoryNav {
+    order: 3;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+
+  }
+
+  @media all and (max-width: 479px) {
+    /* 아이폰에서는 hover 효과 제거 */
+    @media (hover: hover) {
+      .categoryList .categoryItem:hover .categoryDropdown {
+        display: none;
+      }
+    }
+  
+    /* 아이폰에서 클릭하면 페이지 이동 */
+    .categoryItem a {
+      pointer-events: auto; /* 링크 클릭 가능하도록 설정 */
+    }
+  
+    /* 아이폰에서는 드롭다운 숨김 */
+    .categoryDropdown {
+      display: none !important;
+    }
+  }
+  
+
+  main, .bodyContent {
+    padding-top: 120px;
   }
 }

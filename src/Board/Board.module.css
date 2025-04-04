@@ -467,63 +467,154 @@
   margin-top: 5px; /* 상단 마진 설정 */
 }
 
-/* 반응형 디자인 추가 */
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 479px) {
   .Board {
-    padding: 150px 200px 0px 200px;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .Board {
-    padding: 100px 50px 0px 50px;
-  }
-
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .inquiryContent .filterContainer {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .inquiryContent .dateFilter {
-    margin-left: 0;
-    margin-top: 10px;
-  }
-
-  .inquiryContent .searchBar {
-    width: 100%;
-    margin-top: 10px;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .Board {
-    padding: 80px 20px 0px 20px;
+    padding: 70px 15px 20px 15px;
+    min-height: 67vh;
   }
 
   .BoardTitle {
-    font-size: 18px;
+    font-size: 16px;
+    padding-bottom: 30px;
+  }
+
+  .tabs {
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-bottom: 50px;
   }
 
   .tabs button {
-    padding: 8px 15px;
-    font-size: 14px;
+    padding: 6px 12px;
+    font-size: 12px;
   }
 
+  /* 후기 목록을 2열로 정렬 */
   .grid {
-    grid-template-columns: 1fr;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    width: 100%;
   }
 
-  .popupContent {
-    width: 90%;
-    padding: 15px;
+  /* 카드 스타일 수정 */
+  .card {
+    width: 100%;
+    position: relative;
+    margin-top: 10px;
   }
 
-  .imageContainer img {
-    width: 60px;
-    height: 60px;
+  /* 이미지 컨테이너를 화면 가득 차게 */
+  .imageWrapper {
+    width: 100%;
+    padding-bottom: 100%; /* 정사각형 비율 유지 */
+    position: relative;
+    overflow: hidden;
   }
-}
+
+  /* 이미지 크기 조정 */
+  .image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 비율 유지하면서 꽉 차게 */
+  }
+
+  /* footer 위치 조정 */
+  .footer {
+    position: relative;
+    bottom: unset;
+    left: unset;
+    padding: 20px;
+    text-align: center;
+    background-color: #f0f0f0;
+    width: 100%;
+  }
+
+    /* 필터 컨테이너: 세로 정렬 */
+    .inquiryContent .filterContainer {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 10px;
+    }
+
+    .inquiryContent .filterContainer select {
+      order: -1; /* 가장 앞으로 배치 */
+      flex-direction: column;
+      align-items: stretch;
+      margin-left: 10px;
+      margin-top: -10px;
+    }
+  
+    /* 버튼 그룹: flex-wrap 적용 */
+    .inquiryContent .dateFilter {
+      display: flex;
+      gap: 5px;
+      justify-content: space-between; /* 간격 조정 */
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+  
+    /* 날짜 필터 버튼 */
+    .inquiryContent .dateFilter button {
+      flex: 1; /* 버튼 크기를 자동으로 조정 */
+      min-width: 60px; /* 최소 크기 지정 */
+      padding: 8px;
+      font-size: 12px;
+    }
+  
+    /* 검색 바 정렬 */
+    .inquiryContent .searchBar {
+      display: flex;
+      width: 100%;
+      gap: 5px;
+    }
+  
+    .inquiryContent .searchBar input {
+      flex-grow: 1; /* 입력창이 남은 공간 차지 */
+      min-width: 120px;
+    }
+  
+    .inquiryContent .searchBar button {
+      padding: 8px 12px;
+    }
+  
+    /* 테이블 스타일 조정 */
+    .inquiryContent .inquiryTable {
+      width: 100%;
+      table-layout: fixed; /* 균등한 너비 조정 */
+      word-break: break-word; /* 텍스트 자동 줄바꿈 */
+    }
+  
+    .inquiryContent .inquiryTable th,
+    .inquiryContent .inquiryTable td {
+      font-size: 12px;
+      padding: 6px;
+    } 
+
+      /* "답변 완료" 배지 위치 조정 */
+  .inquiryContent .status {
+    justify-content: center;
+    margin-left: -115px;
+  }
+
+  .inquiryContent .status {
+    background-color: #ddd;
+    padding: 3px 6px;
+    font-size: 10px;
+    font-weight: bold;
+  }
+
+  /* FAQ 버튼 위치 조정 */
+  .faqButton {
+    position: relative;
+    width: 100%; /* 가로 길이 조정 */
+    text-align: center; /* 가운데 정렬 */
+    font-size: 11px; /* 글자 크기 줄이기 */
+    margin-left: 233px;
+    margin-top: -40px;
+    margin-bottom: -10px;
+  }
+  }

@@ -11,3 +11,15 @@
   height: 140vh;
   object-fit: cover;
 }
+
+/* 모바일 세로 (해상도 ~ 479px) */
+@media all and (max-width: 479px) {
+  .banner {
+    height: 50vh;
+    margin-top: 5%;
+  }
+  .bannerImage {
+    height: 30vh;
+    margin-top: 25%;
+  }
+}

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styles from "./Board.module.css";
-import Header2 from "../Header/Header2"
 import { Link } from "react-router-dom";
 import moment from 'moment'; // moment 라이브러리 추가
 
@@ -182,7 +181,6 @@ const Board = () => {
 
   return (
     <div className={styles.Board}>
-      <Header2 />
         <div className={styles.BoardTitle}>게시판</div>
         <div className={styles.tabs}>
         <button

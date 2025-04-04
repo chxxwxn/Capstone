@@ -14,6 +14,12 @@ import Join2 from './Login/Join2';
 import MyPage from './MyPage/Mypage';
 import Board from './Board/Board'; 
 import Faq from './Board/Faq';  
+import InfoEdit from './MyPage/InfoEdit';  
+import Coupon from './MyPage/Coupon';
+import SavingRate from './MyPage/Saving&Rate';
+import OrderHistory from './MyPage/OrderHistory';
+
+import Payment from './Payment/Payment';
 
 /*outer*/
 import PaddingPre from './ProductPre/OuterPre/PaddingPre';
@@ -73,6 +79,12 @@ function App() {
         <Route path="/Mypage" element={<MyPage />} />
         <Route path="/Board" element={<Board />} />
         <Route path="/Faq" element={<Faq />} />
+        <Route path="/Mypage/InfoEdit" element={<InfoEdit />} />
+        <Route path="/Mypage/Coupon" element={<Coupon />} />
+        <Route path="/Mypage/Saving&Rate" element={<SavingRate />} />
+        <Route path="/Mypage/OrderHistory" element={<OrderHistory />} />
+
+        <Route path="/Payment" element={<Payment />} />
         /* All */
                 <Route path="/all" element={<AllPre />} />
                 <Route path="/all/:id" element={<All />} />     

@@ -118,3 +118,34 @@ a {
   text-decoration: underline; /* 밑줄 표시 */
   color: #000; /* 글자 색상 검정색 */
 }
+
+@media screen and (max-width: 479px) {
+  .main {
+    padding: 60px 20px; /* 좌우 패딩 줄이기 */
+    max-width: 90%; /* 최대 너비 제한 해제 */
+    flex-grow: 1;
+  }
+
+  .title {
+    font-size: 20px; /* 제목 크기 줄이기 */
+  }
+
+  .description {
+    font-size: 18px; /* 설명 크기 조절 */
+  }
+
+  .agreement-list label {
+    font-size: 12px; /* 체크박스 텍스트 크기 줄이기 */
+  }
+
+  .agreement-list label::before {
+    width: 12px; 
+    height: 12px; 
+    margin-right: 8px; /* 체크박스 크기 키우기 */
+  }
+
+  .button {
+    font-size: 14px; /* 버튼 글자 크기 조정 */
+    padding: 10px; /* 버튼 크기 조정 */
+  }
+}

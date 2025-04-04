@@ -54,7 +54,7 @@ function Login() {
             success: function (res) {
               console.log(res);
               // 로그인 성공 후 Main2로 이동
-              navigate('/Main2', { state: { kakaoUserInfo: res } });
+              navigate('/', { state: { kakaoUserInfo: res } });
             },
             fail: function (error) {
               console.error(error);

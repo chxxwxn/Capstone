@@ -83,7 +83,7 @@ span {
     cursor: pointer;
     font-size: 12px;
     font-weight: bold;
-    margin-left: 74%;
+    margin-left: 78%;
 }
 
 .editButton:hover {
@@ -288,7 +288,7 @@ span {
 
 .paymentAgreement button {
     padding: 12px 24px;
-    background-color: #28a745;
+    background-color: #333;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -299,12 +299,12 @@ span {
     }
 
 .paymentAgreement button:hover {
-    background-color: #218838;
+    background-color: #555;
 }
 
 /* 반응형 디자인 */
 /* 반응형 디자인 */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .contentWrapper {
         flex-direction: column;
         gap: 20px;  /* 간격을 줄여서 화면에 맞게 배치 */
@@ -327,14 +327,19 @@ span {
         margin-bottom: 5px;
     }
 
-    .rewardCouponSection input,
+    .rewardCouponSection input {
+        width: 60%;
+        margin-left: 10px;
+    }
+
     .rewardCouponSection select {
-        width: 100%;
+        width: 62.3%;
+        margin-left: 10px;
     }
 
     .rewardCouponSection button {
         margin-top: 10px;
-        width: 100%;  /* 버튼을 100% 너비로 확장 */
+        width: 50%;  /* 버튼을 100% 너비로 확장 */
     }
 
     .addressInput {
@@ -360,10 +365,15 @@ span {
 
     /* editButton 반응형 */
     .editButton {
-        margin-left: 0;  /* 화면 크기가 줄어들 때 좌측 여백 없애기 */
-        margin-top: 10px;  /* 위쪽 간격 추가 */
-        width: 100%;  /* 버튼을 100% 너비로 확장 */
+        margin-left: 50%;  /* 화면 크기가 줄어들 때 좌측 여백 없애기 */
+        margin-top: 0px;  /* 위쪽 간격 추가 */
+        width: 30%;  /* 버튼을 100% 너비로 확장 */
         text-align: center;  /* 버튼 텍스트를 가운데로 정렬 */
+    }
+    
+    .addressListButton {
+        margin-left: -10%;
+
     }
 
     /* 기본 버튼 스타일 반응형 */
@@ -374,4 +384,173 @@ span {
         text-align: center;  /* 버튼 텍스트를 가운데로 정렬 */
     }
 }
+
+@media (max-width: 1366px) {
+    .contentWrapper {
+        flex-direction: column;
+        gap: 20px;  /* 간격을 줄여서 화면에 맞게 배치 */
+    }
+
+    .leftSection,
+    .rightSection {
+        width: 100%;
+        padding: 0;
+        border-left: none;
+    }
+
+    .rewardCouponSection div {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .rewardCouponSection label {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    .rewardCouponSection input {
+        width: 60%;
+        margin-left: 10px;
+    }
+
+    .rewardCouponSection select {
+        width: 62.3%;
+        margin-left: 10px;
+    }
+
+    .rewardCouponSection button {
+        margin-top: 10px;
+        width: 50%;  /* 버튼을 100% 너비로 확장 */
+    }
+
+    .addressInput {
+        flex-direction: column;
+        gap: 0;  /* 입력 필드 간격을 없애서 잘 정렬되게 */
+    }
+
+    .addressInput input {
+        width: 100%;
+    }
+
+    /* 결제 수단 디자인 */
+    .paymentOptions div {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;  /* 모바일에서 너비를 100%로 설정 */
+    }
+
+    /* 버튼 크기 조정 */
+    .paymentAgreement button {
+        width: 100%;  /* 버튼을 100% 너비로 확장 */
+    }
+
+    /* editButton 반응형 */
+    .editButton {
+        margin-left: 70%;  /* 화면 크기가 줄어들 때 좌측 여백 없애기 */
+        margin-top: 0px;  /* 위쪽 간격 추가 */
+        width: 30%;  /* 버튼을 100% 너비로 확장 */
+        text-align: center;  /* 버튼 텍스트를 가운데로 정렬 */
+    }
+    
+    .addressListButton {
+        margin-left: -10%;
+
+    }
+
+    /* 기본 버튼 스타일 반응형 */
+    .serachButton,
+    .saveButton {
+        width: 100%;  /* 버튼을 100% 너비로 확장 */
+        margin-top: 10px;  /* 버튼 간격 추가 */
+        text-align: center;  /* 버튼 텍스트를 가운데로 정렬 */
+    }
+}
+
+@media (max-width: 479px) {
+    .contentWrapper {
+        flex-direction: column;
+        gap: 20px;  /* 간격을 줄여서 화면에 맞게 배치 */
+    }
+
+    .leftSection,
+    .rightSection {
+        width: 100%;
+        padding: 0;
+        border-left: none;
+    }
+
+    .rewardCouponSection div {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .rewardCouponSection label {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    .rewardCouponSection input {
+        width: 80%;
+        margin-left: 2%;
+    }
+
+    .rewardCouponSection select {
+        width: 86%;
+        margin-left: 2%;
+    }
+
+    .rewardCouponSection button {
+        margin-top: 10px;
+        width: 80%;  /* 버튼을 100% 너비로 확장 */
+    }
+
+    .addressInput {
+        flex-direction: column;
+        gap: 0;  /* 입력 필드 간격을 없애서 잘 정렬되게 */
+    }
+
+    .addressInput input {
+        width: 100%;
+    }
+
+    /* 결제 수단 디자인 */
+    .paymentOptions div {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;  /* 모바일에서 너비를 100%로 설정 */
+    }
+
+    /* 버튼 크기 조정 */
+    .paymentAgreement button {
+        width: 100%;  /* 버튼을 100% 너비로 확장 */
+    }
+
+    /* editButton 반응형 */
+    .editButton {
+        margin-left: 35%;  /* 화면 크기가 줄어들 때 좌측 여백 없애기 */
+        margin-top: 0px;  /* 위쪽 간격 추가 */
+        width: 50%;  /* 버튼을 100% 너비로 확장 */
+        text-align: center;  /* 버튼 텍스트를 가운데로 정렬 */
+    }
+
+    .addressListButton {
+        margin-top: 0px;
+        margin-left: -15%;
+    }
+
+    /* 기본 버튼 스타일 반응형 */
+    .serachButton {
+        width: 10%;  /* 버튼을 100% 너비로 확장 */
+        margin-top: 10px;  /* 버튼 간격 추가 */
+        text-align: center;  /* 버튼 텍스트를 가운데로 정렬 */
+    }
+
+    .saveButton {
+        width: 30%;  /* 버튼을 100% 너비로 확장 */
+        margin-top: 10px;  /* 버튼 간격 추가 */
+        margin-left: -10px;
+        text-align: center;  /* 버튼 텍스트를 가운데로 정렬 */
+    }
+}
+
 

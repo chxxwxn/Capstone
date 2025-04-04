@@ -186,3 +186,31 @@
   margin-bottom: 200px;
   margin-top: 30px;
 }
+
+/* 모바일 세로 (해상도 ~ 479px) */
+@media all and (max-width: 479px) {
+  .fitMood {
+    align-items: center;
+    text-align: center;
+  }
+  .fitMood h1 {
+    font-size: 32px;
+  }
+  .detail {
+    font-size: 16px;
+    text-align: center;
+  }
+  .productsGrid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .productName {
+    font-size: 3vw;
+  }
+  .buyNow {
+    font-size: 3vw;
+  }
+
+  .ad {
+    height: 40vh;
+  }
+}

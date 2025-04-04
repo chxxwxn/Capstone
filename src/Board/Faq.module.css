@@ -180,3 +180,68 @@
     margin-right: 10px; /* 텍스트와 간격 */
 }
 
+@media (max-width: 479px) {
+    /* 전체 패딩 조정 */
+    .Faq {
+      padding: 50px 20px 0px 20px;
+    }
+  
+    /* FAQ 컨테이너 크기 조정 */
+    .faqContainer {
+      width: 90%;
+      padding: 20px;
+      margin-bottom: 100px;
+    }
+  
+    /* FAQ 검색 및 탭 컨테이너 */
+    .faqSearchAndTabs {
+      flex-direction: column; /* 세로 정렬 */
+      width: 100%;
+    }
+  
+    /* 검색 입력창 */
+    .searchInput {
+      width: 100%; /* 너비 조정 */
+      font-size: 14px;
+      margin-top: 0;
+    }
+  
+    /* 검색 버튼 */
+    .searchButton {
+      width: 18px;
+      margin-left: 5px;
+      margin-top: 0;
+    }
+  
+    /* 탭 버튼 스타일 */
+    .categoryTabs {
+      justify-content: center;
+      gap: 5px;
+      flex-wrap: nowrap;
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+  
+    .tab,
+    .activeTab {
+      font-size: 12.5px;
+      padding: 5px 8px;
+    }
+  
+    /* FAQ 카드 스타일 조정 */
+    .faqCard {
+      padding: 15px;
+      font-size: 14px;
+    }
+  
+    /* FAQ 제목 */
+    .faqCardTitle {
+      font-size: 14px;
+    }
+  
+    /* 답변 스타일 */
+    .faqCardAnswer {
+      font-size: 12px;
+    }
+  }
+  

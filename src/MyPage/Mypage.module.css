@@ -1,17 +1,17 @@
 * {
-    font-family: 'Pretendard', sans-serif;
-    cursor: pointer;
-    
-  }
-  body {
-    background-color: #ffffff;
-  }
-  
-.Mypage{
-  padding: 150px 400px 0px 400px;
+  font-family: 'Pretendard', sans-serif;
+  cursor: pointer;
 }
 
-.MypageTitle{
+body {
+  background-color: #ffffff;
+}
+
+.Mypage {
+  padding: 150px 400px 0px 400px; /* 기본 패딩 */
+}
+
+.MypageTitle {
   font-weight: 600;
   font-size: 22px;
   padding-bottom: 40px;
@@ -20,6 +20,8 @@
 
 .MypageBox {
   display: flex; /* 박스를 가로로 정렬 */
+  flex-wrap: wrap; /* 화면 크기에 따라 줄바꿈 */
+  gap: 20px; /* 박스 간격 추가 */
 }
 
 .Box1 {
@@ -31,7 +33,6 @@
   flex: 1; /* 나머지 박스들은 동일한 크기 */
   background-color: #fff; /* 임시 배경색 */
 }
-
 
 .Box1, .Box2, .Box3, .Box4, .Box5 {
   box-shadow: 0 0 0 1px #303030; /* 박스에 테두리 효과 추가 */
@@ -46,7 +47,6 @@
   justify-content: center;
   align-items: flex-start;
   margin-bottom: 10px; /* 아래 여백 */
-  margin-top: 10px;
 }
 
 .Profile {
@@ -54,7 +54,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-right: 10px;
 }
 
 .RateIcon {
@@ -65,18 +64,11 @@
   display: flex; /* flexbox 사용하여 텍스트 중앙 정렬 */
   justify-content: center; /* 수평 중앙 정렬 */
   align-items: center; /* 수직 중앙 정렬 */
-  font-size: 20px; /* 글자 크기 */
-  font-weight: 500;
-  color: #303030; /* 글자 색 */
-  margin-bottom: 5px;
-
 }
-
 
 .TextBox {
   display: flex;
   flex-direction: column; /* HelloBox와 RateBox 세로로 배치 */
-  align-items: flex-start; /* 왼쪽 정렬 */
 }
 
 .HelloBox {
@@ -276,9 +268,29 @@
   align-items: center;
 }
 
-<<<<<<< HEAD
-=======
 .BoardLink {
   text-decoration: none;
 }
->>>>>>> 93ee5000e0dd3893cf6009602f8f69f61f13bee5
+
+/* 작은 화면 (최대 너비가 768px일 때) */
+
+/* 중간 화면 (최대 너비가 1024px일 때) */
+@media (max-width: 1024px) {
+  .Mypage {
+    padding: 50px 20px; /* 화면 크기가 작아졌을 때 패딩 조정 */
+  }
+
+  .MypageBox {
+    flex-wrap: wrap; /* 박스들을 줄바꿈하여 배치 */
+    gap: 10px; /* 박스 간격 조정 */
+  }
+
+  .Box1, .Box2, .Box3, .Box4, .Box5 {
+    flex-basis: calc(100% - 30px); /* 박스 너비를 화면에 맞게 조정 */
+    flex-grow: unset; /* flex-grow 비율 제거 */
+    height: auto; /* 높이를 자동으로 설정 */
+    padding: 20px; /* 내부 여백 추가 */
+    box-sizing: border-box; /* 박스 모델 설정 */
+    text-align: center; /* 텍스트 중앙 정렬 */
+  }
+}

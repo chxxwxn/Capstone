@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styles from './Payment.module.css';
-import Header2 from '../Header/Header2';
 import AddressSearch from './AddressSearch'; // 카카오맵 주소 검색 컴포넌트 추가
 
 const Payment = () => {
@@ -66,8 +65,14 @@ const Payment = () => {
     };
 
     const handleRewardPointsChange = (e) => {
-        setRewardPoints(e.target.value);
+        let value = e.target.value;
+        if (value > 5000) {
+            value = 5000;
+            alert('최대 사용 가능한 적립금은 5,000원입니다.');
+        }
+        setRewardPoints(value);
     };
+    
 
     const handleApplyRewardPoints = () => {
         const parsedRewardPoints = parseInt(rewardPoints) || 0;
@@ -109,7 +114,6 @@ const Payment = () => {
 
     return (
         <div className={styles.paymentContainer}>
-            <Header2 />
             <h1>주문하기</h1>
             <div className={styles.contentWrapper}>
                 {/* 좌측 영역 */}
@@ -208,7 +212,7 @@ const Payment = () => {
                                 onChange={handleRewardPointsChange}
                                 onBlur={handleApplyRewardPoints}
                             />
-                            <span>원</span>
+                            <span></span>
                         </div>
                         <div>
                             <label>쿠폰</label>

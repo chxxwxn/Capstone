@@ -53,7 +53,7 @@ function FindPw2() {
   return (
     <div className={styles.container}>
       <main className={styles.main}>
-        <h1 className={styles.title}>비밀번호 찾기</h1>
+        <h1 className={styles.title}>NEW PASSWORD</h1>
         <p className={styles.description}>
           전화번호를 인증하고<br></br>새 비밀번호를 입력하세요.
         </p>

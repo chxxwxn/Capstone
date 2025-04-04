@@ -1,13 +1,8 @@
 import React, { useState } from 'react';
 import { Icon } from '@iconify/react';
 import styles from './Mypage.module.css';
-<<<<<<< HEAD
-import { Link } from 'react-router-dom'; // Link 컴포넌트를 가져옵니다.
-
-=======
 import Header2 from '../Header/Header2';
 import { Link } from 'react-router-dom'; // Link 컴포넌트 import
->>>>>>> 93ee5000e0dd3893cf6009602f8f69f61f13bee5
 
 const orders = [
   {
@@ -60,7 +55,6 @@ const Mypage = () => {
 
           <div className={styles.Box2}>
             <div className={styles.SavingBox}>
-<<<<<<< HEAD
             <div className={styles.SavingIcon}>
             <Link to="/mypage/Saving&Rate">
             <Icon
@@ -70,38 +64,20 @@ const Mypage = () => {
             </Link>
             </div>
                   <div className={styles.SavingPcs}>1,000원</div>
-=======
-              <div className={styles.SavingIcon}>
-                <Icon
-                  icon={'material-symbols-light:money-bag-rounded'}
-                  className={styles.SavingIconcss}
-                />
-              </div>
-              <div className={styles.SavingPcs}>1,000원</div>
->>>>>>> 93ee5000e0dd3893cf6009602f8f69f61f13bee5
               <div className={styles.SavingTotal}>총 적립금</div>
             </div>
           </div>
           <div className={styles.Box3}>
             <div className={styles.CouponBox}>
-<<<<<<< HEAD
             <div className={styles.CouponIcon}>
               <Link to="/mypage/coupon">
-=======
-              <div className={styles.CouponIcon}>
->>>>>>> 93ee5000e0dd3893cf6009602f8f69f61f13bee5
                 <Icon
                   icon={'mdi:coupon'}
                   className={styles.SavingIconcss}
                 />
-<<<<<<< HEAD
               </Link>
             </div>
                   <div className={styles.CouponPcs}>1개</div>
-=======
-              </div>
-              <div className={styles.CouponPcs}>1개</div>
->>>>>>> 93ee5000e0dd3893cf6009602f8f69f61f13bee5
               <div className={styles.CouponTotal}>총 쿠폰</div>
             </div>
           </div>
@@ -176,7 +152,7 @@ const Mypage = () => {
         <div className={styles.CurrentOrder}>
           <div className={styles.CurrentOrderHeader}>
             <div className={styles.CurrentOrderTitle}> 최근 주문 내역</div>
-            <div className={styles.CurrentOrderNext}> > </div>
+            <div className={styles.CurrentOrderNext}> &gt;</div>
           </div>
           <div className={styles.CurrentLine}></div>
           {orders.map((order) => (
