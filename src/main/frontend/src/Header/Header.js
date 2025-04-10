@@ -127,12 +127,12 @@ function Header() {
           </div>
           {member ? (
             <>
-              <Link to="/login">
+              <Link to="/mypage">
                 <button type="button" className={styles.iconButton} aria-label="로그인">
                   <img src="/icon/login2.png" alt="로그인" className={styles.icon} />
                 </button>
               </Link>
-              <Link to="/Board">
+              <Link to="/Payment">
                 <button type="button" className={styles.iconButton} aria-label="장바구니">
                   <img src="/icon/cart2.png" alt="장바구니" className={styles.icon} />
                 </button>

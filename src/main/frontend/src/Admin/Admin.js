@@ -17,14 +17,6 @@ const Admin = () => {
 
     
     return (
-<<<<<<< HEAD
-        <div>
-            <h1>관리자 페이지</h1>
-            <p>{message}</p> {/* 서버에서 받은 메시지 출력 */}
-        </div>
-    );
-};
-=======
         <div className={styles.wrapper}>
             <div className={styles.wrap}>
         
@@ -65,6 +57,5 @@ const Admin = () => {
             </div>
         );
     };
->>>>>>> 7ec7871cf58f712a55e87acc3da6d8fcd0e4bf9e
 
 export default Admin;
