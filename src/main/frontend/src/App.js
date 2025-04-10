@@ -61,6 +61,8 @@ import Bottom from './Product/Bottom/Bottom';
 /*Admin*/
 import AdminRoute from './Admin/AdminRoute';
 import Admin from './Admin/Admin';
+import ProductRegister from './Admin/ProductRegister'
+import ProductManage from './Admin/ProductManage'
 
 function App() {
   return (
@@ -128,6 +130,8 @@ function App() {
         {/*Admin*/}
         <Route element={<AdminRoute />}>
           <Route path="/Admin" element={<Admin />} />
+          <Route path="/Admin/ProductRegister" element={<ProductRegister />} />
+          <Route path="/Admin/ProductManage" element={<ProductManage />} />
         </Route>
       </Routes>
       <Footer />

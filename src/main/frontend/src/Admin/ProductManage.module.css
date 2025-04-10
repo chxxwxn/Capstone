@@ -100,3 +100,11 @@ ul {
   font-size: 50px;
   font-weight: bolder;
 }
+
+.admin_content_subject{            /* 관리자 컨텐츠 제목 영역 */
+    font-size: 40px;
+    font-weight: bolder;
+    padding-left: 15px;
+    background-color: #6AAFE6;
+    color: white;    
+}
