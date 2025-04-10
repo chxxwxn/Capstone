@@ -24,9 +24,6 @@ public class MemberMapperTests {
         member.setMemberLn("test");
         member.setMemberMail("test@test.com");
         member.setMemberPw("test");
-        member.setMemberNum1(1234);
-        member.setMemberNum2(5678);
-        member.setMemberNum3(9012);
 
         membermapper.memberJoin(member);
     }

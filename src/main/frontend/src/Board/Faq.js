@@ -83,9 +83,8 @@ const Faq = () => {
 
   return (
     <div className={styles['back-img1']}>
-      <Header />
       <div className={styles.faqContainer}>
-        <h2>FAQ</h2>
+        <div className={styles.title}><h2>FAQ</h2></div>
         <div className={styles.faqSearchAndTabs}>
           <div className={styles.categoryTabs}>
             {categories.map((cat) => (

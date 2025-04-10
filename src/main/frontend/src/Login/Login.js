@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Login.module.css';
 
+const KAKAO_JS_KEY = "116129a2f6241bd118d98c52c1758667"; 
+
 function Login() {
   const [email, setEmail] = useState('');
   const [error, setError] = useState(false);
@@ -24,18 +26,18 @@ function Login() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ memberMail: email } ), // 이메일을 JSON 형식으로 서버에 전송
+        body: JSON.stringify({ memberMail: email }),
       });
 
       if (!response.ok) {
         throw new Error('서버 응답 실패');
       }
 
-      const data = await response.json(); // JSON 응답 받기
+      const data = await response.json();
       if (data.exists) {
-        navigate('/Password', { state: { email } }); // 이메일이 있으면 비밀번호 입력 페이지로 이동
+        navigate('/Password', { state: { email } });
       } else {
-        navigate('/Join'); // 이메일이 없으면 회원가입 페이지로 이동
+        navigate('/Join');
       }
     } catch (error) {
       console.error('로그인 중 오류 발생:', error);
@@ -43,13 +45,13 @@ function Login() {
   };
 
   useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://developers.kakao.com/sdk/js/kakao.js';
+    const script = document.createElement("script");
+    script.src = "https://developers.kakao.com/sdk/js/kakao.js";
     script.async = true;
     script.onload = () => {
       if (window.Kakao) {
-        window.Kakao.init('648bc3a57b1fdfed62d7b08c8c6adf44');
-        console.log('Kakao SDK initialized:', window.Kakao.isInitialized());
+        window.Kakao.init(KAKAO_JS_KEY);
+        console.log("Kakao SDK initialized:", window.Kakao.isInitialized());
       }
     };
     document.body.appendChild(script);
@@ -61,26 +63,11 @@ function Login() {
 
   const handleKakaoLogin = () => {
     if (window.Kakao) {
-      window.Kakao.Auth.login({
-        success: function (authObj) {
-          console.log(authObj);
-          window.Kakao.API.request({
-            url: '/v2/user/me',
-            success: function (res) {
-              console.log(res);
-              navigate('/', { state: { kakaoUserInfo: res } });
-            },
-            fail: function (error) {
-              console.log(error);
-            },
-          });
-        },
-        fail: function (err) {
-          console.error(err);
-        },
+      window.Kakao.Auth.authorize({
+        redirectUri: "http://localhost:8090/member/kakao/callback" // ✅ 백엔드와 맞춤
       });
     } else {
-      console.error('Kakao SDK not initialized');
+      console.error("Kakao SDK not initialized");
     }
   };
 
@@ -96,7 +83,7 @@ function Login() {
           placeholder="이메일"
           className={styles.emailInput}
           value={email}
-          name='memberMail'
+          name="memberMail"
           onChange={(e) => {
             setEmail(e.target.value);
             setError(false);

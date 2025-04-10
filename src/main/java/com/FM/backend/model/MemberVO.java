@@ -1,5 +1,7 @@
 package com.FM.backend.model;
 
+import java.util.Date;
+
 public class MemberVO {
     
   //회원 이메일
@@ -15,19 +17,19 @@ public class MemberVO {
   private String memberLn;
   
   //회원 전화번호1
-  private int memberNum1;
+  private String memberNum1;
 
   //회원 전화번호2
-  private int memberNum2;
+  private String memberNum2;
 
   //회원 전화번호3
-  private int memberNum3;
+  private String memberNum3;
 
   //관리자 구분(0:일반사용자, 1:관리자)
   private int adminCk;
     
   //등록일자
-  private int regDate;
+  private Date regDate;
     
   //회원 등급
   private String memberRating;
@@ -35,7 +37,7 @@ public class MemberVO {
   //회원 포인트
   private int point;
 
-    public String getMemberMail() {
+  public String getMemberMail() {
     return memberMail;
   }
   
@@ -67,27 +69,27 @@ public class MemberVO {
     this.memberLn = memberLn;
   }
 
-  public int getMemberNum1() {
+  public String getMemberNum1() {
     return memberNum1;
   }
 
-  public void setMemberNum1(int memberNum1) {
+  public void setMemberNum1(String memberNum1) {
     this.memberNum1 = memberNum1;
   }
   
-  public int getMemberNum2() {
+  public String getMemberNum2() {
     return memberNum2;
   }
   
-  public void setMemberNum2(int memberNum2) {
+  public void setMemberNum2(String memberNum2) {
     this.memberNum2 = memberNum2;
   }
   
-  public int getMemberNum3() {
+  public String getMemberNum3() {
     return memberNum3;
   }
   
-  public void setMemberNum3(int memberNum3) {
+  public void setMemberNum3(String memberNum3) {
     this.memberNum3 = memberNum3;
   }
 
@@ -99,11 +101,11 @@ public class MemberVO {
     this.adminCk = adminCk;
   }
   
-  public int getRegDate() {
+  public Date getRegDate() {
     return regDate;
   }
   
-  public void setRegDate(int regDate) {
+  public void setRegDate(Date regDate) {
     this.regDate = regDate;
   }
 

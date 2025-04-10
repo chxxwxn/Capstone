@@ -15,7 +15,6 @@ function Header() {
   const [searchVisible, setSearchVisible] = useState(false);
   const searchInputRef = useRef(null);
   const [isFixed, setIsFixed] = useState(false);
-  const [member, setMember] = useState(null);
 
   const toggleSearch = () => {
     setSearchVisible(!searchVisible);
@@ -39,35 +38,6 @@ function Header() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  // 로그인 상태 확인 (sessionStorage에서 member 정보 가져오기)
-  useEffect(() => {
-    // 1️⃣ 기존 `sessionStorage`에서 member 정보 가져오기
-    const storedMember = sessionStorage.getItem('member');
-
-    if (storedMember) {
-        try {
-            setMember(JSON.parse(storedMember)); // JSON 변환
-        } catch (error) {
-            console.error('JSON parsing error:', error);
-            sessionStorage.removeItem('member'); // 오류 발생 시 데이터 삭제
-        }
-    } else {
-        // 2️⃣ URL에 `member` 정보가 있는지 확인 (카카오 로그인 후 리다이렉트 시)
-        const params = new URLSearchParams(window.location.search);
-        const memberParam = params.get('member');
-
-        if (memberParam) {
-            try {
-                const memberData = JSON.parse(decodeURIComponent(memberParam));
-                sessionStorage.setItem('member', JSON.stringify(memberData)); // 세션에 저장
-                setMember(memberData); // 상태 업데이트
-            } catch (error) {
-                console.error('Failed to parse member data:', error);
-            }
-        }
-    }
-}, []);
 
   return (
     <header className={`${styles.header} ${isFixed ? styles.fixed : ''}`}>
@@ -125,43 +95,21 @@ function Header() {
               ref={searchInputRef}
             />
           </div>
-          {member ? (
-            <>
-              <Link to="/login">
-                <button type="button" className={styles.iconButton} aria-label="로그인">
-                  <img src="/icon/login2.png" alt="로그인" className={styles.icon} />
-                </button>
-              </Link>
-              <Link to="/Board">
-                <button type="button" className={styles.iconButton} aria-label="장바구니">
-                  <img src="/icon/cart2.png" alt="장바구니" className={styles.icon} />
-                </button>
-              </Link>
-              <Link to="">
-                <button type="button" className={styles.iconButton} aria-label="채팅">
-                  <img src="/icon/chat2.png" alt="채팅" className={styles.icon} />
-                </button>
-              </Link>
-            </>
-          ) : (
-            <>
-              <Link to="/login">
-                <button type="button" className={styles.iconButton} aria-label="로그인">
-                  <img src="/icon/login1.png" alt="로그인" className={styles.icon} />
-                </button>
-              </Link>
-              <Link to="/cart">
-                <button type="button" className={styles.iconButton} aria-label="장바구니">
-                  <img src="/icon/cart1.png" alt="장바구니" className={styles.icon} />
-                </button>
-              </Link>
-              <Link to="">
-                <button type="button" className={styles.iconButton} aria-label="채팅">
-                  <img src="/icon/chat1.png" alt="채팅" className={styles.icon} />
-                </button>
-              </Link>
-            </>
-          )}
+          <Link to="/login">
+            <button type="button" className={styles.iconButton} aria-label="로그인">
+              <img src="/icon/login2.png" alt="로그인" className={styles.icon} />
+            </button>
+          </Link>
+          <Link to="/Board">
+            <button type="button" className={styles.iconButton} aria-label="장바구니">
+              <img src="/icon/cart2.png" alt="장바구니" className={styles.icon} />
+            </button>
+          </Link>
+          <Link to="">
+            <button type="button" className={styles.iconButton} aria-label="채팅">
+              <img src="/icon/chat2.png" alt="채팅" className={styles.icon} />
+            </button>
+          </Link>
         </nav>
       </div>
     </header>

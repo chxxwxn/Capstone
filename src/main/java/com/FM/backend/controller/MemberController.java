@@ -4,11 +4,14 @@ package com.FM.backend.controller;
 
 //import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.net.URLEncoder;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,12 +25,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.FM.backend.model.MemberVO;
 import com.FM.backend.service.MemberService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @CrossOrigin(origins = "http://localhost:3000") 
 @Controller
@@ -98,26 +104,6 @@ public class MemberController {
     logger.info("로그인 페이지 진입");
       
   }
-    
-  
-  //아이디 중복 검사
-  @RequestMapping(value = "/memberIdChk", method = RequestMethod.POST)
-  @ResponseBody
-  public String memberIdChkPOST(String memberId) throws Exception{
-     
-    logger.info("memberIdChk() 진입");
-     
-    int result = memberservice.idCheck(memberId);
-     
-    logger.info("결과값 = " + result);
-     
-    if(result != 0) {     
-      return "fail";  // 중복 아이디가 존재     
-    } else {     
-      return "success"; // 중복 아이디 x
-    }
-     
-  } // memberIdChkPOST() 종료
    
   /* 
   @RequestMapping(value="/mailCheck", method=RequestMethod.GET)
@@ -189,4 +175,33 @@ public class MemberController {
                            .body(Collections.singletonMap("message", "서버 오류가 발생했습니다."));
     }
   }
+
+  @GetMapping("/kakao/callback") 
+public ResponseEntity<Void> kakaoCallback(
+    @RequestParam("code") String code, 
+    HttpServletRequest request,  // HttpServletRequest 추가
+    HttpServletResponse response
+) {
+    try {
+        // 1️⃣ 카카오 서버에서 accessToken 요청
+        String accessToken = memberservice.getKakaoAccessToken(code);
+
+        // 2️⃣ 사용자 정보 가져오기
+        MemberVO member = memberservice.KakaoMember(accessToken);
+
+        // 3️⃣ 세션에 저장
+        HttpSession session = request.getSession(); // request 사용 가능
+        session.setAttribute("member", member);
+
+        // 4️⃣ 프론트엔드로 `member` 정보도 함께 리다이렉트
+        String redirectUrl = "http://localhost:3000/?token=" + accessToken + 
+                             "&member=" + URLEncoder.encode(new ObjectMapper().writeValueAsString(member), "UTF-8");
+                             
+        response.sendRedirect(redirectUrl);
+        return ResponseEntity.ok().build();
+    } catch (Exception e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
+}
+
 }

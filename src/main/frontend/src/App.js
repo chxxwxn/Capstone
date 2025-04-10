@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Main from './Main/Main';
+import Main2 from './Main/Main2';
 import Login from './Login/Login';
 import Header from './Header/Header';
 import Banner from './Banner/Banner';
@@ -12,7 +13,8 @@ import Join from './Login/Join';
 import Join2 from './Login/Join2';
 import MyPage from './MyPage/Mypage';
 import Board from './Board/Board'; 
-import Faq from './Board/Faq';  
+import Faq from './Board/Faq'
+import KakaoCallback from './Login/KakaoCallback';
 
 /*outer*/
 import PaddingPre from './ProductPre/OuterPre/PaddingPre';
@@ -66,6 +68,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<><Banner /><Main /></>} />
+        <Route path="/Main2" element={<><Banner /><Main2 /></>} />
         <Route path="/login" element={<Login />} />
         <Route path="/Password" element={<Password />} />
         <Route path="/Join" element={<Join />} />
@@ -75,6 +78,7 @@ function App() {
         <Route path="/Mypage" element={<MyPage />} />
         <Route path="/Board" element={<Board />} />
         <Route path="/Faq" element={<Faq />} />
+        <Route path="/kakao/callback" element={<KakaoCallback />} />
         {/* All */}
         <Route path="/all" element={<AllPre />} />
         <Route path="/all/:id" element={<All />} />     

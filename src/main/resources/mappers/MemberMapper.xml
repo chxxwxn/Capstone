@@ -19,5 +19,14 @@
   		select memberMail, memberPw, memberFn, memberLn, adminck, memberRating, point from fm_member where memberMail = #{memberMail}
   		<!-- select memberMail, memberName, adminck, memberRating, point from fm_member where memberMail = #{memberMail} and memberPw = #{memberPw} -->
   	</select>
-  	
+
+	<insert id="KakaoMember" parameterType="com.FM.backend.model.MemberVO">
+		INSERT INTO cloth.fm_member
+		(memberMail, memberPw, memberFn, memberLn, memberNum1, memberNum2, memberNum3, adminCk, regDate, memberRating, Point )
+		VALUES (#{memberMail}, #{memberPw}, #{memberFn}, #{memberLn}, #{memberNum1}, #{memberNum2}, #{memberNum3}, 0, NOW(), 'Enjoy', 5000);
+	</insert>
+
+	<select id="findByEmail" parameterType="string" resultType="com.FM.backend.model.MemberVO">
+		select * from fm_member where memberMail= #{email}
+	</select>
   </mapper>

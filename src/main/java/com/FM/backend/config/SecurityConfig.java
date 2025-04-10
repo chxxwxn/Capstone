@@ -43,7 +43,7 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())  // CSRF 비활성화
             .cors(withDefaults())  // CORS 활성화
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/member/mailChk", "/member/Join2", "/member/login.do").permitAll()  // 인증 없이 허용
+                .requestMatchers("/member/mailChk", "/member/Join2", "/member/login.do" , "/member/kakao/callback").permitAll()  // 인증 없이 허용
                 .anyRequest().authenticated()  // 나머지는 인증 필요
             )
             .formLogin(withDefaults())  // 기본 로그인 폼 (프론트에서 로그인 페이지가 없다면 제거)

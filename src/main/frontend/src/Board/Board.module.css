@@ -2,243 +2,619 @@
 
 /* FAQ 버튼 스타일 */
 .faqButton {
-    padding: 10px 20px; /* 탭 버튼과 동일한 패딩 */
-    border: none; /* 테두리 제거 */
-    background-color: transparent; /* 배경 투명 설정 */
-    cursor: pointer; /* 클릭 가능한 요소로 변경 */
-    color: #333; /* 파란색 계열 색상 */
-    text-decoration: none; /* 밑줄 제거 */
-    font-size: 13px; /* 적절한 글자 크기 */
-    font-weight: bold;
-    position: absolute; /* 위치 조정 */
-    right: 0; /* 오른쪽 정렬 */
-    bottom: -8px;
+  padding: 10px 20px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  color: #333;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: bold;
+  position: absolute;
+  right: 0;
+  bottom: -8px;
+}
+
+/* FAQ 버튼 호버 시 스타일 */
+.faqButton:hover {
+  text-decoration: underline;
+}
+
+/* 공통 스타일 */
+
+/* 게시판 전체 스타일 */
+.Board{
+  padding: 150px 400px 100px 400px;
+}
+
+.BoardTitle{
+  font-weight: 600;
+  font-size: 22px;
+  padding-bottom: 40px;
+  color: #303030;
+}
+
+/* 제목 스타일 */
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* 탭 스타일 */
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-top: 30px;
+  margin-bottom: 70px;
+  position: relative;
+}
+
+/* 탭 아래 가상 라인 스타일 */
+.tabs::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #ccc;
+}
+
+/* 탭 버튼 기본 스타일 */
+.tabs button {
+  padding: 10px 20px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+/* 활성화된 탭 스타일 */
+.activeTab {
+  font-weight: bold;
+}
+
+/* 후기 탭 스타일 */
+
+/* 후기 그리드 컨테이너 스타일 */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+/* 후기 카드 스타일 */
+.card {
+  position: relative;
+}
+
+/* 후기 날짜 스타일 */
+.date {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  font-size: 14px;
+}
+
+/* 이미지 래퍼 스타일 */
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  padding-bottom: 100%;
+  overflow: hidden;
+}
+
+/* 이미지 스타일 */
+.image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 이미지 오버레이 스타일 */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+}
+
+/* 호버 시 표시될 제목 스타일 */
+.hoverTitle {
+  color: white;
+  font-size: 16px;
+  text-align: center;
+  padding: 10px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* 이미지 래퍼 호버 시 오버레이 배경 변경 */
+.imageWrapper:hover .overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* 이미지 래퍼 호버 시 제목 표시 */
+.imageWrapper:hover .hoverTitle {
+  opacity: 1;
+}
+
+/* 문의 내역 테이블 스타일 */
+
+/* 문의 내역 테이블 컨테이너 스타일 */
+.inquiryContent .inquiryTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 5px;
+  font-family: sans-serif;
+}
+
+/* 테이블 헤더 및 셀 스타일 */
+.inquiryContent .inquiryTable th,
+.inquiryContent .inquiryTable td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  font-family: sans-serif;
+}
+
+/* 테이블 헤더 스타일 */
+.inquiryContent .inquiryTable th {
+  background-color: #f5f5f5;
+  font-weight: bold;
+  font-family: sans-serif;
+}
+
+/* 테이블 행 호버 시 스타일 */
+.inquiryContent .inquiryTable tbody tr:hover {
+  background-color: #f0f0f0;
+}
+
+/* 답변 완료 상태 스타일 */
+.inquiryContent .status {
+  display: inline-block;
+  padding: 2px 5px;
+  background-color: #ccc;
+  color: white;
+  font-size: 0.8em;
+  margin-left: 5px;
+  font-family: sans-serif;
+}
+
+/* 필터링 및 검색 스타일 */
+
+/* 필터 컨테이너 스타일 */
+.inquiryContent .filterContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: -20px;
+  margin-bottom: 10px;
+  font-family: sans-serif;
+}
+
+/* 문의 유형 필터 스타일 */
+.inquiryContent .filterType select {
+  padding: 5px;
+  border: 1px solid #ddd;
+  margin-top: 5px;
+  font-family: sans-serif;
+}
+
+/* 날짜 필터 스타일 */
+.inquiryContent .dateFilter {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 5px;
+  margin-left: auto;
+  margin-right: 10px;
+  font-family: sans-serif;
+}
+
+/* 날짜 필터 버튼 스타일 */
+.inquiryContent .dateFilter button {
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  background-color: white;
+  cursor: pointer;
+  align-items: center;
+  font-family: sans-serif;
+}
+
+/* 검색 바 스타일 */
+.inquiryContent .searchBar {
+  display: flex;
+  margin-top: 5px;
+  font-family: sans-serif;
+}
+
+/* 검색 입력창 스타일 */
+.inquiryContent .searchBar input {
+  padding: 5px;
+  border: 1px solid #ddd;
+  font-family: sans-serif;
+}
+
+/* 검색 버튼 스타일 */
+.inquiryContent .searchBar button {
+  padding: 5px 10px;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  font-family: sans-serif;
+}
+
+/* 탭 패널과 필터 컨테이너 사이 간격 조정 */
+.inquiryContent {
+  margin-top: -10px;
+  font-family: sans-serif;
+}
+
+/* 팝업 스타일 */
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  font-family: sans-serif;
+}
+
+/* 팝업 내용 스타일 */
+.popupContent {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  width: 600px;
+  position: relative;
+  font-family: sans-serif;
+}
+
+/* 닫기 버튼 스타일 */
+.closeButton {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: #888;
+  font-family: sans-serif;
+}
+
+/* 닫기 버튼 호버 시 스타일 */
+.closeButton:hover {
+  color: black;
+}
+
+/* 상품 후기 작성 텍스트 스타일 */
+.popupContent .popupTitle {
+  font-size: 18px;
+  margin-bottom: 5px;
+  text-align: left;
+  font-weight: bold;
+  font-family: sans-serif;
+}
+
+/* 별점 스타일 */
+.starRating {
+  color: #ff9800;
+  font-size: 20px;
+  margin-bottom: 5px;
+  text-align: left;
+  font-family: sans-serif;
+}
+
+/* 상품 정보 스타일 */
+.productInfo {
+  text-align: left;
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-family: sans-serif;
+}
+
+/* 상품명 스타일 */
+.productName {
+  font-size: 14px;
+  font-weight: bold;
+  font-family: sans-serif;
+}
+
+/* 상품 상세정보 스타일 */
+.productDetails {
+  font-size: 12px;
+  color: #555;
+  font-family: sans-serif;
+}
+
+/* 이미지 컨테이너 스타일 */
+.imageContainer {
+  display: flex;
+  justify-content: flex-start;
+  gap: 5px;
+  margin-bottom: 10px;
+  font-family: sans-serif;
+}
+
+/* 이미지 스타일 */
+.imageContainer img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border: 1px solid #ddd;
+  font-family: sans-serif;
+}
+
+/* 후기 텍스트 스타일 */
+.reviewText {
+  font-size: 12px;
+  color: #333;
+  text-align: left;
+  margin-bottom: 15px;
+  line-height: 1.4;
+  font-family: sans-serif;
+}
+
+/* 날짜 및 사용자 스타일 */
+.dateAndUser {
+  font-size: 11px;
+  color: #777;
+  text-align: right;
+  font-family: sans-serif;
+}
+
+/* 수정 버튼 스타일 */
+.editButton {
+  position: absolute;
+  top: 12px;
+  right: 28px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: sans-serif;
+  opacity: 0.6;
+}
+
+.editButton:hover {
+  opacity: 1;
+}
+
+/* Edit Icon */
+.editIcon {
+  width: 13px;
+  height: 13px;
+  margin-top: 6px;
+  margin-right: 8px;
+}
+
+/* 텍스트 영역 스타일 */
+.reviewTextarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+  font-family: sans-serif;
+  font-size: 12px;
+  resize: vertical;
+}
+
+/* 저장 버튼 스타일 */
+.saveButton {
+  position: absolute;
+  top: 10px;
+  right: 30px;
+  background: none;
+  border: transparent;
+  padding: 5px 10px;
+  cursor: pointer;
+  color: #888;
+  font-family: sans-serif;
+}
+
+/* 저장 버튼 호버 시 스타일 */
+.saveButton:hover {
+  color: black;
+  border-color: black;
+}
+
+/* 푸터 스타일 */
+.footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f0f0f0;
+  padding: 10px;
+  text-align: center;
+  font-family: sans-serif;
+}
+
+/* 텍스트 영역 스타일 */
+.reviewTextarea {
+  width: 100%; /* 가로 폭 100% */
+  padding: 8px; /* 내부 여백 설정 */
+  margin-bottom: 10px; /* 하단 마진 설정 */
+  border: 1px solid #ddd; /* 테두리 설정 */
+  box-sizing: border-box; /* padding, border가 width에 포함되도록 설정 */
+  font-family: sans-serif; /* 기본 폰트 적용 */
+  font-size: 12px; /* 글자 크기 설정 */
+  resize: vertical; /* 세로 방향으로 크기 조절 가능 */
+}
+
+/* 글자 수 표시 스타일 */
+.charCount {
+  text-align: right; /* 오른쪽 정렬 */
+  font-size: 12px; /* 글자 크기 설정 */
+  color: #888; /* 글자 색상 설정 */
+  margin-top: 5px; /* 상단 마진 설정 */
+}
+
+@media screen and (max-width: 479px) {
+  .Board {
+    padding: 70px 15px 20px 15px;
+    min-height: 67vh;
   }
-  
-  /* FAQ 버튼 호버 스타일 */
-  .faqButton:hover {
-    text-decoration: underline; /* 호버 시 밑줄 표시 */
+
+  .BoardTitle {
+    font-size: 16px;
+    padding-bottom: 30px;
   }
-  
-  /* 공통 스타일 */
-  
-  /* 게시판 전체 스타일 */
-  .board {
-    margin-top: 100px; /* 상단 여백 설정 */
-    padding: 20px; /* 내부 여백 설정 */
-  }
-  
-  /* 제목 스타일 */
-  .title {
-    font-size: 24px; /* 글자 크기 설정 */
-    font-weight: bold; /* 굵은 글씨 적용 */
-    margin-bottom: 10px; /* 제목 아래 여백 설정 */
-  }
-  
-  /* 탭 스타일 */
+
   .tabs {
-    display: flex; /* 가로 정렬 */
-    gap: 10px; /* 탭 버튼 간격 설정 */
-    margin-top: 30px; /* 위쪽 여백 설정 */
-    margin-bottom: 70px; /* 아래쪽 여백 설정 */
-    position: relative; /* 하단 라인을 위한 상대적 위치 설정 */
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-bottom: 50px;
   }
-  
-  /* 탭 아래 라인 */
-  .tabs::after {
-    content: ""; /* 가상 요소 사용 */
-    position: absolute; /* 절대 위치 설정 */
-    bottom: -10px; /* 탭 아래 10px 떨어진 위치에 배치 */
-    left: 0; /* 왼쪽 정렬 */
-    width: 100%; /* 가로 전체 길이 적용 */
-    height: 1px; /* 선의 두께 설정 */
-    background-color: #ccc; /* 연한 회색 배경색 적용 */
-  }
-  
-  /* 탭 버튼 기본 스타일 */
+
   .tabs button {
-    padding: 10px 20px; /* 내부 여백 설정 */
-    border: none; /* 테두리 제거 */
-    background-color: transparent; /* 배경 투명 설정 */
-    cursor: pointer; /* 클릭 가능한 요소로 변경 */
+    padding: 6px 12px;
+    font-size: 12px;
   }
-  
-  /* 활성화된 탭 스타일 */
-  .activeTab {
-    font-weight: bold; /* 굵은 글씨 적용 */
-  }
-  
-  /* 후기 탭 스타일 */
-  
-  /* 후기 그리드 레이아웃 */
+
+  /* 후기 목록을 2열로 정렬 */
   .grid {
-    display: grid; /* 그리드 레이아웃 적용 */
-    grid-template-columns: repeat(3, 1fr); /* 3열 레이아웃 */
-    gap: 30px; /* 카드 간격 설정 */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    width: 100%;
   }
-  
-  /* 후기 카드 스타일 */
+
+  /* 카드 스타일 수정 */
   .card {
-    position: relative; /* 날짜 표시를 위한 상대적 위치 설정 */
+    width: 100%;
+    position: relative;
+    margin-top: 10px;
   }
-  
-  /* 후기 날짜 스타일 */
-  .date {
-    position: absolute; /* 절대 위치 설정 */
-    top: -40px; /* 카드 상단에서 40px 위로 배치 */
-    left: 0; /* 왼쪽 정렬 */
-    font-size: 14px; /* 글자 크기 설정 */
-  }
-  
-  /* 이미지 컨테이너 스타일 */
+
+  /* 이미지 컨테이너를 화면 가득 차게 */
   .imageWrapper {
-    position: relative; /* 내부 요소 정렬을 위한 상대적 위치 설정 */
-    width: 100%; /* 부모 요소 기준으로 가득 채움 */
+    width: 100%;
     padding-bottom: 100%; /* 정사각형 비율 유지 */
-    overflow: hidden; /* 넘치는 이미지 숨김 */
+    position: relative;
+    overflow: hidden;
   }
-  
-  /* 이미지 스타일 */
+
+  /* 이미지 크기 조정 */
   .image {
-    position: absolute; /* 절대 위치 설정 */
+    position: absolute;
     top: 0;
     left: 0;
-    width: 100%; /* 부모 요소 가득 채우기 */
+    width: 100%;
     height: 100%;
-    object-fit: cover; /* 이미지 비율 유지하며 채우기 */
+    object-fit: cover; /* 비율 유지하면서 꽉 차게 */
   }
-  
-  /* 이미지 호버 효과 오버레이 */
-  .overlay {
-    position: absolute; /* 절대 위치 설정 */
-    top: 0;
-    left: 0;
-    width: 100%; /* 부모 요소 크기와 동일하게 설정 */
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0); /* 기본적으로 투명 */
-    display: flex; /* 내용 정렬을 위한 flex 사용 */
-    align-items: center; /* 수직 중앙 정렬 */
-    justify-content: center; /* 수평 중앙 정렬 */
-    transition: background-color 0.3s ease; /* 색상 변경 부드럽게 적용 */
+
+  /* footer 위치 조정 */
+  .footer {
+    position: relative;
+    bottom: unset;
+    left: unset;
+    padding: 20px;
+    text-align: center;
+    background-color: #f0f0f0;
+    width: 100%;
   }
+
+    /* 필터 컨테이너: 세로 정렬 */
+    .inquiryContent .filterContainer {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 10px;
+    }
+
+    .inquiryContent .filterContainer select {
+      order: -1; /* 가장 앞으로 배치 */
+      flex-direction: column;
+      align-items: stretch;
+      margin-left: 10px;
+      margin-top: -10px;
+    }
   
-  /* 호버 시 표시되는 제목 */
-  .hoverTitle {
-    color: white; /* 글자색 흰색 */
-    font-size: 16px; /* 글자 크기 설정 */
-    text-align: center; /* 중앙 정렬 */
-    padding: 10px; /* 내부 여백 설정 */
-    opacity: 0; /* 기본적으로 숨김 */
-    transition: opacity 0.3s ease; /* 투명도 변화 부드럽게 적용 */
-  }
+    /* 버튼 그룹: flex-wrap 적용 */
+    .inquiryContent .dateFilter {
+      display: flex;
+      gap: 5px;
+      justify-content: space-between; /* 간격 조정 */
+      margin-left: 10px;
+      margin-right: 10px;
+    }
   
-  /* 이미지 호버 시 오버레이 배경 변경 */
-  .imageWrapper:hover .overlay {
-    background-color: rgba(0, 0, 0, 0.5); /* 반투명 검정 배경 적용 */
-  }
+    /* 날짜 필터 버튼 */
+    .inquiryContent .dateFilter button {
+      flex: 1; /* 버튼 크기를 자동으로 조정 */
+      min-width: 60px; /* 최소 크기 지정 */
+      padding: 8px;
+      font-size: 12px;
+    }
   
-  /* 이미지 호버 시 제목 표시 */
-  .imageWrapper:hover .hoverTitle {
-    opacity: 1; /* 투명도 제거하여 표시 */
-  }
+    /* 검색 바 정렬 */
+    .inquiryContent .searchBar {
+      display: flex;
+      width: 100%;
+      gap: 5px;
+    }
   
-  /* 문의 내역 테이블 스타일 */
+    .inquiryContent .searchBar input {
+      flex-grow: 1; /* 입력창이 남은 공간 차지 */
+      min-width: 120px;
+    }
   
-  /* 문의 테이블 기본 스타일 */
-  .inquiryContent .inquiryTable {
-    width: 100%; /* 테이블 전체 너비 사용 */
-    border-collapse: collapse; /* 테두리 겹침 제거 */
-    margin-top: 5px; /* 위쪽 여백 설정 */
-  }
+    .inquiryContent .searchBar button {
+      padding: 8px 12px;
+    }
   
-  /* 테이블 헤더 및 셀 스타일 */
-  .inquiryContent .inquiryTable th,
-  .inquiryContent .inquiryTable td {
-    padding: 8px; /* 내부 여백 설정 */
-    text-align: left; /* 텍스트 왼쪽 정렬 */
-    border-bottom: 1px solid #ddd; /* 행 구분선 추가 */
-  }
+    /* 테이블 스타일 조정 */
+    .inquiryContent .inquiryTable {
+      width: 100%;
+      table-layout: fixed; /* 균등한 너비 조정 */
+      word-break: break-word; /* 텍스트 자동 줄바꿈 */
+    }
   
-  /* 테이블 헤더 스타일 */
-  .inquiryContent .inquiryTable th {
-    background-color: #f5f5f5; /* 연한 회색 배경 적용 */
-    font-weight: bold; /* 굵은 글씨 */
-  }
-  
-  /* 행 호버 효과 */
-  .inquiryContent .inquiryTable tbody tr:hover {
-    background-color: #f0f0f0; /* 마우스 오버 시 배경색 변경 */
-  }
-  
-  /* 답변 완료 상태 스타일 */
+    .inquiryContent .inquiryTable th,
+    .inquiryContent .inquiryTable td {
+      font-size: 12px;
+      padding: 6px;
+    } 
+
+      /* "답변 완료" 배지 위치 조정 */
   .inquiryContent .status {
-    display: inline-block; /* 인라인 블록으로 설정 */
-    padding: 2px 5px; /* 내부 여백 설정 */
-    background-color: #ccc; /* 배경색 회색 */
-    color: white; /* 글자색 흰색 */
-    font-size: 0.8em; /* 글자 크기 조정 */
-    margin-left: 5px; /* 왼쪽 여백 설정 */
+    justify-content: center;
+    margin-left: -115px;
   }
-  
-  /* 필터링 및 검색 스타일 */
-  
-  /* 필터 컨테이너 스타일 */
-  .inquiryContent .filterContainer {
-    display: flex; /* 요소 가로 정렬 */
-    justify-content: space-between; /* 양쪽 정렬 */
-    align-items: center; /* 세로 중앙 정렬 */
-    margin-top: -20px; /* 위치 조정 */
-    margin-bottom: 10px; /* 아래쪽 여백 설정 */
+
+  .inquiryContent .status {
+    background-color: #ddd;
+    padding: 3px 6px;
+    font-size: 10px;
+    font-weight: bold;
   }
-  
-  /* 문의 유형 필터 스타일 */
-  .inquiryContent .filterType select {
-    padding: 5px; /* 내부 여백 설정 */
-    border: 1px solid #ddd; /* 테두리 설정 */
-    margin-top: 5px; /* 위쪽 여백 설정 */
+
+  /* FAQ 버튼 위치 조정 */
+  .faqButton {
+    position: relative;
+    width: 100%; /* 가로 길이 조정 */
+    text-align: center; /* 가운데 정렬 */
+    font-size: 11px; /* 글자 크기 줄이기 */
+    margin-left: 233px;
+    margin-top: -40px;
+    margin-bottom: -10px;
   }
-  
-  /* 날짜 필터 스타일 */
-  .inquiryContent .dateFilter {
-    display: flex; /* 가로 정렬 */
-    justify-content: flex-start; /* 왼쪽 정렬 */
-    align-items: center; /* 세로 중앙 정렬 */
-    margin-top: 5px; /* 위쪽 여백 설정 */
-    margin-left: auto; /* 오른쪽으로 정렬 */
-    margin-right: 10px; /* 오른쪽 여백 설정 */
   }
-  
-  /* 날짜 필터 버튼 스타일 */
-  .inquiryContent .dateFilter button {
-    padding: 5px 10px; /* 내부 여백 설정 */
-    border: 1px solid #ddd; /* 테두리 설정 */
-    background-color: white; /* 배경색 흰색 */
-    cursor: pointer; /* 마우스 포인터 변경 */
-    align-items: center; /* 세로 중앙 정렬 */
-  }
-  
-  /* 검색 바 스타일 */
-  .inquiryContent .searchBar {
-    display: flex; /* 가로 정렬 */
-    margin-top: 5px; /* 위쪽 여백 설정 */
-  }
-  
-  /* 검색 입력창 스타일 */
-  .inquiryContent .searchBar input {
-    padding: 5px; /* 내부 여백 설정 */
-    border: 1px solid #ddd; /* 테두리 설정 */
-  }
-  
-  /* 검색 버튼 스타일 */
-  .inquiryContent .searchBar button {
-    padding: 5px 10px; /* 내부 여백 설정 */
-    background-color: #f0f0f0; /* 배경색 연한 회색 */
-    border: 1px solid #ddd; /* 테두리 설정 */
-    cursor: pointer; /* 마우스 포인터 변경 */
-  }
-  
-  /* 탭 패널과 필터 컨테이너 사이 간격 조정 */
-  .inquiryContent {
-    margin-top: -10px; /* 간격 좁힘 */
-  }
-  

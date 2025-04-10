@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import styles from './Main.module.css';
-import Header from '../Header/Header';   // 로그인 안 했을 때
+import styles from './Main2.module.css';
+import Header2 from '../Header/Header2';
 import Footer from '../Footer/Footer'; // Footer 불러오기
 
-function Main() {
+function Main2() {
   const products = [
     { id: 1, name: '2WAY HOOD\nDOWN JACKET', image: '/padding/1-1.jpg' },
     { id: 2, name: 'CROPPED\nKNIT CARDIGAN', image: '/cardigan/1-1.jpg' },
@@ -13,11 +13,18 @@ function Main() {
 
   const [scrollY, setScrollY] = useState(0);
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <div className={styles.container}>
-      {/* 🔹 로그인 상태에 따라 다른 Header 표시 */}
+            <Header2 />
       <main className={styles.main}>
         {/* 📌 카테고리 섹션 추가 */}
 
@@ -67,4 +74,4 @@ function Main() {
   );
 }
 
-export default Main;
+export default Main2;

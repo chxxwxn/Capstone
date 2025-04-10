@@ -1,4 +1,3 @@
-/* 기본 스타일 유지 */
 @font-face {
   font-family: 'DosKor';
   src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-02@1.0/DosKor.woff2') format('woff2');
@@ -20,12 +19,11 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  box-sizing: border-box;
+  width: 99%;
+  margin-left: -1%;
   z-index: 1000;
-  background-color: #fff;
+  background-color: #fff; /* 헤더 배경을 흰색으로 변경 */
   transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
-  height: 60px; /* 헤더 높이 지정 */
 }
 
 .headerContent {
@@ -35,30 +33,24 @@
   width: 100%;
 }
 
-/* 본문이 헤더에 가려지지 않도록 여백 추가 */
-main, .bodyContent {
-  padding-top: 80px; /* 헤더 높이에 맞게 조정 */
-}
-
 /* 로고 스타일 */
 .logo {
-  position: fixed;
+  position: absolute;
   left: 50%;
-  top: 15px;
   transform: translateX(-50%);
-  z-index: 1001;
+  z-index: 1001; /* 로고를 다른 요소 위에 표시 */
 }
 
 .logoImage {
-  height: 20px;
+  height: 17px;
 }
 
 /* 네비게이션 아이콘 컨테이너 */
 .nav {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  gap: 5px;
+  justify-content: flex-end; /* 아이콘을 오른쪽 정렬 */
+  gap: 5px; /* 아이콘 간격을 일정하게 설정 */
 }
 
 /* 네비게이션 버튼 */
@@ -80,10 +72,14 @@ main, .bodyContent {
 
 /* 카테고리 네비게이션 */
 .categoryNav {
-  flex-grow: 1;
   display: flex;
   justify-content: flex-start; /* 카테고리를 왼쪽으로 정렬 */
-  box-sizing: border-box; /* 추가: padding을 포함한 width를 사용 */
+  background-color: #fff; /* 배경색 추가 */
+  padding: 10px 20px; /* 패딩 추가 */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+  position: sticky; /* 스크롤 시 상단에 고정 */
+  top: 79px; /* 헤더 높이 + 27px 만큼 아래에 위치 */
+  z-index: 999; /* 헤더 바로 아래에 위치 */
 }
 
 /* 카테고리 리스트 */
@@ -103,7 +99,6 @@ main, .bodyContent {
   color: black;
   transition: color 0.3s;
   font-size: 14px;
-  box-sizing: border-box; /* 추가: padding을 포함한 width를 사용 */
 }
 
 /* 드롭다운 메뉴 */
@@ -118,7 +113,6 @@ main, .bodyContent {
   z-index: 1;
   text-align: center;
   overflow: hidden;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 /* 호버 시 드롭다운 표시 */
@@ -133,7 +127,8 @@ main, .bodyContent {
   margin: 0;
 }
 
-.categoryDropdownui, .categoryLink {
+.categoryDropdownui,
+.categoryLink {
   text-decoration: none;
   font-family: 'DosKor', sans-serif;
   color: black;
@@ -185,7 +180,6 @@ main, .bodyContent {
   opacity: 0; /* 기본 상태에서 숨김 */
   pointer-events: none; /* 기본 상태에서 클릭 불가 */
   transition: opacity 0.3s ease-in-out; /* 투명도 변경 트랜지션 */
-  box-sizing: border-box; /* 추가: padding을 포함한 width를 사용 */
 }
 
 .searchContainer.open .searchInput {
@@ -205,111 +199,9 @@ main, .bodyContent {
 /* 스크롤 시 카테고리 메뉴 고정 */
 .categoryNav.fixed {
   position: fixed;
-  top: 52px; /* 헤더 아래에 위치하도록 조정 */
+  top: 79px; /* 헤더 아래에 위치하도록 조정 */
   left: 0;
   width: 100%;
   background-color: #fff;
   z-index: 999;
-}
-
-/* 반응형 스타일 */
-@media all and (min-width: 1024px) and (max-width: 1279px) {
-  .header {
-    padding: 10px 15px;
-  }
-  main, .bodyContent {
-    padding-top: 80px;
-  }
-}
-
-@media all and (min-width: 768px) and (max-width: 1023px) {
-  .header {
-    padding: 10px;
-  }
-  .categoryList {
-    font-size: 11px;
-  }
-  main, .bodyContent {
-    padding-top: 80px;
-  }
-}
-
-@media all and (min-width: 480px) and (max-width: 767px) {
-  .header {
-    padding: 8px;
-  }
-  .categoryList {
-    font-size: 10px;
-  }
-  main, .bodyContent {
-    padding-top: 80px;
-  }
-}
-
-@media all and (max-width: 479px) {
-
-  @media (hover: hover) {}
-
-  .header {
-    flex-direction: column;
-    height: auto;
-  }
-
-  .logo {
-    position: relative;
-    margin-left: -660px;
-    top: auto;
-    transform: none;
-    margin-top: 20px; /* 상단 간격 추가 */
-    margin-bottom: 15px;
-  }
-
-  .headerContent {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .nav {
-    margin-top: -40px;
-    margin-left: 63%;
-  }
-  .menu {
-    order: 2;
-    display: flex;
-    justify-content: center;
-    position: relative;
-  }
-
-  .categoryNav {
-    order: 3;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-
-  }
-
-  @media all and (max-width: 479px) {
-    /* 아이폰에서는 hover 효과 제거 */
-    @media (hover: hover) {
-      .categoryList .categoryItem:hover .categoryDropdown {
-        display: none;
-      }
-    }
-  
-    /* 아이폰에서 클릭하면 페이지 이동 */
-    .categoryItem a {
-      pointer-events: auto; /* 링크 클릭 가능하도록 설정 */
-    }
-  
-    /* 아이폰에서는 드롭다운 숨김 */
-    .categoryDropdown {
-      display: none !important;
-    }
-  }
-  
-
-  main, .bodyContent {
-    padding-top: 120px;
-  }
 }
