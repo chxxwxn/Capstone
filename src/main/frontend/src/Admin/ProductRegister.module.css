@@ -41,8 +41,8 @@ ul {
 
 /* 관리자 페이지 상단 제목 */
 .admin_top_wrap {
-  height: 110px;
-  line-height: 110px;
+  height: 100px;
+  line-height: 100px;
   background-color: #5080bd;
 }
 
@@ -50,7 +50,7 @@ ul {
   margin-left: 30px;
   display: inline-block;
   color: white;
-  font-size: 50px;
+  font-size: 35px;
   font-weight: bolder;
 }
 
@@ -72,7 +72,7 @@ ul {
 
 .admin_navi_wrap li {
   display: block;
-  height: 80px;
+  height: 70px;
   line-height: 80px;
   text-align: center;
   cursor: pointer;
@@ -83,14 +83,14 @@ ul {
   height: 100%;
   width: 95%;
   margin: 0 auto;
-  font-size: 30px;
+  font-size: 25px;
   font-weight: bolder;
 }
 
 /* 관리자 컨텐츠 영역 */
 .admin_content_wrap {
   width: 80%;
-  height: 1200px;
+  height: 1500px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -99,16 +99,19 @@ ul {
 }
 
 .admin_content_wrap div {
-  font-size: 50px;
+  font-size: 35px;
   font-weight: bolder;
 }
 
-.admin_content_subject{            /* 관리자 컨텐츠 제목 영역 */
-    font-size: 40px;
-    font-weight: bolder;
-    padding-left: 15px;
-    background-color: #6AAFE6;
-    color: white;    
+.admin_content_subject_sapn{            /* 관리자 컨텐츠 제목 영역 */
+  width: 585px;
+  height: 60px;
+  margin-left: 13px;
+  padding-left: 15px;
+  font-size: 40px;
+  font-weight: bolder;
+  align-content: center;
+  background-color: #6AAFE6;   
 }
 
 /* 관리자 컨텐츠 메인 영역 */
@@ -117,6 +120,8 @@ ul {
     max-height: 150vh;
     box-sizing: border-box; /* padding과 border가 너비/높이에 포함되도록 설정 */
 }
+
+
 
 .form_section {
     width: 600px;

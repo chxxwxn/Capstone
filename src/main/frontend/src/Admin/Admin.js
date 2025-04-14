@@ -7,10 +7,10 @@ const Admin = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch("http://localhost:8090/admin/main") // Spring Boot API 호출
+        fetch("http://localhost:8090/admin/main") // ✅ Spring Boot API 호출
             .then(response => response.json())
             .then(data => {
-                setMessage(data.message); // JSON 데이터에서 message 가져오기
+                setMessage(data.message); // ✅ JSON 데이터에서 message 가져오기
             })
             .catch(error => console.error("Error fetching admin data:", error));
     }, []);
