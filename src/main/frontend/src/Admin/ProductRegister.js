@@ -1,20 +1,97 @@
 import React, { useEffect, useState } from 'react';
 import styles from './ProductRegister.module.css';
 import { useNavigate } from "react-router-dom";
+import path from 'path-browserify'; // 경로 추출을 위해 설치 필요: npm install path-browserify
+
 
 const ProductRegister = () => {
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
+    const [mainCategory, setMainCategory] = useState("");
+    const [subCategories, setSubCategories] = useState([]);
+    const [colors, setColors] = useState([]);
+    const categoryOptions = {
+        OUTER: ["PADDING", "JACKET", "COAT", "Cardigan"],
+        TOP: ["MTM", "hoodie", "Knit", "Shirts", "Tee"],
+        BOTTOM: ["Jeans", "Slacks", "Shorts", "Skirt"],
+        ETC: ["Bag", "Shoes", "Cap", "Acc"],
+    };
+
     const [formData, setFormData] = useState({
         productName: '',
         registerYear: '',
         productPrice: '',
         productStock: '',
         productDiscount: '',
-        imageUrl: '',
         colorCodes: '',
-        cateCode: ''
+        cateCode: '',
+        "images": [
+            { "imageUrl": "", "imageOrder": 0 },
+            { "imageUrl": "", "imageOrder": 1 },
+            { "imageUrl": "", "imageOrder": 2 },
+            { "imageUrl": "", "imageOrder": 3 },
+            { "imageUrl": "", "imageOrder": 4 },
+            { "imageUrl": "", "imageOrder": 5 },
+            { "imageUrl": "", "imageOrder": 6 },
+            { "imageUrl": "", "imageOrder": 7 },
+            { "imageUrl": "", "imageOrder": 8 },
+            { "imageUrl": "", "imageOrder": 9 },
+            { "imageUrl": "", "imageOrder": 10 },
+            { "imageUrl": "", "imageOrder": 11 },
+            { "imageUrl": "", "imageOrder": 12 },
+            { "imageUrl": "", "imageOrder": 13 },
+            { "imageUrl": "", "imageOrder": 14 },
+            { "imageUrl": "", "imageOrder": 15 }
+        ]
     });
+
+    const handleAddColor = () => {
+        setColors([...colors, "#000000"]); // 기본값: 검정색
+    };
+
+    const handleColorChange = (index, newColor) => {
+    const updatedColors = [...colors];
+    updatedColors[index] = newColor;
+    setColors(updatedColors);
+    setFormData({ ...formData, colorCodes: updatedColors.join(',') });
+    };
+
+    const handleRemoveColor = (index) => {
+    const updatedColors = [...colors];
+    updatedColors.splice(index, 1); // 해당 색상 제거
+    setColors(updatedColors);
+    setFormData({ ...formData, colorCodes: updatedColors.join(',') });
+    };
+
+    // 이미지 선택 핸들러
+    const handleImageChange = (e, index) => {
+        const file = e.target.files[0];
+        if (file) {
+            const category = formData.cateCode.toLowerCase(); // 예: 'PADDING' → 'padding'
+            const fileName = file.name; // '1-1.jpg'
+            const imageUrl = `/${category}/${fileName}`; // '/padding/1-1.jpg'
+    
+            setFormData((prevData) => {
+                const updatedImages = [...prevData.images];
+                updatedImages[index] = {
+                    ...updatedImages[index],
+                    imageUrl: imageUrl,
+                    imageOrder: index,
+                    };
+                    return {
+                    ...prevData,
+                    images: updatedImages,
+                    };
+                });
+        }
+    };
+
+    // 경로에서 카테고리/파일명 추출
+    const extractCategoryPath = (file) => {
+        const fakePath = file.name;
+        const category = formData.cateCode.toLowerCase(); // 예: 'coat'
+        return `${category}/${fakePath}`;
+    };
 
     useEffect(() => {
         fetch("http://localhost:8090/admin/main") // ✅ Spring Boot API 호출
@@ -38,6 +115,7 @@ const ProductRegister = () => {
     };
 
     const handleSubmit = async (e) => {
+        console.log("전송 직전 이미지 데이터 확인", formData.images);
         e.preventDefault(); // 기본 동작 방지
 
         try {
@@ -95,7 +173,7 @@ const ProductRegister = () => {
 
                     {/* 메인 콘텐츠 영역 */}
                     <div className={styles.admin_content_wrap}>
-                        <div class="admin_content_subject"><span>상품 등록</span>
+                        <div className={styles.admin_content_subject}><div className={styles.admin_content_subject_sapn}>상품 등록</div>
                             <div className={styles.admin_content_main}>
                                 <form onSubmit={handleSubmit} id="enrollForm">
                                 <div className={styles.form_section}>
@@ -113,16 +191,18 @@ const ProductRegister = () => {
 
                                 <div className={styles.form_section}>
                                     <div className={styles.form_section_title}>
-                                    <label>등록 날짜</label>
+                                        <label>등록 날짜</label>
                                     </div>
                                     <div className={styles.form_section_content}>
-                                    <input
+                                        <input
+                                        type="date"
                                         name="registerYear"
                                         value={formData.registerYear}
                                         onChange={handleInputChange}
-                                    />
+                                        />
                                     </div>
                                 </div>
+
 
                                 <div className={styles.form_section}>
                                     <div className={styles.form_section_title}>
@@ -148,7 +228,7 @@ const ProductRegister = () => {
                                         onChange={handleInputChange}
                                     />
                                     </div>
-                                </div>
+                                </div>  
 
                                 <div className={styles.form_section}>
                                     <div className={styles.form_section_title}>
@@ -165,40 +245,117 @@ const ProductRegister = () => {
 
                                 <div className={styles.form_section}>
                                     <div className={styles.form_section_title}>
-                                    <label>상품 이미지</label>
+                                        <label>상품 색상</label>
                                     </div>
                                     <div className={styles.form_section_content}>
-                                    <input
-                                        name="imageUrl"
-                                        value={formData.imageUrl}
-                                        onChange={handleInputChange}
-                                    />
+                                        {colors.map((color, index) => (
+                                        <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '6px' }}>
+                                            <input
+                                            type="color"
+                                            value={color}
+                                            onChange={(e) => handleColorChange(index, e.target.value)}
+                                            style={{ marginRight: '8px' }}
+                                            />
+                                            <button
+                                            type="button"
+                                            onClick={() => handleRemoveColor(index)}
+                                            style={{
+                                                backgroundColor: '#ff5e5e',
+                                                color: 'white',
+                                                border: 'none',
+                                                padding: '4px 8px',
+                                                borderRadius: '4px',
+                                                cursor: 'pointer'
+                                            }}
+                                            >
+                                            삭제
+                                            </button>
+                                        </div>
+                                        ))}
+                                        <button
+                                        type="button"
+                                        onClick={handleAddColor}
+                                        style={{
+                                            marginTop: '6px',
+                                            padding: '6px 12px',
+                                            backgroundColor: '#4CAF50',
+                                            color: 'white',
+                                            border: 'none',
+                                            borderRadius: '4px',
+                                            cursor: 'pointer'
+                                        }}
+                                        >
+                                        색상 추가
+                                        </button>
                                     </div>
-                                </div>
+                                    </div>
 
                                 <div className={styles.form_section}>
                                     <div className={styles.form_section_title}>
-                                    <label>상품 색상</label>
+                                        <label>상품 카테고리</label>
                                     </div>
                                     <div className={styles.form_section_content}>
-                                    <input
-                                        name="colorCodes"
-                                        value={formData.colorCodes}
-                                        onChange={handleInputChange}
-                                    />
-                                    </div>
-                                </div>
+                                        {/* 대분류 드롭다운 */}
+                                        <select
+                                        value={mainCategory}
+                                        onChange={(e) => {
+                                            const selectedMain = e.target.value;
+                                            setMainCategory(selectedMain);
+                                            setSubCategories(categoryOptions[selectedMain] || []);
+                                            setFormData((prevData) => ({
+                                            ...prevData,
+                                            cateCode: "", // 소분류 초기화
+                                            }));
+                                        }}
+                                        >
+                                        <option value="">대분류 선택</option>
+                                        {Object.keys(categoryOptions).map((main) => (
+                                            <option key={main} value={main}>
+                                            {main}
+                                            </option>
+                                        ))}
+                                        </select>
 
-                                <div className={styles.form_section}>
-                                    <div className={styles.form_section_title}>
-                                    <label>상품 카테고리</label>
-                                    </div>
-                                    <div className={styles.form_section_content}>
-                                    <input
-                                        name="cateCode"
+                                        {/* 소분류 드롭다운 */}
+                                        <select
                                         value={formData.cateCode}
-                                        onChange={handleInputChange}
-                                    />
+                                        onChange={(e) => {
+                                            const selectedSub = e.target.value;
+                                            setFormData((prevData) => ({
+                                            ...prevData,
+                                            cateCode: selectedSub, // 실제로 저장되는 건 소분류 값만!
+                                            }));
+                                        }}
+                                        disabled={!mainCategory} // 대분류 선택 전엔 비활성화
+                                        >
+                                        <option value="">소분류 선택</option>
+                                        {subCategories.map((sub) => (
+                                            <option key={sub} value={sub}>
+                                            {sub}
+                                            </option>
+                                        ))}
+                                        </select>
+                                    </div>
+                                    </div>
+
+
+                                <div className={styles.form_section}>
+                                    <div className={styles.form_section_title}>
+                                        <label>상품 이미지</label>
+                                    </div>
+                                    <div className={styles.form_section_content}>
+                                        {[...Array(16)].map((_, index) => (
+                                            <div key={index}>
+                                                <input
+                                                    type="file"
+                                                    accept="image/*"
+                                                    onChange={(e) => handleImageChange(e, index)}
+                                                />
+                                                <p style={{ fontSize: '12px' }}>
+                                                    현재 경로: {formData.images[index].imageUrl}
+                                                </p>
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
 

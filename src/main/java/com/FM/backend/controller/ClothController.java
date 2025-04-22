@@ -22,6 +22,26 @@ public class ClothController {
         return clothService.getAllCloths();
     }
 
+    @GetMapping("/outer")
+    public List<ClothVO> getOuterCloths() {
+        return clothService.getOuterCloths();
+    }
+
+    @GetMapping("/top")
+    public List<ClothVO> getTopCloths() {
+        return clothService.getTopCloths();
+    }
+
+    @GetMapping("/bottom")
+    public List<ClothVO> getBottomCloths() {
+        return clothService.getBottomCloths();
+    }
+
+    @GetMapping("/etc")
+    public List<ClothVO> getETCCloths() {
+        return clothService.getETCCloths();
+    }
+
     @GetMapping("/{productId}")
     public ClothVO getClothById(@PathVariable int productId) {
         return clothService.getClothById(productId);

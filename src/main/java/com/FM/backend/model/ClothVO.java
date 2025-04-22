@@ -1,6 +1,7 @@
 package com.FM.backend.model;
 
 import java.util.Date;
+import java.util.List;
 
 public class ClothVO {
     /* 상품 ID */
@@ -21,9 +22,6 @@ public class ClothVO {
     /* 상품 할인율 (백분율) */
     private double productDiscount;
 
-    /* 상품 이미지 URL */
-    private String imageUrl;
-
     /* 상품 색상 코드 (쉼표 구분 문자열) */
     private String colorCodes;
 
@@ -35,6 +33,10 @@ public class ClothVO {
 
     /* 수정 날짜 */
     private Date updateDate;
+
+    private List<ImageVO> images;
+
+    private String imageUrl;
 
     /* Getter & Setter */
     public int getProductId() {
@@ -85,14 +87,6 @@ public class ClothVO {
         this.productDiscount = productDiscount;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
     public String getColorCodes() {
         return colorCodes;
     }
@@ -125,6 +119,22 @@ public class ClothVO {
         this.updateDate = updateDate;
     }
 
+    public List<ImageVO> getImages() {
+        return images;
+    }
+    
+    public void setImages(List<ImageVO> images) {
+        this.images = images;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+    
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+    
     @Override
     public String toString() {
         return "ClothVO [productId=" + productId 
@@ -133,7 +143,6 @@ public class ClothVO {
             + ", productPrice=" + productPrice 
             + ", productStock=" + productStock 
             + ", productDiscount=" + productDiscount 
-            + ", imageUrl=" + imageUrl 
             + ", colorCodes=" + colorCodes 
             + ", cateCode=" + cateCode 
             + ", regDate=" + regDate 

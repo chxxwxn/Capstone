@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Icon } from '@iconify/react';
 import styles from '../Product.module.css';
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 
 
 
 const Preview = () => {
+  const { id } = useParams(); // /all/:id 에서 id 추출
+  const productId = parseInt(id);
   const [wishlist, setWishlist] = useState([]);
   const [selectedSize, setSelectedSize] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
+  const [products, setProducts] = useState([]); // API로부터 불러올 제품 데이터
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(null); // 모달 이미지 상태 추가
   const navigate = useNavigate();
@@ -19,16 +22,30 @@ const Preview = () => {
     const basePath = location.pathname.split("/")[1]; // 첫 번째 경로(segment) 가져오기
     navigate(`/${basePath}/${subcategory.toLowerCase()}`);
   };
-  const products = [
-    {
-      id: 1,
-      name: '2WAY HOOD DOWN JACKET',
-      image: '/padding/1-1.jpg',
-      price: 200000,
-      color: ['#778D72', '#C3E5F0', '#303030'],
-      date: '2025-02-01',
-    },
-  ];
+  const fetchProducts = async () => {
+    try {
+      const response = await fetch(`http://localhost:8090/products/${productId}`);
+      const data = await response.json();
+  
+    // 단일 객체를 배열로 감싸서 매핑
+    const mappedData = [{
+      id: data.productId,
+      name: data.productName,
+      price: data.productPrice,
+      color: data.colorCodes.split(',').map(color => color.trim()),
+      date: data.registerYear,
+      image: data.images,
+    }];
+    console.log("data from server:", data);
+      setProducts(mappedData); // 매핑된 데이터를 상태에 저장
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts(); // 컴포넌트가 마운트될 때 API 호출
+  }, [id]);
 
   const toggleWishlist = (id) => {
     setWishlist((prevWishlist) =>
@@ -140,8 +157,8 @@ const asks = [
           {/* 이미지 영역 */}
           <div className={styles.productImageContainer}>
             {products.map((product) => (
-              <a key={product.id} href={`/product/${product.id}`}>
-                <img src={product.image} alt={product.name} className={styles.productImage} />
+              <a key={product.id}>
+                <img src={product.image[0].imageUrl} alt={product.name} className={styles.productImage} />
               </a>
             ))}
           </div>
@@ -208,37 +225,53 @@ const asks = [
         <div className={styles.productDetailInfo}>FRONT</div>
       </div>
       <div className={styles.imageGrid}>
-        <img src="/padding/1-1.jpg" alt="Image 1" />
-        <img src="/padding/1-1.jpg" alt="Image 2" />
-        <img src="/padding/1-1.jpg" alt="Image 3" />
+        {products.map((product) => (
+          <>
+            <img src={product.image[1].imageUrl} alt="Image 1" />
+            <img src={product.image[2].imageUrl} alt="Image 2" />
+            <img src={product.image[3].imageUrl} alt="Image 3" />
+          </>
+        ))}
       </div>
       <div className={styles.productDetail}>
         <div className={styles.productDetailInfo}>SIDE</div>
       </div>
       <div className={styles.imageGrid}>
-        <img src="/padding/1-2.jpg" alt="Image 1" />
-        <img src="/padding/1-2.jpg" alt="Image 2" />
-        <img src="/padding/1-2.jpg" alt="Image 3" />
+        {products.map((product) => (
+          <>
+            <img src={product.image[4].imageUrl} alt="Image 4" />
+            <img src={product.image[5].imageUrl} alt="Image 5" />
+            <img src={product.image[6].imageUrl} alt="Image 6" />
+          </>
+        ))}
       </div>
       <div className={styles.productDetail}>
         <div className={styles.productDetailInfo}>BACK</div>
       </div>
       <div className={styles.imageGrid}>
-        <img src="/padding/1-3.jpg" alt="Image 1" />
-        <img src="/padding/1-3.jpg" alt="Image 2" />
-        <img src="/padding/1-3.jpg" alt="Image 3" />
+        {products.map((product) => (
+          <>
+            <img src={product.image[7].imageUrl} alt="Image 7" />
+            <img src={product.image[8].imageUrl} alt="Image 8" />
+            <img src={product.image[9].imageUrl} alt="Image 9" />
+          </>
+        ))}
       </div>
       <div className={styles.productDetail}>
         <div className={styles.productDetailLine}></div>
         <div className={styles.productDetailInfo}>DEATAIL</div>
       </div>
       <div className={styles.imageGridDetail}>
-        <img src="/padding/1-4.jpg" alt="Image 1" />
-        <img src="/padding/1-4.jpg" alt="Image 2" />
-        <img src="/padding/1-4.jpg" alt="Image 3" />
-        <img src="/padding/1-5.jpg" alt="Image 1" />
-        <img src="/padding/1-5.jpg" alt="Image 2" />
-        <img src="/padding/1-5.jpg" alt="Image 3" />
+        {products.map((product) => (
+          <>
+            <img src={product.image[10].imageUrl} alt="Image 10" />
+            <img src={product.image[11].imageUrl} alt="Image 11" />
+            <img src={product.image[12].imageUrl} alt="Image 12" />
+            <img src={product.image[13].imageUrl} alt="Image 13" />
+            <img src={product.image[14].imageUrl} alt="Image 14" />
+            <img src={product.image[15].imageUrl} alt="Image 15" />
+          </>
+        ))}
       </div>
       <div className={styles.productDetail}>
         <div className={styles.productDetailLine}></div>

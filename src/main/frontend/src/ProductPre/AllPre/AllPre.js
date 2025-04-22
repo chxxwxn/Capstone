@@ -22,10 +22,10 @@ const Preview = () => {
       const mappedData = data.map(item => ({
         id: item.productId,
         name: item.productName,
-        image: item.imageUrl,
         price: item.productPrice,
         color: item.colorCodes.split(',').map(color => color.trim()),
-        date: item.registerYear
+        date: item.registerYear,
+        image: item.imageUrl,
       }));
   
       setProducts(mappedData); // 매핑된 데이터를 상태에 저장
