@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styles from './Payment.module.css';
 import AddressSearch from './AddressSearch'; // 카카오맵 주소 검색 컴포넌트 추가
+import { LoginContext } from "../Login/LoginContext";
+import { Link } from 'react-router-dom';
 
 const Payment = () => {
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
@@ -93,7 +95,7 @@ const Payment = () => {
         }
     };
 
-    const handlePayButtonClick = () => {
+    const handlePayButtonClick = async () => {
         if (!paymentAgreement) {
             alert('결제 내용을 확인하고 동의해야 합니다.');
             return;
@@ -102,8 +104,36 @@ const Payment = () => {
             alert('결제 수단을 선택해야 합니다.');
             return;
         }
-        alert(`결제 수단: ${selectedPaymentMethod} (으)로 결제를 진행합니다.`);
+    
+        if (selectedPaymentMethod === 'kakaopay') {
+            try {
+              const response = await fetch('http://localhost:8090/payment/ready', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                credentials: "include",
+                body: JSON.stringify({
+                  quantity: 1,               // 수량
+                  totalAmount: totalAmount, // 총 결제 금액
+                  itemName: "REGLAN SYMBOL KNIT ZIP-UP"
+                }),
+              });
+          
+              if (!response.ok) {
+                throw new Error('카카오페이 결제 준비 실패');
+              }
+          
+              const data = await response.json();
+              window.location.href = data.next_redirect_pc_url;
+            } catch (error) {
+              console.error('결제 오류:', error);
+              alert('카카오페이 결제 중 오류가 발생했습니다.');
+            }
+        }
     };
+
+    const { isLoggedIn } = useContext(LoginContext);
 
     const calculateTotal = () => {
         const parsedRewardPoints = parseInt(rewardPoints) || 0;
@@ -113,6 +143,8 @@ const Payment = () => {
     const totalAmount = calculateTotal();
 
     return (
+        isLoggedIn ? (
+        <>
         <div className={styles.paymentContainer}>
             <h1>주문하기</h1>
             <div className={styles.contentWrapper}>
@@ -269,6 +301,10 @@ const Payment = () => {
                 </div>
             </div>
         </div>
+        </>
+    ) :(
+        <Link to="/login"></Link>
+    )
     );
 };
 

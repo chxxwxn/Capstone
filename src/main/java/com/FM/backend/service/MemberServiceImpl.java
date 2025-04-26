@@ -7,7 +7,6 @@ import org.springframework.http.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.UUID;
-import java.util.HashMap;
 import java.util.Map;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
@@ -37,9 +36,8 @@ public class MemberServiceImpl implements MemberService{
     return membermapper.memberLogin(member);
   }
   
-  /**
-   * 🔹 카카오 인증 코드로 Access Token 가져오기
-   */
+  /* 카카오 인증 코드로 Access Token 가져오기 */
+  @SuppressWarnings("rawtypes")
   @Override
   public String getKakaoAccessToken(String code) {
     String clientId = "116129a2f6241bd118d98c52c1758667";
@@ -67,9 +65,7 @@ public class MemberServiceImpl implements MemberService{
     return null;
 }
 
-/**
- * 🔹 Access Token으로 사용자 정보 가져오기 & 회원가입/로그인 처리
- */
+/* Access Token으로 사용자 정보 가져오기 & 회원가입/로그인 처리 */
 @Transactional
 @Override
 public MemberVO KakaoMember(String accessToken) throws Exception {

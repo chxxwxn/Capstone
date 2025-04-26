@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom"; // 페이지 이동을 위한 훅 추가
 import { Eye, EyeOff } from "lucide-react"; // 아이콘 라이브러리 사용
 import styles from "./Password.module.css";
+import { LoginContext } from "./LoginContext";
 
 function Password() {
   const [password, setPassword] = useState("");
@@ -9,6 +10,7 @@ function Password() {
   const navigate = useNavigate(); // 네비게이트 함수
   const location = useLocation(); // `Login.js`에서 전달된 state 값을 가져옴
   const email = location.state?.email || ""; // email 값 가져오기
+  const { setIsLoggedIn } = useContext(LoginContext);
 
   useEffect(() => {
     if (!email) {
@@ -37,12 +39,13 @@ function Password() {
 
       if (data.success && data.member) {
         sessionStorage.setItem('member', JSON.stringify(data.member));
+        setIsLoggedIn(true);
         if (data.member.adminCk === 1) {
           navigate('/admin');
         } else {
           navigate('/');
         }
-        window.location.reload();
+
       } else {
         alert(data.message || '로그인 실패');
       }

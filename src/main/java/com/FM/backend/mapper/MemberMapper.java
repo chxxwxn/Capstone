@@ -2,7 +2,6 @@ package com.FM.backend.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 
 import com.FM.backend.model.MemberVO;
 

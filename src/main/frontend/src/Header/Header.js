@@ -1,6 +1,7 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import styles from './Header.module.css';
 import { Link } from 'react-router-dom';
+import { LoginContext } from '../Login/LoginContext';
 
 function Header() {
   const categories = {
@@ -16,6 +17,7 @@ function Header() {
   const searchInputRef = useRef(null);
   const [isFixed, setIsFixed] = useState(false);
   const [member, setMember] = useState(null);
+  const { isLoggedIn } = useContext(LoginContext);
 
   const toggleSearch = () => {
     setSearchVisible(!searchVisible);
@@ -42,32 +44,20 @@ function Header() {
 
   // 로그인 상태 확인 (sessionStorage에서 member 정보 가져오기)
   useEffect(() => {
-    // 1️⃣ 기존 `sessionStorage`에서 member 정보 가져오기
-    const storedMember = sessionStorage.getItem('member');
-
-    if (storedMember) {
+    if (isLoggedIn) {
+      const storedMember = sessionStorage.getItem('member');
+      if (storedMember) {
         try {
-            setMember(JSON.parse(storedMember)); // JSON 변환
+          setMember(JSON.parse(storedMember));
         } catch (error) {
-            console.error('JSON parsing error:', error);
-            sessionStorage.removeItem('member'); // 오류 발생 시 데이터 삭제
+          console.error('JSON parsing error:', error);
+          sessionStorage.removeItem('member');
         }
+      }
     } else {
-        // 2️⃣ URL에 `member` 정보가 있는지 확인 (카카오 로그인 후 리다이렉트 시)
-        const params = new URLSearchParams(window.location.search);
-        const memberParam = params.get('member');
-
-        if (memberParam) {
-            try {
-                const memberData = JSON.parse(decodeURIComponent(memberParam));
-                sessionStorage.setItem('member', JSON.stringify(memberData)); // 세션에 저장
-                setMember(memberData); // 상태 업데이트
-            } catch (error) {
-                console.error('Failed to parse member data:', error);
-            }
-        }
+      setMember(null); // 로그아웃 시 member 제거
     }
-}, []);
+  }, [isLoggedIn]);
 
   return (
     <header className={`${styles.header} ${isFixed ? styles.fixed : ''}`}>
@@ -125,7 +115,7 @@ function Header() {
               ref={searchInputRef}
             />
           </div>
-          {member ? (
+          {isLoggedIn && member ? (
             <>
               <Link to="/mypage">
                 <button type="button" className={styles.iconButton} aria-label="로그인">
