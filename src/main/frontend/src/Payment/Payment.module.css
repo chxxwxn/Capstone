@@ -19,10 +19,11 @@
     color: #303030;
 }
 
+/*
 span {
     font-weight: bold;
 }
-
+*/
 /* 좌우 영역 래퍼 */
 .contentWrapper {
     display: flex;

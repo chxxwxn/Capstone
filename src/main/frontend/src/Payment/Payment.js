@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import styles from './Payment.module.css';
 import AddressSearch from './AddressSearch'; // 카카오맵 주소 검색 컴포넌트 추가
+import { useNavigate } from 'react-router-dom';
+
 
 const Payment = () => {
+    const navigate = useNavigate();
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
     const [paymentAgreement, setPaymentAgreement] = useState(false);
     const [productPrice] = useState(59900);
@@ -103,6 +106,12 @@ const Payment = () => {
             return;
         }
         alert(`결제 수단: ${selectedPaymentMethod} (으)로 결제를 진행합니다.`);
+        
+        navigate('/Paid');
+
+        return (
+            <button onClick={handlePayButtonClick}>결제하기</button>
+          );
     };
 
     const calculateTotal = () => {
@@ -265,6 +274,9 @@ const Payment = () => {
                             결제 내용을 확인하고 동의합니다.
                         </label>
                         <button onClick={handlePayButtonClick}>결제하기</button>
+
+
+                        
                     </div>
                 </div>
             </div>

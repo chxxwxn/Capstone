@@ -1,0 +1,139 @@
+* {
+    font-family: 'Pretendard', sans-serif;
+  }
+  body {
+    background-color: #ffffff;
+  }
+
+.Paid{
+    padding: 150px 400px 0px 400px;
+    margin-bottom: 500px;
+}
+
+.PaidContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px; /* 요소 간의 세로 간격 */
+    padding: 16px;
+    background-color: #ffffff;
+  }
+  
+
+.PaidProduct {
+    width: 600px; /* 고정 너비 설정 */
+    max-width: 100%; /* 모바일 대응 */
+    margin: 0 auto 0px auto; /* 가운데 정렬 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+  }
+.PaidText {
+  font-size: 18px;
+  font-weight: 500;
+  color: #333333;
+  text-align: center;
+}
+
+
+.OrderBox{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0px;
+  }
+
+  .ProductList{
+    padding: 10px 0px 10px 0px;
+  }
+  
+  .OrderPhoto {
+    width: 150px;
+    height: 150px;
+    overflow: hidden; /* 넘치는 부분을 숨김 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 20px 0px 0px;
+  }
+  
+  .OrderPhoto img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 이미지를 비율 유지하면서 채우기 */
+  }
+  
+  .ProductLine {
+    width: 1px; /* 선의 두께 */
+    height: 130px; /* 원하는 높이 */
+    background-color: #999999; /* 선 색상 */
+  }
+  
+  .InfoBox{
+    padding: 0 20px;
+    height: 130px;
+    display: flex;
+    flex-direction: column; /* 세로 방향 정렬 */
+    justify-content: space-between; 
+  }
+  
+  .ProductName{
+    font-weight: 500;
+    font-size: 18px;
+    color: #303030;
+    margin-bottom: 5px;
+  }
+  
+  .ProductInfo{
+    display: flex;
+    gap: 5px;
+    font-weight: 500;
+    font-size: 16px;
+    color: #505050;
+  }
+  
+  .BuyInfo{
+    display: flex;
+    gap: 5px;
+    font-weight: 500;
+    font-size: 18px;
+    color: #303030;
+  }
+  
+
+  
+  .OrderInfoBox{
+    display: flex;
+    align-items: center;
+  }
+
+.OrederNumDate{
+    gap: 10px;
+    display: flex;
+}
+
+.Buttons{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ReturnButton ,.OrderDetailButton {
+    padding: 12px 24px;
+    background-color: #999;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    width: 200px;
+  }
+  
+  .ReturnButton:hover,
+  .OrderDetailButton:hover {
+    background-color: #303030;
+  }
+  
