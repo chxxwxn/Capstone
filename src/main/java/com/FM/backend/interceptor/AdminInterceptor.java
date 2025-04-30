@@ -10,6 +10,7 @@ import com.FM.backend.model.MemberVO;
 @Component
 public class AdminInterceptor implements HandlerInterceptor {
 
+    @SuppressWarnings("null")
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         HttpSession session = request.getSession();

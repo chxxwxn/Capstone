@@ -1,7 +1,7 @@
 package com.FM.backend.service;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.http.ResponseEntity;
+
 
 import com.FM.backend.model.MemberVO;
 
