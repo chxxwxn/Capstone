@@ -94,7 +94,6 @@ const { isLoggedIn } = useContext(LoginContext);
           </div>
         </div>
 
-
         
 
         <div className={styles.Buttons}>

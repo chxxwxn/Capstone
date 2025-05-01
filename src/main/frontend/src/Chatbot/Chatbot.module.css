@@ -1,0 +1,110 @@
+/* Chatbot.module.css */
+
+.container{
+  margin-top: 100px;
+  padding: 0px 100px;
+}
+/* 기본 레이아웃 */
+h1 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+input[type="file"] {
+  display: block;
+  margin: 0 auto;
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+}
+
+.previewImg {
+  display: block;
+  margin: 20px auto;
+  max-width: 20%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 예측 결과 영역 */
+.predictionResult {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.predictionResult h2 {
+  font-size: 1.8rem;
+  color: #333;
+}
+
+.predictionResult p {
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.5;
+  margin: 20px 250px;
+}
+
+/* 진행 바 영역 */
+.progressBar {
+  margin-top: 10px;
+  padding: 10px 100px;
+}
+
+.classResult {
+  margin-bottom: 15px;
+  font-size: 1rem;
+}
+
+.classResult p {
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* 개별 진행 바 스타일 */
+.bar {
+  height: 8px;
+  border-radius: 5px;
+  background-color: #ddd;
+}
+
+.spring {
+  background-color: #f0a500; /* 따뜻한 봄 컬러 */
+}
+
+.summer {
+  background-color: #00aaff; /* 시원한 여름 컬러 */
+}
+
+.fall {
+  background-color: #9e7a56; /* 따뜻한 가을 컬러 */
+}
+
+.winter {
+  background-color: #2f2f2f; /* 차가운 겨울 컬러 */
+}
+
+/* 남성/여성 결과에 따라 다르게 스타일링 */
+.genderToggle {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.genderToggle button {
+  padding: 10px 20px;
+  margin: 0 10px;
+  font-size: 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.genderToggle button:hover {
+  background-color: #0056b3;
+}

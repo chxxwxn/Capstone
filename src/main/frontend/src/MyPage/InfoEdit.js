@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import styles from "./InfoEdit.module.css";
+import { Info } from 'lucide-react';
+
 
 
 // 주소 입력 및 검색을 위한 컴포넌트
@@ -187,29 +189,36 @@ const validatePassword = (password) => {
   };
 
   // 유효성 검사 함수
-const validateForm = () => {
-  // 전화번호 유효성 검사
-  const isPhoneValid = info.phone.split("-").every((part) => part.length === 4 && /^[0-9]{4}$/.test(part));
-
-  // 비밀번호 유효성 검사
-  const isPasswordValid = passwordValid;
-  const isConfirmPasswordValid = confirmPassword === info.password;
-
-  // 모든 조건이 만족해야 저장 가능
-  return isPhoneValid && isPasswordValid && isConfirmPasswordValid;
-};
+  const validateForm = () => {
+    // 전화번호 유효성 검사 (정규식 사용)
+    const phoneRegex = /^010-\d{4}-\d{4}$/;
+    const isPhoneValid = phoneRegex.test(info.phone);
+  
+    // 비밀번호 유효성 검사
+    const isPasswordValid = passwordValid;
+    const isConfirmPasswordValid = confirmPassword.trim() !== "" && confirmPassword === info.password;
+  
+    // 주소 필수 입력값 확인
+    const isAddressValid = info.address.postcode.trim() !== "" && info.address.roadAddress.trim() !== "";
+  
+    // 모든 조건이 만족해야 저장 가능
+    return isPhoneValid && isPasswordValid && isConfirmPasswordValid && isAddressValid;
+  };
+  
 
 // 저장하기 버튼 클릭 핸들러
 const handleSave = () => {
   if (!validateForm()) {
     alert("모든 필드를 정확히 입력해주세요.");
-    setIsValid(false); // 유효성 검사 실패 시 상태 업데이트
+    setIsValid(false);
   } else {
     alert("저장되었습니다!");
-    setIsValid(true); // 유효성 검사 성공 시 상태 업데이트
-    setIsEditable(false); // 수정 불가능 상태로 전환
+    setIsValid(true);
+    setIsEditable(false);
   }
 };
+
+const [showTooltip, setShowTooltip] = useState(false);
 
   
   return (
@@ -244,27 +253,40 @@ const handleSave = () => {
           disabled={true}
         />
 
-          <div className={styles.InfoItem}>
-            <div className={styles.InfoTitle}>비밀번호</div>
-            <div className={styles.Information}>
-              <input
-                type={isEditable ? "text" : "password"}
-                value={info.password}
-                onChange={handlePasswordChange} // 실시간 유효성 검사 핸들러
-                className={`${styles.InfoInput} ${
-                  info.password !== "" && !passwordValid ? styles.invalidBorder : ""
-                } ${passwordValid && info.password !== "" ? styles.validBorder : ""}`}
-                placeholder={isEditable ? "새 비밀번호" : "비밀번호"}
-                disabled={!isEditable}
-              />
-            </div>
+<div className={styles.InfoItem2}>
+  <div className={styles.InfoTitle}>비밀번호</div>
+  
+  <div className={styles.InputArea}>
+    <div className={styles.InputWrapper}>
+      <input
+        type={isEditable ? "text" : "password"}
+        value={info.password}
+        onChange={handlePasswordChange}
+        className={`${styles.InfoInput} ${
+          info.password !== "" && !passwordValid ? styles.invalidBorder : ""
+        } ${passwordValid && info.password !== "" ? styles.validBorder : ""}`}
+        placeholder={isEditable ? "새 비밀번호" : "비밀번호"}
+        disabled={!isEditable}
+      />
+      {isEditable && (
+        <div
+          className={styles.InfoHintIcon}
+          onClick={() => setShowTooltip((prev) => !prev)}
+        >
+          <Info size={14} />
+        </div>
+      )}
+    </div>
 
-            {isEditable && (
-              <div className={styles.Information2}>
-                영문 소문자/숫자/특수문자 중 2가지 이상 조합, 8~16자
-              </div>
-            )}
-          </div>
+    {isEditable && showTooltip && (
+      <div className={styles.Information4}>
+         8~16자 영문 소문자/숫자/특수문자{"\n"}중 2가지 이상 조합
+      </div>
+    )}
+  </div>
+</div>
+
+
 
         {/* 비밀번호 확인 */}
         {isEditable && (
@@ -389,6 +411,7 @@ const handleSave = () => {
                   {/* 키 입력 */}
                   <div className={styles.InfoItem}>
                     <div className={styles.InfoTitle}>키</div>
+                    <div className={styles.InputWrapper2}>
                     <div className={styles.Information}>
                       <input
                         type="number"
@@ -398,13 +421,15 @@ const handleSave = () => {
                         placeholder="키"
                         disabled={!isEditable}
                       />
-                      <span className={styles.Information2}>cm</span>
+                      <span className={styles.Information3}>cm</span>
+                    </div>
                     </div>
                   </div>
 
                   {/* 몸무게 입력 */}
                   <div className={styles.InfoItem}>
                     <div className={styles.InfoTitle}>몸무게</div>
+                    <div className={styles.InputWrapper2}>
                     <div className={styles.Information}>
                       <input
                         type="number"
@@ -414,9 +439,11 @@ const handleSave = () => {
                         placeholder="몸무게"
                         disabled={!isEditable}
                       />
-                      <div className={styles.Information2}>kg</div>
+                     <span className={styles.Information3}>kg</span>
+                    </div>
                     </div>
                   </div>
+
         </div>
        
       </div>

@@ -41,6 +41,8 @@ const SavingRate = () => {
     { id: 2, amount: "+2,000원", productName: "가방 구매", dead: "( 2025-03-30 소멸 예정)", date: "2025-03-24", use: "적립" },
     { id: 3, amount: "-1,000원", productName: "옷 구매", dead: "( 2025-05-20 소멸 예정)", date: "2025-03-22", use: "사용" },
     { id: 4, amount: "-500원", productName: "옷 구매", dead: "( 2025-05-20 소멸 예정)", date: "2025-03-22", use: "사용" },
+    { id: 5, amount: "+500원", productName: "옷 구매", dead: "( 2025-05-20 소멸 예정)", date: "2025-03-22", use: "사용" },
+    { id: 5, amount: "+500원", productName: "옷 구매", dead: "( 2025-05-20 소멸 예정)", date: "2025-03-22", use: "사용" },
 
   ]);
 
@@ -93,15 +95,21 @@ const filteredSavings = filteredByPeriodSavings.filter((saving) => {
   return saving.use === filter;
 });
 
+const [visibleIndex, setVisibleIndex] = useState(null);
+
+  const handleToggle = (index) => {
+    setVisibleIndex(visibleIndex === index ? null : index);
+  };
 
   const rateData = [
-    { icon: "S", text: "Sensual 등급", ex1:"감각적인 패션의 소유자<br/>전체 주문 금액 100만원 이상", ex2: "3% 할인 및 적립 적용<br />10%, 15% 할인 쿠폰 매월 지급" },
-    { icon: "T", text: "Trendy 등급", ex1: "유행을 잘 따르는 사람<br/>전체 주문 금액 60만원 이상", ex2: "2% 할인 및 적립 적용<br />5%, 10% 할인 쿠폰 매월 지급" },
-    { icon: "Y", text: "Youth 등급", ex1: "젊게 사는 사람<br/>전체 주문 금액 30만원 이상", ex2: "2% 할인 및 적립 적용<br />5% 할인 쿠폰 매월 2개 지급" },
-    { icon: "L", text: "Learn 등급", ex1: "패션 학습자<br/>전체 주문 금액 10만원 이상", ex2: "1% 할인 및 적립 적용<br />2% 할인 쿠폰 매월 2개 지급" },
-    { icon: "E", text: "Enjoy 등급", ex1: "패션을 즐기는 자<br/>첫 가입 시", ex2: "1% 적립 적용<br />5% 환영 쿠폰 제공" },
+    { icon: "S", text: "Sensual 등급", ex1:"감각적인 \n 패션의 소유자<br/>전체 주문 금액 100만원 이상", ex2: "3% 할인 및 \n적립 적용<br />10%, 15% \n할인 쿠폰 매월 지급" },
+    { icon: "T", text: "Trendy \n 등급", ex1: "유행을 \n 잘 따르는 사람<br/>전체 주문 금액 60만원 이상", ex2: "2% 할인 및 \n적립 적용<br />5%, 10% \n할인 쿠폰 매월 지급" },
+    { icon: "Y", text: "Youth \n등급", ex1: "젊게 사는 사람<br/>전체 주문 금액 30만원 이상", ex2: "2% 할인 및 \n적립 적용<br />5% 할인 쿠폰 매월 2개 지급" },
+    { icon: "L", text: "Learn \n등급", ex1: "패션 학습자<br/>전체 주문 금액 10만원 이상", ex2: "1% 할인 및 \n적립 적용<br />2% 할인 쿠폰 매월 2개 지급" },
+    { icon: "E", text: "Enjoy \n등급", ex1: "패션을 \n즐기는 자<br/>첫 가입 시", ex2: "1% 적립 적용<br />5% 환영 쿠폰 지급" },
   ];
 
+  
   // 동적으로 스타일을 적용하는 함수
   const getStyle = (rate) => {
     const isCurrentRate = currentRate === rate.text.split(" ")[0]; // 현재 등급에 해당하는지 확인
@@ -209,27 +217,31 @@ const filteredSavings = filteredByPeriodSavings.filter((saving) => {
             <span className={styles.Date}>적립/사용일</span>
             <span className={styles.Use}>사용</span>
           </div>
-          {filteredSavings.slice(0, showAll ? filteredSavings.length : 5).map((saving) => (
-            <div key={saving.id} className={styles.List}>
-                <span className={styles.NumDetail}>{saving.id}</span>
-                <div className={styles.InfoDetail}>
-                <span className={styles.Amount} style={{ textDecoration: saving.use === '만료' ? 'line-through' : 'none' }}>
-                    {saving.amount}
-                </span>
-                <span className={styles.ProductName}>{saving.productName}</span>
-                <span className={styles.Dead}>{saving.dead}</span>
+          {filteredSavings.length === 0 ? (
+              <div className={styles.NoHistory}>적립금 내역이 없습니다</div>
+            ) : (
+              filteredSavings.slice(0, showAll ? filteredSavings.length : 5).map((saving) => (
+                <div key={saving.id} className={styles.List}>
+                  <span className={styles.NumDetail}>{saving.id}</span>
+                  <div className={styles.InfoDetail}>
+                    <span className={styles.Amount} style={{ textDecoration: saving.use === '만료' ? 'line-through' : 'none' }}>
+                      {saving.amount}
+                    </span>
+                    <span className={styles.ProductName}>{saving.productName}</span>
+                    <span className={styles.Dead}>{saving.dead}</span>
+                  </div>
+                  <span className={styles.DateDetail}>{saving.date}</span>
+                  <span className={styles.UseDetail}>{saving.use}</span>
                 </div>
-                <span className={styles.DateDetail}>{saving.date}</span>
-                <span className={styles.UseDetail}>{saving.use}</span>
-            </div>
-            ))}
-
-  {filteredSavings.length > 5 && (
-    <button className={styles.MoreButton} onClick={() => setShowAll(!showAll)}>
-      {showAll ? "접기" : "더보기"}
-    </button>
+              ))
   )}
-</div>
+
+            {filteredSavings.length > 5 && (
+              <button className={styles.MoreButton} onClick={() => setShowAll(!showAll)}>
+                {showAll ? "접기" : "더보기"}
+              </button>
+            )}
+          </div>
       </div>
 
       <div className={styles.Rate}>
@@ -239,43 +251,50 @@ const filteredSavings = filteredByPeriodSavings.filter((saving) => {
              현재 회원님의 등급은 <span className={styles.RateMyCurrentRate}>{currentRate}</span> 입니다
         </span>
         </div>
+        <p className={styles.MobileGuideText}>등급 아이콘을 클릭하여 혜택을 확인해 보세요</p>
           <div className={styles.RateContainer}>
           {rateData.map((rate, index) => {
-            const stylesForRate = getStyle(rate); // 스타일 가져오기
-            return (
-              <div key={index} className={styles.RateBox}>
-                <div className={styles.RateShow}>
-                  <span
-                    className={styles.RateIcon}
-                    style={stylesForRate.RateIcon} // 동적으로 스타일 적용
-                  >
-                    {rate.icon}
-                  </span>
-                  <span
-                    className={styles.RateText}
-                    style={stylesForRate.RateText} // 동적으로 스타일 적용
-                  >
-                    {rate.text}
-                  </span>
-                </div>
-                <div className={styles.RateInfo}>
-                  <span
-                    className={styles.RateEx1}
-                    dangerouslySetInnerHTML={{ __html: rate.ex1 }}
-                    style={stylesForRate.RateEx1} // 동적으로 스타일 적용
-                  />
-                  <div
-                    className={styles.RateLine}
-                    style={stylesForRate.RateLine} // 동적으로 스타일 적용
-                  ></div>
-                  <span
-                    className={styles.RateEx2}
-                    dangerouslySetInnerHTML={{ __html: rate.ex2 }}
-                    style={stylesForRate.RateEx2} // 동적으로 스타일 적용
-                  />
-                </div>
-              </div>
-            );
+        const stylesForRate = getStyle(rate);
+
+        return (
+          
+          <div key={index} className={styles.RateBox}>
+            <div className={styles.RateShow} onClick={() => handleToggle(index)}>
+              <span
+                className={styles.RateIcon}
+                style={stylesForRate.RateIcon}
+              >
+                {rate.icon}
+              </span>
+              <span
+                className={`${styles.RateText} ${
+                  visibleIndex === index ? styles.show : styles.hide
+                }`}
+                style={stylesForRate.RateText}
+              >
+                {rate.text}
+              </span>
+            </div>
+            <div
+              className={`${styles.RateInfo} ${
+                visibleIndex === index ? styles.show : styles.hide
+              }`}
+            >
+              <div
+                className={styles.RateEx1}
+                dangerouslySetInnerHTML={{ __html: rate.ex1 }}
+                style={stylesForRate.RateEx1}
+              />
+              <div className={styles.RateLine} style={stylesForRate.RateLine} />
+              <span
+                className={styles.RateEx2}
+                dangerouslySetInnerHTML={{ __html: rate.ex2 }}
+                style={stylesForRate.RateEx2}
+              />
+            </div>
+          </div>
+          
+        );
           })}
         </div>
       </div>

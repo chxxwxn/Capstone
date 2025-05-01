@@ -71,6 +71,9 @@ import ProductRegister from './Admin/ProductRegister'
 import ProductManage from './Admin/ProductManage'
 import UserManage from './Admin/UserManage'
 
+import Chatbot from './Chatbot/Chatbot';
+
+
 function App() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -94,6 +97,7 @@ function App() {
       <Header />
       
       <Routes>
+        
         <Route path="/" element={<><Banner /><Main /></>} />
         <Route path="/Main2" element={<><Banner /><Main2 /></>} />
         <Route path="/login" element={<Login />} />
@@ -110,7 +114,8 @@ function App() {
         <Route path="/Mypage/Saving&Rate" element={<SavingRate />} />
         <Route path="/Mypage/OrderHistory" element={<OrderHistory />} />
         <Route path="/Payment" element={<Payment />} />
-        <Route path="/Paid" element={<Paid/>} />
+        <Route path="/Paid" element={<Paid />} />
+        <Route path="Chatbot" element={<Chatbot />} />
 
         {/* All */}
         <Route path="/all" element={<AllPre />} />

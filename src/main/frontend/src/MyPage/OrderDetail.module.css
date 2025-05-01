@@ -1,0 +1,589 @@
+* {
+    font-family: 'Pretendard', sans-serif;
+    cursor: pointer;
+    
+  }
+  body {
+    background-color: #ffffff;
+  }
+  
+
+.OrderDetail{
+  padding: 150px 400px 0px 400px;
+  margin-bottom: 150px;
+}
+
+.OrderDetailTitle{
+    font-weight: 600;
+    font-size: 22px;
+    padding-bottom: 40px;
+    color: #303030;
+}
+
+.OrderDetailTitle2{
+  font-weight: 600;
+    font-size: 18px;
+    color: #303030;
+}
+
+.OrderDetailTitle3{
+  font-weight: 600;
+    font-size: 16px;
+    padding-top: 10px;
+    color: #303030;
+}
+
+.OrderBox{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0px;
+  }
+
+  .ProductList{
+    padding: 10px 0px 30px 0px;
+  }
+  
+  .OrderPhoto {
+    width: 150px;
+    height: 150px;
+    overflow: hidden; /* 넘치는 부분을 숨김 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 20px 0px 0px;
+  }
+  
+  .OrderPhoto img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 이미지를 비율 유지하면서 채우기 */
+  }
+  
+  .ProductLine {
+    width: 1px; /* 선의 두께 */
+    height: 130px; /* 원하는 높이 */
+    background-color: #999999; /* 선 색상 */
+  }
+  
+  .InfoBox{
+    padding: 0 20px;
+    height: 130px;
+    display: flex;
+    flex-direction: column; /* 세로 방향 정렬 */
+    justify-content: space-between; 
+  }
+  
+  .ProductName{
+    font-weight: 500;
+    font-size: 18px;
+    color: #303030;
+    margin-bottom: 5px;
+  }
+  
+  .ProductInfo{
+    display: flex;
+    gap: 5px;
+    font-weight: 500;
+    font-size: 16px;
+    color: #505050;
+  }
+  
+  .BuyInfo{
+    display: flex;
+    gap: 5px;
+    font-weight: 500;
+    font-size: 18px;
+    color: #303030;
+  }
+  
+  .OrderStatus{
+    padding: 10px 30px;
+    background-color: #fff;
+    border: 1px solid #303030;
+    display: flex;
+    font-weight: 500;
+    font-size: 16px;
+    color: #303030;
+  }
+  
+  .OrderInfoBox{
+    display: flex;
+    align-items: center;
+  }
+
+.OrederNumDate{
+    gap: 10px;
+    display: flex;
+}
+
+.OrderStatusContainer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.ReviewButton,
+.TrackButton {
+  padding: 10px 30px;
+  background-color: #303030;
+  border: 1px solid #303030;
+  display: flex;
+  font-weight: 500;
+  font-size: 16px;
+  color: #fff;
+}
+
+
+
+/* 좌우 영역 래퍼 */
+.OrderInfo {
+  display: flex;
+  gap: 30px;
+}
+
+/* 좌측 영역 */
+.left{
+  width: 60%;
+  padding-right: 40px;
+}
+
+/* 우측 영역 */
+.right {
+  width: 40%;
+  border-left: 1px solid #ddd;
+  padding-left: 40px;
+}
+
+/* 공통 스타일: 제목 */
+.left h2,
+.right h2 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+/* 상품 정보 */
+.productInfo {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 20px;
+}
+
+.productInfo img {
+  width: 100px;
+  margin-right: 20px;
+  border-radius: 5px;
+}
+
+.productInfo p {
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+.Waybill ,.Method{
+  margin-bottom: 40px;
+}
+
+/* 🚀 배송 정보 (주소 입력 UI 개선) */
+.shippingInfo {
+  margin-bottom: 50px;
+}
+
+/* 버튼 스타일 一 (수정하기) */
+.editButton {
+  background-color: transparent;
+  color: #666;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+ 
+}
+
+.editButton:hover {
+  color: #aaa;
+}
+
+/* 수정 및 배송지 목록 버튼 스타일 */
+.shippingButtons {
+  display: flex;
+  gap: 10px;
+}
+
+.addressListButton {
+  background-color: transparent;
+  color: #666;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.addressListButton:hover, .editButton:hover {
+  color: #aaa;
+}
+
+.addressListItem button {
+  background: #f9f9f9;
+  padding: 8px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.addressListItem button:hover {
+  background: #eee;
+}
+
+.AddresssHeader{
+  display: flex;
+  justify-content: space-between;
+    align-items: center;
+}
+
+/* 🚀 배송 정보 (input 필드 스타일) */
+.shippingInfo input {
+  width: 60%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  background-color: #f9f9f9;
+  margin-bottom: 10px;
+}
+
+/* 🚀 주소 입력 필드 */
+.addressInput {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.addressInput input {
+  width: 70%;
+  padding: 8px;
+  font-size: 14px;
+  background-color: #f9f9f9;
+}
+
+/* 🚀 주소 저장 시 검색창 숨김 */
+.addressSaved .addressInput {
+  display: none;
+}
+
+.searchButton {
+  background-color: transparent;
+  border: 1px #fff;
+  color: #666;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+  margin-left: 1%;
+}
+
+.saveButton {
+  background-color: transparent;
+  border: 1px #fff;
+  color: #666;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+  margin-left: 1%;
+}
+
+/* 적립금 및 쿠폰 사용 */
+.rewardCouponSection {
+  margin-bottom: 50px;
+}
+
+.rewardCouponSection h2 {
+  font-size: 18px;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.rewardCouponSection div {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.rewardCouponSection label {
+  font-size: 14px;
+  margin-bottom: 5px;
+  width: 100px;
+  text-align: left;
+}
+
+.rewardCouponSection input {
+  width: 40%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  margin-left: -6%;
+}
+
+.rewardCouponSection span {
+  margin-left: 1%;
+}
+
+.rewardCouponSection select {
+  width: 42.5%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  color: #777;
+  margin-left: -6%;
+}
+
+.rewardCouponSection button {
+  padding: 8px 12px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.rewardCouponSection button:hover {
+  background-color: #0056b3;
+}
+
+/* 🚀 결제 수단 디자인 */
+
+.Payment{
+  margin-bottom: 40px;
+}
+.paymentOptions div {
+  display: flex;
+  align-items: center;
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  transition: 0.3s;
+}
+
+.paymentOptions div:hover {
+  background: #eee;
+}
+
+/* 결제 수단 라벨 스타일 */
+.paymentOptions label {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  cursor: pointer;
+  gap: 5px;
+  margin-bottom: 5px;
+}
+
+.paymentOptions input[type="radio"] {
+  margin-right: 8px;
+}
+
+/* 결제 정보 (우측 영역) */
+.rightSection h2 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.rightSection p {
+  font-size: 16px;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+.Line1 {
+  width: 100%;  /* 선의 두께 (너비) */
+  height: 1px; /* 선의 길이 (높이) */
+  background-color: #ccc; 
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+
+.Line {
+  width: 100%;  /* 선의 두께 (너비) */
+  height: 1px; /* 선의 길이 (높이) */
+  background-color: #ccc; 
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+
+.totaldiscount{
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  gap: 4px;
+  color: #505050;
+}
+
+@media (max-width: 768px) {
+
+  .ProductList{
+    padding: 10px 0px 0px 0px;
+  }
+  
+  .OrderDetail {
+    padding: 150px 20px 0px 20px;
+    
+  }
+
+  .OrderDetailTitle {
+    font-size: 16px;
+    padding-bottom: 20px;
+  }
+  .OrderDetailTitle2 {
+    font-size: 14px;
+  }
+
+  .OrderPhoto {
+    width: 100px;
+    height: 100px;
+    padding-right: 0px;
+  }
+
+  .OrderPhoto img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .InfoBox {
+    padding: 0px;
+    height: 0px;
+  }
+
+  .ProductName {
+    font-size: 14px;
+  }
+
+  .ProductInfo{
+    font-size: 14px;
+  }
+
+  .BuyInfo {
+    margin-top: 5px;
+    font-size: 16px;
+  }
+
+  .OrderBox {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .OrederNumDate {
+    gap: 5px;
+  }
+
+  .OrderStatus{
+    width: 100%;
+    margin: 0px;
+    padding: 8px 0px;
+    font-size: 14px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .OrderInfoBox{
+    align-items: self-start;
+  }
+
+  .OrderInfo {
+    margin-top: 15px;
+    flex-direction: column;
+  }
+
+  .left{
+    width: 100%;
+    padding: 0px;
+  }
+
+  .ReviewButton,
+  .TrackButton  {
+      width: 100%;
+      margin: 0px;
+      padding: 8px 0px;
+      font-size: 14px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .OrderStatusAdd {
+      width: 100%;
+    }
+  .productInfo {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .productInfo img {
+    margin-right: 0;
+    margin-bottom: 10px;
+    width: 80px;
+  }
+
+  .ProductLine{
+    height: 100px;
+    margin: 0px 10px;
+  }
+
+  .OrderStatusContainer {
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.right {
+  width: 100%;
+  border-left: none;
+  padding-left: 0px;
+}
+
+.Line1{
+  display: none;
+}
+
+.Line{
+  width: 100%;
+}
+  .rewardCouponSection label {
+    width: auto;
+    font-size: 13px;
+  }
+
+  .rewardCouponSection input,
+  .rewardCouponSection select {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .shippingInfo{
+    margin: 0px;
+  }
+
+  .shippingInfo input,
+  .addressInput input {
+    width: 100%;
+  }
+
+  .shippingButtons {
+    flex-direction: column;
+    gap: 5px;
+  }
+}
