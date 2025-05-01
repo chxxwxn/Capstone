@@ -70,6 +70,11 @@ import Admin from './Admin/Admin';
 import ProductRegister from './Admin/ProductRegister'
 import ProductManage from './Admin/ProductManage'
 
+
+import Paid from './Payment/Paid';
+import Chatbot from './Chatbot/Chatbot';
+
+
 function App() {
   return (
     <>
@@ -77,6 +82,7 @@ function App() {
       <Header />
       
       <Routes>
+        
         <Route path="/" element={<><Banner /><Main /></>} />
         <Route path="/Main2" element={<><Banner /><Main2 /></>} />
         <Route path="/login" element={<Login />} />
@@ -94,6 +100,9 @@ function App() {
         <Route path="/Mypage/OrderHistory" element={<OrderHistory />} />
         <Route path="/kakao/callback" element={<KakaoCallback />} />
         <Route path="/Payment" element={<Payment />} />
+        <Route path="Paid" element={<Paid />} />
+        <Route path="Chatbot" element={<Chatbot />} />
+
         {/* All */}
         <Route path="/all" element={<AllPre />} />
         <Route path="/all/:id" element={<All />} />     

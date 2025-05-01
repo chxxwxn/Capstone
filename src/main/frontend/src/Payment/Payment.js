@@ -1,13 +1,8 @@
 import React, { useState, useContext } from 'react';
 import styles from './Payment.module.css';
 import AddressSearch from './AddressSearch'; // 카카오맵 주소 검색 컴포넌트 추가
-<<<<<<< HEAD
-import { useNavigate } from 'react-router-dom';
-
-=======
 import { LoginContext } from "../Login/LoginContext";
-import { Link } from 'react-router-dom';
->>>>>>> cddc7add5c85bb1080aa8eb803e615e89ac61e12
+import { Link ,useNavigate  } from 'react-router-dom';
 
 const Payment = () => {
     const navigate = useNavigate();
@@ -110,15 +105,6 @@ const Payment = () => {
             alert('결제 수단을 선택해야 합니다.');
             return;
         }
-<<<<<<< HEAD
-        alert(`결제 수단: ${selectedPaymentMethod} (으)로 결제를 진행합니다.`);
-        
-        navigate('/Paid');
-
-        return (
-            <button onClick={handlePayButtonClick}>결제하기</button>
-          );
-=======
     
         if (selectedPaymentMethod === 'kakaopay') {
             try {
@@ -146,7 +132,6 @@ const Payment = () => {
               alert('카카오페이 결제 중 오류가 발생했습니다.');
             }
         }
->>>>>>> cddc7add5c85bb1080aa8eb803e615e89ac61e12
     };
 
     const { isLoggedIn } = useContext(LoginContext);
