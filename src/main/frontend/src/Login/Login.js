@@ -64,7 +64,7 @@ function Login() {
   const handleKakaoLogin = () => {
     if (window.Kakao) {
       window.Kakao.Auth.authorize({
-        redirectUri: "http://localhost:8090/member/kakao/callback" // ✅ 백엔드와 맞춤
+        redirectUri: "http://localhost:8090/member/kakao/callback" // 백엔드와 맞춤
       });
     } else {
       console.error("Kakao SDK not initialized");

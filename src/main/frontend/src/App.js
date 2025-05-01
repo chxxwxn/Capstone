@@ -1,5 +1,5 @@
 import { LoginProvider } from './Login/LoginContext';
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Main from './Main/Main';
 import Main2 from './Main/Main2';
@@ -19,8 +19,8 @@ import InfoEdit from './MyPage/InfoEdit';
 import Coupon from './MyPage/Coupon';
 import SavingRate from './MyPage/Saving&Rate';
 import OrderHistory from './MyPage/OrderHistory';
-import KakaoCallback from './Login/KakaoCallback';
 import Payment from './Payment/Payment';
+import Paid from './Payment/Paid';
 
 /*outer*/
 import PaddingPre from './ProductPre/OuterPre/PaddingPre';
@@ -69,8 +69,25 @@ import AdminRoute from './Admin/AdminRoute';
 import Admin from './Admin/Admin';
 import ProductRegister from './Admin/ProductRegister'
 import ProductManage from './Admin/ProductManage'
+import UserManage from './Admin/UserManage'
 
 function App() {
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const member = params.get("member");
+  
+    if (member) {
+      try {
+        const parsed = JSON.parse(decodeURIComponent(member));
+        sessionStorage.setItem("member", JSON.stringify(parsed));
+        // 원하는 페이지로 이동
+        window.history.replaceState({}, document.title, "/");
+      } catch (err) {
+        console.error("member 파싱 오류:", err);
+      }
+    }
+  }, []);
+
   return (
     <>
     <LoginProvider>
@@ -92,8 +109,9 @@ function App() {
         <Route path="/Mypage/Coupon" element={<Coupon />} />
         <Route path="/Mypage/Saving&Rate" element={<SavingRate />} />
         <Route path="/Mypage/OrderHistory" element={<OrderHistory />} />
-        <Route path="/kakao/callback" element={<KakaoCallback />} />
         <Route path="/Payment" element={<Payment />} />
+        <Route path="/Paid" element={<Paid/>} />
+
         {/* All */}
         <Route path="/all" element={<AllPre />} />
         <Route path="/all/:id" element={<All />} />     
@@ -145,6 +163,7 @@ function App() {
           <Route path="/Admin" element={<Admin />} />
           <Route path="/Admin/ProductRegister" element={<ProductRegister />} />
           <Route path="/Admin/ProductManage" element={<ProductManage />} />
+          <Route path="/Admin/UserManage" element={<UserManage />}/>
         </Route>
       </Routes>
       

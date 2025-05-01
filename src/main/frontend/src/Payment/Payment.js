@@ -1,16 +1,11 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import styles from './Payment.module.css';
 import AddressSearch from './AddressSearch'; // 카카오맵 주소 검색 컴포넌트 추가
-<<<<<<< HEAD
-import { useNavigate } from 'react-router-dom';
-
-=======
 import { LoginContext } from "../Login/LoginContext";
 import { Link } from 'react-router-dom';
->>>>>>> cddc7add5c85bb1080aa8eb803e615e89ac61e12
+
 
 const Payment = () => {
-    const navigate = useNavigate();
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
     const [paymentAgreement, setPaymentAgreement] = useState(false);
     const [productPrice] = useState(59900);
@@ -21,16 +16,9 @@ const Payment = () => {
     const [showAddressSearch, setShowAddressSearch] = useState(false);
     const [selectedAddress, setSelectedAddress] = useState(null);
     const [selectedCoupon, setSelectedCoupon] = useState("");
-    const [shippingAddresses, setShippingAddresses] = useState([
-        {
-            name: '홍길동',
-            phone: '010-1111-2222',
-            address: '서울특별시',
-            detailAddress: '1동 002호',
-            zipCode: '12345',
-        },
-    ]);
     const [isEditingShipping, setIsEditingShipping] = useState(false);
+    const [member, setMember] = useState(null);
+    const [shippingAddresses, setShippingAddresses] = useState([]);
     const [tempAddress, setTempAddress] = useState({
         name: '',
         phone: '',
@@ -110,16 +98,6 @@ const Payment = () => {
             alert('결제 수단을 선택해야 합니다.');
             return;
         }
-<<<<<<< HEAD
-        alert(`결제 수단: ${selectedPaymentMethod} (으)로 결제를 진행합니다.`);
-        
-        navigate('/Paid');
-
-        return (
-            <button onClick={handlePayButtonClick}>결제하기</button>
-          );
-=======
-    
         if (selectedPaymentMethod === 'kakaopay') {
             try {
               const response = await fetch('http://localhost:8090/payment/ready', {
@@ -146,7 +124,6 @@ const Payment = () => {
               alert('카카오페이 결제 중 오류가 발생했습니다.');
             }
         }
->>>>>>> cddc7add5c85bb1080aa8eb803e615e89ac61e12
     };
 
     const { isLoggedIn } = useContext(LoginContext);
@@ -157,6 +134,29 @@ const Payment = () => {
     };
 
     const totalAmount = calculateTotal();
+    
+    useEffect(() => {
+        const storedMember = sessionStorage.getItem("member");
+        if (storedMember) {
+          try {
+            const parsedMember = JSON.parse(storedMember);
+            setMember(parsedMember);
+      
+            setShippingAddresses([
+              {
+                name: parsedMember.memberLn + parsedMember.memberFn,
+                phone: `${parsedMember.memberNum1}-${parsedMember.memberNum2}-${parsedMember.memberNum3}`,
+                address: '서울특별시', // 나중에 DB나 사용자 입력으로 바꾸는 것도 가능
+                detailAddress: '1동 002호',
+                zipCode: '12345',
+              },
+            ]);
+          } catch (err) {
+            console.error("회원 정보 파싱 오류:", err);
+          }
+        }
+      }, []);
+
 
     return (
         isLoggedIn ? (
@@ -197,9 +197,9 @@ const Payment = () => {
                         </h2>
                         {!isEditingShipping ? (
                             <>
-                                <p>수령인명: {selectedAddress?.name || shippingAddresses[0].name}</p>
-                                <p>전화번호: {selectedAddress?.phone || shippingAddresses[0].phone}</p>
-                                <p>주소: {selectedAddress?.address || shippingAddresses[0].address} {selectedAddress?.detailAddress || shippingAddresses[0].detailAddress} ({selectedAddress?.zipCode || shippingAddresses[0].zipCode})</p>
+                                <p>수령인명: {selectedAddress?.name ||(shippingAddresses.length > 0 ? shippingAddresses[0].name : '')}</p>
+                                <p>전화번호: {selectedAddress?.phone ||(shippingAddresses.length > 0 ? shippingAddresses[0].phone : '')}</p>
+                                <p>주소: {(selectedAddress?.address || shippingAddresses[0]?.address || '') + ' ' +(selectedAddress?.detailAddress || shippingAddresses[0]?.detailAddress || '') +' (' + (selectedAddress?.zipCode || shippingAddresses[0]?.zipCode || '') + ')'}</p>
                             </>
                         ) : (
                             <>
@@ -232,7 +232,6 @@ const Payment = () => {
                                 <button className={styles.saveButton} onClick={handleSaveAddress}>주소 저장</button>
                             </>
                         )}
-
                         {/* 배송지 목록 토글 */}
                         {showAddressList && (
                             <div className={styles.addressList}>
@@ -260,7 +259,7 @@ const Payment = () => {
                                 onChange={handleRewardPointsChange}
                                 onBlur={handleApplyRewardPoints}
                             />
-                            <span></span>
+                            <span> / 보유 적립금: {member?.point?.toLocaleString()}원</span>
                         </div>
                         <div>
                             <label>쿠폰</label>
@@ -313,9 +312,6 @@ const Payment = () => {
                             결제 내용을 확인하고 동의합니다.
                         </label>
                         <button onClick={handlePayButtonClick}>결제하기</button>
-
-
-                        
                     </div>
                 </div>
             </div>

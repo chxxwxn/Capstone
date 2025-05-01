@@ -7,6 +7,7 @@ import org.springframework.http.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.UUID;
+import java.util.List;
 import java.util.Map;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
@@ -63,12 +64,12 @@ public class MemberServiceImpl implements MemberService{
         return body != null ? (String) body.get("access_token") : null;
     }
     return null;
-}
+  }
 
-/* Access Token으로 사용자 정보 가져오기 & 회원가입/로그인 처리 */
-@Transactional
-@Override
-public MemberVO KakaoMember(String accessToken) throws Exception {
+  /* Access Token으로 사용자 정보 가져오기 & 회원가입/로그인 처리 */
+  @Transactional
+  @Override
+  public MemberVO KakaoMember(String accessToken) throws Exception {
     String kakaoUserInfoUrl = "https://kapi.kakao.com/v2/user/me";
 
     HttpHeaders headers = new HttpHeaders();
@@ -108,10 +109,16 @@ public MemberVO KakaoMember(String accessToken) throws Exception {
     member.setMemberNum3("5678");
     member.setMemberRating("Enjoy");
     member.setPoint(5000);
+    member.setMemberCoupon(0);
 
     // 회원가입 진행
     membermapper.memberJoin(member);
 
     return member;
+  }
+  
+  @Override
+  public List<MemberVO> getAllMembers() throws Exception {
+    return membermapper.getAllMembers();
   }
 }

@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Icon } from '@iconify/react';
 import styles from './Mypage.module.css';
 import Header2 from '../Header/Header2';
 import { Link } from 'react-router-dom'; // Link 컴포넌트 import
+import { LoginContext } from "../Login/LoginContext";
 
 const orders = [
   {
@@ -27,8 +28,26 @@ const orders = [
   },
 ];
 
+
+
 const Mypage = () => {
+  const { isLoggedIn } = useContext(LoginContext);
+  const [member, setMember] = useState(null);
+
+  useEffect(() => {
+    const storedMember = sessionStorage.getItem('member');
+    if (storedMember) {
+      try {
+        setMember(JSON.parse(storedMember)); // JSON 변환
+      } catch (error) {
+        console.error('JSON parsing error:', error);
+        sessionStorage.removeItem('member'); // 오류 발생 시 데이터 삭제
+      }
+    }
+  }, []);
+
   return (
+    isLoggedIn && member ? (
     <>
       <div className={styles.Mypage}>
         <Header2 />
@@ -45,9 +64,9 @@ const Mypage = () => {
                 </div>
               </div>
               <div className={styles.TextBox}>
-                <div className={styles.HelloBox}>안녕하세요! 홍길동 님.</div>
+                <div className={styles.HelloBox}>{member.memberLn}{member.memberFn}</div>
                 <div className={styles.RateBox}>
-                  회원님의 등급은 <span className={styles.Rate}>Silver</span> 입니다.
+                  회원님의 등급은 <span className={styles.Rate}>{member.memberRating}</span> 입니다.
                 </div>
               </div>
             </div>
@@ -63,7 +82,7 @@ const Mypage = () => {
             />
             </Link>
             </div>
-                  <div className={styles.SavingPcs}>1,000원</div>
+                  <div className={styles.SavingPcs}>{member.point}</div>
               <div className={styles.SavingTotal}>총 적립금</div>
             </div>
           </div>
@@ -77,7 +96,7 @@ const Mypage = () => {
                 />
               </Link>
             </div>
-                  <div className={styles.CouponPcs}>1개</div>
+                  <div className={styles.CouponPcs}>{member.memberCoupon}개</div>
               <div className={styles.CouponTotal}>총 쿠폰</div>
             </div>
           </div>
@@ -182,6 +201,9 @@ const Mypage = () => {
         </div>
       </div>
     </>
+    ): (
+      <Link to="/login"></Link>
+    )
   );
 };
 

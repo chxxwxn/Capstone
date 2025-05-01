@@ -1,11 +1,9 @@
 package com.FM.backend.service;
 
-import org.apache.ibatis.annotations.Mapper;
-
+import java.util.List;
 
 import com.FM.backend.model.MemberVO;
 
-@Mapper
 public interface MemberService {
 
   /* 메일 유무 */
@@ -21,5 +19,7 @@ public interface MemberService {
   public MemberVO KakaoMember(String accessToken) throws Exception;
 
   String getKakaoAccessToken(String code);
+
+  public List<MemberVO> getAllMembers() throws Exception;
 
 }

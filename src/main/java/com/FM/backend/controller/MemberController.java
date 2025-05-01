@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.net.URLEncoder;
 
@@ -53,6 +54,7 @@ public class MemberController {
   @Autowired
   private PasswordEncoder passwordEncoder;
 
+  /* 이메일 중복 확인 */
   @PostMapping("/mailChk")
   public ResponseEntity<?> checkEmail(@RequestBody Map<String, String> request) {
     String memberMail = request.get("memberMail");
@@ -66,7 +68,7 @@ public class MemberController {
     }
   }
 
-  //회원가입 페이지 이름
+  /* 회원가입 페이지 진입 */
   @RequestMapping(value = "Join2", method = RequestMethod.GET)
   public void joinGET() {
     
@@ -74,7 +76,7 @@ public class MemberController {
       
   }
 
-  //회원가입
+  /* 회원가입 처리 */
   @RequestMapping(value="/Join2", method=RequestMethod.POST)
   public ResponseEntity<String> joinPOST(@RequestBody MemberVO member) {
     try {
@@ -97,7 +99,8 @@ public class MemberController {
                            .body("회원가입 실패: " + e.getMessage());
     }
   }
-   
+
+  /* 로그인 페이지 진입 */
   @RequestMapping(value="login", method = RequestMethod.GET)
   public void loginGET() {
       
@@ -158,7 +161,7 @@ public class MemberController {
         
       if (lvo != null && passwordEncoder.matches(rawPw, lvo.getMemberPw())) {
         lvo.setMemberPw(""); // 비밀번호 숨김 처리
-        session.setAttribute("member", lvo);
+        session.setAttribute("member", lvo); // 세션에 저장
 
         Map<String, Object> response = new HashMap<>();
         response.put("success", true);
@@ -176,24 +179,25 @@ public class MemberController {
     }
   }
 
+  /* 카카오 로그인 콜백 처리리 */
   @GetMapping("/kakao/callback") 
-public ResponseEntity<Void> kakaoCallback(
+  public ResponseEntity<Void> kakaoCallback(
     @RequestParam("code") String code, 
     HttpServletRequest request,  // HttpServletRequest 추가
     HttpServletResponse response
-) {
+  ) {
     try {
-        // 1️⃣ 카카오 서버에서 accessToken 요청
+        // 카카오 서버에서 accessToken 요청
         String accessToken = memberservice.getKakaoAccessToken(code);
 
-        // 2️⃣ 사용자 정보 가져오기
+        // 사용자 정보 가져오기
         MemberVO member = memberservice.KakaoMember(accessToken);
 
-        // 3️⃣ 세션에 저장
+        // 세션에 저장
         HttpSession session = request.getSession(); // request 사용 가능
         session.setAttribute("member", member);
 
-        // 4️⃣ 프론트엔드로 `member` 정보도 함께 리다이렉트
+        // 프론트엔드로 `member` 정보도 함께 리다이렉트
         String redirectUrl = "http://localhost:3000/?token=" + accessToken + 
                              "&member=" + URLEncoder.encode(new ObjectMapper().writeValueAsString(member), "UTF-8");
                              
@@ -202,6 +206,11 @@ public ResponseEntity<Void> kakaoCallback(
     } catch (Exception e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
-}
-
+  }
+  
+  @GetMapping("/list")
+  public ResponseEntity<List<MemberVO>> getAllMembers() throws Exception {
+    List<MemberVO> members = memberservice.getAllMembers();
+    return ResponseEntity.ok(members);
+  }
 }

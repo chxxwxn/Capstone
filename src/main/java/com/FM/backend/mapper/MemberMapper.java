@@ -1,5 +1,7 @@
 package com.FM.backend.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -21,4 +23,6 @@ public interface MemberMapper {
 
   /* 로그인 */
   public MemberVO memberLogin(MemberVO member);
+
+  public List<MemberVO> getAllMembers();
 }
