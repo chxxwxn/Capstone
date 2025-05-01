@@ -1,276 +1,277 @@
 * {
-    font-family: 'Pretendard', sans-serif;
-    
-  }
-  body {
-    background-color: #ffffff;
+  font-family: 'Pretendard', sans-serif;
+  
+}
+body {
+  background-color: #ffffff;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  border-top: 1px solid #BEBEBE; /* 위 선 */
+  border-bottom: 1px solid #BEBEBE; /* 아래 선 */
+  position: fixed; /* 헤더 고정 */
+  left: 0; /* 화면 왼쪽 끝에 고정 */
+  right: 0; /* 화면 오른쪽 끝에 고정 */
+  z-index: 1000; /* 다른 요소 위에 보이도록 */
+  height: 50px; /* 헤더의 고정 높이 설정 */
+  box-sizing: border-box; /* padding과 border가 실제 크기에 포함되도록 */
+  background-color: white; /* 배경색을 흰색으로 설정하여 다른 콘텐츠와 겹칠 때 보이지 않게 */
+  transition: top 0.3s ease-in-out, opacity 0.3s ease-in-out; /* 부드러운 트랜지션 추가 */
+  opacity: 1; /* 기본 상태에서 보이도록 설정 */ 
+}
+
+/* 마우스가 헤더 영역에 들어오면, 헤더가 다시 보이도록 */
+.header:hover {
+  top: 0;
+  opacity: 1;
+}
+
+/* 스크롤 시 숨겨지는 상태 */
+.header.hidden {
+  top: -50px; /* 헤더를 화면 위로 숨기기 */
+  opacity: 0; /* 헤더 투명하게 설정 */
+  transform: translateY(-100%); /* 헤더를 위로 밀어서 숨기기 */
+
+}
+
+ 
+  .logo img {
+    height: 80px; /* 로고 이미지 크기 제한 */
+    width: auto; /* 이미지 비율 유지 */
   }
   
-  .header {
+  .icons {
+    display: flex;
+    gap: 20px; /* 아이콘 사이의 간격 */
+  }
+  
+  .icon {
+    font-size: 24px; /* 아이콘 크기 */
+  }
+  
+  /* CategoryHeader 스타일 */
+  .categoryHeader {
+    display: flex;
+    flex-direction: column; /* 전체 구조는 세로 정렬 */
+    align-items: flex-start;
+    padding: 150px 400px 0px 400px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.categoryTop {
+    display: flex;
+    align-items: center; /* 같은 높이에 배치 */
+    gap: 20px; /* 타이틀과 아이템 사이 간격 */
+    width: 100%;
+}
+
+  
+.categoryTitle {
+    font-size: 24px;
+    font-weight: 400;
+    white-space: nowrap; /* 줄 바꿈 방지 */
+}
+  
+
+.categoryItems {
+    display: flex;
+    gap: 25px;
+}
+
+  .categoryItem {
+    gap: 25px;
+    display: flex;
+    font-size: 22px;
+    font-weight: 400;
+    word-wrap: break-word;
+  }
+  
+  .padding {
+    color: rgba(0, 0, 0, 0.50);
+    
+  }
+  
+  .jacket {
+    color: rgba(0, 0, 0, 0.50);
+  }
+  
+  
+  .coat {
+    color: rgba(0, 0, 0, 0.50);
+  }
+  
+  .cardigan {
+    color: rgba(0, 0, 0, 0.50);
+  }
+  
+  .etc {
+    color: rgba(0, 0, 0, 0.50);
+  }
+  .categoryLine {
+    width: 40px;
+    height: 1px;
+    background-color: black;
+    margin-top: 60px;
+    margin-bottom: 10px;
+}
+
+  /* Sorting Buttons 스타일 */
+
+  .sortButtons {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    align-items: center;
+  }
+  
+  .sortButton {
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 8px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+  }
+  
+  .sortButton:hover {
+  
+    color: #000; /* 호버 시 글자색 변경 */
+    font-weight: 600;
+  }
+  
+  .borderDivider {
+    width: 1px;
+    height: 15px;
+    background-color: #303030;
+    margin: 0 8px; /* 버튼 간격을 조절 */
+  }
+  
+  /* 상품 그리드 */
+.productList {
+    margin-top: 20px;
+    padding: 0 400px;
+  }
+  
+  .productGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 70px 80px;
+  }
+  
+
+  .productImage {
+    width: 100%;
+    height: auto;
+    display: block;
+    border:  1px solid #ddd;
+    border-bottom: none;
+    margin-bottom:10px;
+  }
+  
+  .productHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
-    border-top: 1px solid #BEBEBE; /* 위 선 */
-    border-bottom: 1px solid #BEBEBE; /* 아래 선 */
-    position: fixed; /* 헤더 고정 */
-    left: 0; /* 화면 왼쪽 끝에 고정 */
-    right: 0; /* 화면 오른쪽 끝에 고정 */
-    z-index: 1000; /* 다른 요소 위에 보이도록 */
-    height: 50px; /* 헤더의 고정 높이 설정 */
-    box-sizing: border-box; /* padding과 border가 실제 크기에 포함되도록 */
-    background-color: white; /* 배경색을 흰색으로 설정하여 다른 콘텐츠와 겹칠 때 보이지 않게 */
-    transition: top 0.3s ease-in-out, opacity 0.3s ease-in-out; /* 부드러운 트랜지션 추가 */
-    opacity: 1; /* 기본 상태에서 보이도록 설정 */ 
   }
   
-  /* 마우스가 헤더 영역에 들어오면, 헤더가 다시 보이도록 */
-  .header:hover {
-    top: 0;
-    opacity: 1;
+  .productName {
+    font-size: 16px;
+    font-weight: 400;
+    cursor: pointer;
   }
   
-  /* 스크롤 시 숨겨지는 상태 */
-  .header.hidden {
-    top: -50px; /* 헤더를 화면 위로 숨기기 */
-    opacity: 0; /* 헤더 투명하게 설정 */
-    transform: translateY(-100%); /* 헤더를 위로 밀어서 숨기기 */
-  
-  }
-  
-   
-    .logo img {
-      height: 80px; /* 로고 이미지 크기 제한 */
-      width: auto; /* 이미지 비율 유지 */
-    }
-    
-    .icons {
-      display: flex;
-      gap: 20px; /* 아이콘 사이의 간격 */
-    }
-    
-    .icon {
-      font-size: 24px; /* 아이콘 크기 */
-    }
-    
-    /* CategoryHeader 스타일 */
-    .categoryHeader {
-      display: flex;
-      flex-direction: column; /* 전체 구조는 세로 정렬 */
-      align-items: flex-start;
-      padding: 150px 400px 0px 400px;
-      box-sizing: border-box;
-      width: 100%;
-  }
-  
-  .categoryTop {
-      display: flex;
-      align-items: center; /* 같은 높이에 배치 */
-      gap: 20px; /* 타이틀과 아이템 사이 간격 */
-      width: 100%;
-  }
-  
-    
-  .categoryTitle {
-      font-size: 24px;
-      font-weight: 400;
-      white-space: nowrap; /* 줄 바꿈 방지 */
-  }
-    
-  
-  .categoryItems {
-      display: flex;
-      gap: 25px;
-  }
-  
-    .categoryItem {
-      gap: 25px;
-      display: flex;
-      font-size: 22px;
-      font-weight: 400;
-      word-wrap: break-word;
-    }
-    
-    .padding {
-      color: rgba(0, 0, 0, 0.50);
-      
-    }
-    
-    .jacket {
-      color: rgba(0, 0, 0, 0.50);
-    }
-    
-    
-    .coat {
-      color: rgba(0, 0, 0, 0.50);
-    }
-    
-    .cardigan {
-      color: rgba(0, 0, 0, 0.50);
-    }
-    
-    .etc {
-      color: rgba(0, 0, 0, 0.50);
-    }
-    .categoryLine {
-      width: 40px;
-      height: 1px;
-      background-color: black;
-      margin-top: 60px;
-      margin-bottom: 10px;
-  }
-  
-    /* Sorting Buttons 스타일 */
-  
-    .sortButtons {
-      display: flex;
-      justify-content: flex-end;
-      width: 100%;
-      align-items: center;
-    }
-    
-    .sortButton {
-      font-size: 14px;
-      font-weight: 500;
-      padding: 8px 8px;
-      border: none;
-      background-color: transparent;
-      cursor: pointer;
-    }
-    
-    .sortButton:hover {
-    
-      color: #000; /* 호버 시 글자색 변경 */
-      font-weight: 600;
-    }
-    
-    .borderDivider {
-      width: 1px;
-      height: 15px;
-      background-color: #303030;
-      margin: 0 8px; /* 버튼 간격을 조절 */
-    }
-    
-    /* 상품 그리드 */
-  .productList {
-      margin-top: 20px;
-      padding: 0 400px;
-    }
-    
-    .productGrid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 70px 80px;
-    }
-    
-  
-    .productImage {
-      width: 100%;
-      height: auto;
-      display: block;
-      border:  1px solid #ddd;
-      border-bottom: none;
-    }
-    
-    .productHeader {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    
-    .productName {
-      font-size: 16px;
-      font-weight: 400;
-      cursor: pointer;
-    }
-    
-    .wishlistButton {
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      font-size: 20px; /* 아이콘 크기나 텍스트 크기 */
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 0;
-      margin: 0;
-    }
-   
-    .wishlistIconActive {
-      color: #FF4040; /* 찜하기 선택된 상태일 때 하트 색상 (예: 빨간색) */
-    }
-    
-  
-    
-    .colorOptions {
-      display: flex;
-      gap: 10px;
-      padding: 0;
-      margin: 0;
-    }
-    
-    .colorCircle {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      border: 1px solid #ddd;
-      cursor: pointer;
-    }
-  
-    .productInfo {
-      display: flex;
-      justify-content: space-between;
-      align-items: center; /* 세로 중앙 정렬 (선택 사항) */
-  }
-    .productPrice {
-      font-style: normal;
-      font-weight: 400;
-      font-size: 18px;
-      cursor: pointer;
-    }
-
-    .productColor{
-      padding: 0;
-      margin: 0;
-    }
-   
-    .colorCircle {
-      display: inline-block;
-      width: 20px; /* 원의 크기 */
-      height: 20px; /* 원의 크기 */
-      border-radius: 50%; /* 원 모양 */
-      margin-left: 10px; /* 텍스트와 원 사이의 간격 */
-    }
-    
-    
-    .productLine {
-      width: 40px;
-      height: 1px;
-      background-color: #000;
-      opacity: 0.5;
-  }
-  
-  .pagination {
+  .wishlistButton {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 20px; /* 아이콘 크기나 텍스트 크기 */
     display: flex;
     justify-content: center;
-    margin-top: 20px;
-    padding: 100px 0px;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+  }
+ 
+  .wishlistIconActive {
+    color: #FF4040; /* 찜하기 선택된 상태일 때 하트 색상 (예: 빨간색) */
   }
   
-  .pageButton {
-    margin: 0 5px;
-    padding: 8px 12px;
-    border: none;
-    background-color: #f5f5f5;
+
+  
+  .colorOptions {
+    display: flex;
+    gap: 10px;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .colorCircle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid #ddd;
     cursor: pointer;
-    font-size: 14px;
+  }
+
+  .productInfo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* 세로 중앙 정렬 (선택 사항) */
+}
+  .productPrice {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    cursor: pointer;
+  }
+
+  .productColor{
+    padding: 0;
+    margin: 0;
+  }
+ 
+  .colorCircle {
+    display: inline-block;
+    width: 20px; /* 원의 크기 */
+    height: 20px; /* 원의 크기 */
+    border-radius: 50%; /* 원 모양 */
+    margin-left: 10px; /* 텍스트와 원 사이의 간격 */
   }
   
-  .pageButton.active {
-    background-color: #303030;
-    color: #fff;
-  }
   
-  
-  
-  
+  .productLine {
+    width: 40px;
+    height: 1px;
+    background-color: #000;
+    opacity: 0.5;
+    margin: 10px 0px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  padding: 100px 0px;
+}
+
+.pageButton {
+  margin: 0 5px;
+  padding: 8px 12px;
+  border: none;
+  background-color: #f5f5f5;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.pageButton.active {
+  background-color: #303030;
+  color: #fff;
+}
+
+
+

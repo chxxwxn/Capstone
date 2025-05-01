@@ -12,6 +12,7 @@
 }
 .SavingRate{
   padding: 150px 400px 0px 400px;
+  margin-bottom: 150px;
 }
 
 .SavingRateTitle{
@@ -162,12 +163,12 @@
 .RateHeader{
   margin-bottom: 15px;
 }
-
-.RateContainer{
+.RateContainer {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  
+  justify-content: flex-start; /* 왼쪽 정렬 */
+  width: 100%;
+  align-items: flex-start;
 }
 
 .RateShow{
@@ -175,9 +176,6 @@
   align-items: center;
   margin-bottom: 15px;
 }
-
-
-
 
 .RateIcon{
   background-color: #ddd; /* 배경색 회색 */
@@ -219,32 +217,28 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
-  width: 250px; /* 적절한 크기로 조정 */
   padding: 20px;
-  position: relative; /* ::after 위치 지정 */
+  position: relative;
+  flex-grow: 1; /* 유연한 너비 조절 */
+  min-width: 150px; /* 너무 작아지는 것 방지 */
 }
 
-/* 각 박스의 오른쪽에 선 추가 */
+/* 오른쪽 구분선 추가 */
 .RateBox::after {
   content: "";
   position: absolute;
   right: 0;
-  top: 10%; /* 선의 시작 위치 */
-  height: 80%; /* 선의 길이 조절 */
+  top: 10%;
+  height: 80%;
   width: 2px;
   background-color: #ddd;
 }
 
-/* 마지막 박스의 선 제거 */
-.RateBox:first-child::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 10%; /* 선의 시작 위치 */
-  height: 85%; /* 선의 길이 조절 */
-  width: 2px;
-  background-color: #ddd;
+/* 마지막 박스는 선 제거 */
+.RateBox:last-child::after {
+  display: none;
 }
+
 .RateMyCurrentRate {
   padding: 0px 5px;
   font-weight: 600;
@@ -269,4 +263,149 @@
   background-color: #ddd;
 }
 
+.NoHistory {
+  text-align: center;
+  padding:100px;
+  color: #888;
+  font-size: 14px;
+}
+.MobileGuideText {
+  display: none; /* 기본적으로 숨김 */
+  font-size: 12px;
+  color: #888;
+  text-align: center;
+  margin-bottom: 15px;
+}
 
+/* 390x844 해상도에 맞춘 반응형 스타일 */
+@media (max-width: 479px) {
+  .SavingRate {
+    padding: 100px 20px 0 20px; /* 좌우 여백 줄이기 */
+  }
+
+  .SavingRateTitle, .SavingTitle, .RateTitle {
+    font-size: 16px; /* 모바일에서 제목 크기 줄이기 */
+  }
+
+  .SavingTotal, .RateText {
+    font-size: 14px;
+  }
+
+  .SavingHistoryState {
+    align-items: center;
+    gap: 10px;
+  }
+
+  .SavingHistoryBox {
+    font-size: 12px;
+  }
+
+  .ListHeader, .List {
+    font-size: 12px;
+    gap: 10px;
+    padding: 10px 0;
+  }
+
+  .InfoDetail {
+    gap: 3px;
+  }
+
+  .Period {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .MoreButton {
+    width: 100%;
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  
+.Num, .NumDetail {
+  flex: 0.5;
+}
+
+.Info, .InfoDetail {
+  flex: 2.5;
+}
+
+.Date, .DateDetail {
+  flex: 1;
+}
+.Use, .UseDetail {
+  flex: 0.5;
+}
+
+.RateText {
+  display: none;
+}
+
+.RateShow {
+  flex-direction: column; /* 아이콘과 텍스트 세로 정렬 */
+  align-items: center; /* 중앙 정렬 */
+
+}
+
+.RateInfo{
+  display: flex;
+}
+
+.show {
+  display: block !important;
+}
+
+.hide {
+  display: none !important;
+}
+
+.RateContainer {
+  align-items: flex-start;
+  display: flex;
+}
+
+.RateBox {
+  width: 100%; /* 너비를 100%로 설정하여 꽉 차도록 */
+  min-width: auto; /* 최소 너비 해제 */
+  padding: 0px; /* 패딩 줄이기 */
+  align-items: center;
+  
+}
+.RateIcon {
+  width: 30px; /* 아이콘 크기 줄이기 */
+  height: 30px;
+  font-size: 12px; /* 글자 크기 축소 */
+}
+
+.RateText {
+  font-size: 16px; /* 텍스트 크기 줄이기 */
+  text-align: center; /* 중앙 정렬 */
+  margin-left: 0; /* 좌측 여백 제거 */
+  margin-top: 5px; /* 아이콘 아래로 간격 추가 */
+  white-space: pre-line; /* 모바일에서는 \n을 줄바꿈으로 처리 */
+}
+
+.RateEx1, .RateEx2 {
+  font-size: 12px; /* 설명 글자 크기 줄이기 */
+  max-width: 100%;
+  white-space: pre-line; /* 모바일에서는 \n을 줄바꿈으로 처리 */
+  margin: 10px auto; /* 위아래 간격 조정 및 중앙 정렬 */
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+.RateLine {
+  width: 15px; /* 선 크기 줄이기 */
+  margin: 10px auto; /* 위아래 간격 조정 및 중앙 정렬 */
+}
+
+/* 선 없애기 (작은 화면에서는 불필요할 수 있음) */
+.RateBox::after,
+.RateBox:first-child::before {
+  display: none;
+}
+.MobileGuideText {
+  display: block; /* 모바일에서만 보이도록 */
+}
+}

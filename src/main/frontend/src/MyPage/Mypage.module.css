@@ -121,7 +121,17 @@
   background-color: #fff;
   border: 1px solid black; /* 검은 테두리 */
   margin-bottom: 10px;
+
 }
+/* iconLink 클래스에 적용 */
+.iconLink {
+  text-decoration: none;
+  line-height: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 
 .SavingPcs,.CouponPcs,.WishPcs,.BoardPcs {
   font-weight: 500;
@@ -276,6 +286,145 @@
   align-items: center;
 }
 
-.BoardLink {
+
+.CurrentOrderNext a {
   text-decoration: none;
+}
+
+.BoxContainer {
+  display: flex;
+  flex: 3; 
+}
+
+@media (max-width: 479px) {
+  .Mypage {
+    padding: 150px 20px 0px 20px;
+    
+  }
+
+  .MypageTitle {
+    font-size: 16px;
+    padding-bottom: 20px;
+  }
+
+  .MypageBox {
+    display: flex;
+    flex-direction: column;
+    }
+
+    .Profile {
+      margin-right:30px;
+    }
+
+  .Box1 {
+    width: 100%;
+    box-shadow: none;
+    border: solid 1px #303030;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .HelloBox ,.RateBox{
+    font-size:14px;
+  }
+.RateIcon{
+  width: 30px;
+    height: 30px;
+    font-size:14px;
+}
+  /* Box2~Box5를 flex container로 감싸기 */
+  .BoxContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .Box2, .Box3, .Box4, .Box5 {
+    width: calc(50% - 5px); /* 2개씩 정렬 */
+    box-shadow: none;
+  }
+  
+  .ProfileBox {
+    align-items: center;
+  }
+
+  .HelloBox, .RateBox {
+    text-align: center;
+  }
+
+  .StatusBox {
+    flex-wrap: wrap;
+    height: auto;
+    gap: 10px;
+  }
+
+  .OrderProcessing{
+    padding-top: 30px;
+  }
+  .Status1, .Status2, .Status3, .Status4 {
+    padding: 20px 5px;
+  }
+
+  .StatusNum1, .StatusNum2, .StatusNum3,.StatusNum4{
+    font-weight: 500;
+    font-size: 18px;
+    padding-bottom: 10px;
+    color: #303030;
+  }
+  .StatusText{
+    font-size: 14px;
+  }
+
+  .StatusNext{
+    font-size: 12px;
+  }
+
+  .OrderBox{
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .OrederInfoBox{
+    align-items: self-start;
+  }
+
+  .OrderPhoto {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    padding: 0px;
+  }
+
+  .ProductLine {
+    height: 100px;
+     margin: 0px 10px;
+  }
+
+  .ProductName{
+    font-size: 14px;
+  }
+
+  .InfoBox {
+    height: 0;
+    padding: 0px;
+  }
+
+  .OrderStatus {
+    width: 100%;
+    margin: 10px 0px 0px 0px;
+    padding: 8px 0px;
+    font-size: 14px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ProductInfo{
+  font-size: 14px;
+}
+.BuyInfo{
+  margin-top: 5px;
+  font-size: 16;
+}
 }

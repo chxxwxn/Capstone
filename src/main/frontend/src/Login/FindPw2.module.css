@@ -22,10 +22,10 @@
 /* 제목 스타일 */
 .title {
   font-size: 25px; /* 글자 크기 설정 */
+  font-weight: bold; /* 글자 굵기 설정 */
   text-align: center; /* 텍스트 가운데 정렬 */
   width: 100%; /* 부모 요소의 100% 너비 */
   margin-bottom: 30px; /* 아래쪽 마진 설정 */
-  font-family: 'Paperlogy-8ExtraBold', sans-serif; 
 }
 
 /* 설명 스타일 */
@@ -139,68 +139,3 @@
   color: red; /* 글자 색상 빨간색 설정 */
   font-size: 12px; /* 글자 크기 설정 */
 }
-
-@media all and (max-width: 479px) {
-  /* 컨테이너 스타일 */
-  .container {
-    padding: 16px; /* 패딩 축소 */
-  }
-
-  /* FindPw 페이지의 헤더 위치 조정 */
-  .FindPw .header {
-    margin-left: 0; /* 모바일에서 중앙 정렬 유지 */
-    text-align: center;
-  }
-
-  /* 메인 콘텐츠 스타일 */
-  .main {
-    padding: 40px 16px; /* 패딩 축소 */
-    max-width: 100%; /* 너비 100%로 조정 */
-    flex-grow: 1;
-  }
-
-  /* 제목 스타일 */
-  .title {
-    font-size: 22px; /* 폰트 크기 조정 */
-    margin-bottom: 20px; /* 여백 조정 */
-    margin-left: -3%;
-  }
-
-  /* 설명 스타일 */
-  .description {
-    font-size: 18px;
-    padding-left: 8px;
-  }
-
-  /* 새 비밀번호 입력 필드 */
-  .newPwInput {
-    font-size: 16px;
-    width: 90%;
-    padding: 12px;
-  }
-
-  /* 비밀번호 컨테이너 */
-  .passwordContainer {
-    flex-direction: row; /* 모바일에서도 가로 정렬 유지 */
-    width: 85%;
-    border: none;
-  }
-
-  .eyeButton {
-    background: none;
-    border: none;
-  }
-
-  /* 버튼 그룹 */
-  .buttonGroup {
-    flex-direction: column; /* 버튼을 세로 정렬 */
-    gap: 10px;
-  }
-
-  /* 저장 버튼 */
-  .saveButton {
-    width: 84%;
-    padding: 12px;
-  }
-}
-

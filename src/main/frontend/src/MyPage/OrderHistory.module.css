@@ -5,9 +5,6 @@
     background-color: #ffffff;
   }
 
-
-
-
 .OrderHistory{
   padding: 150px 400px 0px 400px;
 }
@@ -95,6 +92,8 @@
     display: flex;
     align-items: center;
     margin-right: 10px;
+
+  gap:8px;
 }
 
 .PeriodSelect{
@@ -102,7 +101,6 @@
     align-items: stretch;
     gap: 3px;   
 }
-
 
 .OrderBox{
     display: flex;
@@ -178,7 +176,7 @@
     color: #303030;
   }
   
-  .OrederInfoBox{
+  .OrderInfoBox{
     display: flex;
     align-items: center;
   }
@@ -227,17 +225,149 @@
 
   .ReviewButton,
 .TrackButton {
-    padding-top: 3px;
-    background-color: transparent;
-    color: #999;
-    border: none;
-    cursor: pointer;
-    font-size: 12px;
-    text-decoration: underline;
+  padding: 10px 30px;
+  background-color: #303030;
+  border: 1px solid #303030;
+  display: flex;
+  font-weight: 500;
+  font-size: 16px;
+  color: #fff;
 }
 
 .OrderStatusContainer{
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 5px;
+}
+
+@media (max-width: 479px) {
+  .OrderHistory {
+    padding: 100px 20px 0px 20px;
+  }
+
+  .OrderHistoryTitle {
+    font-size: 18px;
+    padding-bottom: 20px;
+  }
+
+  .OrderHistoryHeader {
+    align-items: center;
+  }
+
+  .OrderCheck, .OrderClaim {
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .OrderHistoryState {
+    align-items: center;
+  }
+
+  .OrderHistoryState{
+    padding: 8px 0px;
+  }
+
+  .Period {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+
+
+  .OrderBox {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .OrederNumDate{
+    font-size: 14px;
+  }
+
+  .OrderInfoBox{
+    align-items: self-start;
+  }
+
+  .OrderPhoto {
+    width: 100px;
+    height: 100px;
+    padding: 0;
+    
+  }
+
+  .ProductLine {
+    height: 100px;
+    margin: 0px 10px;
+  }
+
+  .InfoBox {
+    padding: 0px;
+    height: 0px;
+  }
+
+  .ProductName {
+    font-size: 14px;
+  }
+
+  .ProductInfo {
+    font-size: 14px;
+  }
+
+  .BuyInfo {
+    margin-top: 5px;
+    font-size: 16px;
+  }
+
+ .OrderStatusContainer{
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    align-items:  center;
+  }
+
+  .OrderStatus{
+    width: 100%;
+    margin: 0px;
+    padding: 8px 0px;
+    font-size: 14px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .More {
+    width: 100%;
+    font-size: 12px;
+    padding: 8px;
+  }
+
+
+  .ReviewButton,
+.TrackButton  {
+    width: 100%;
+    margin: 0px;
+    padding: 8px 0px;
+    font-size: 14px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .PeriodSelect{
+    display: none;
+  }
+
+  .OrderStatusAdd {
+    width: 100%;
+  }
+ .ProductList{
+  padding: 10px 5px;
+ }
+
+ .PeriodText{
+  margin-right:0px;
+  gap:8px;
+ }
 }

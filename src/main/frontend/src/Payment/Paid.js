@@ -69,7 +69,6 @@ const navigate = useNavigate();
           </div>
         </div>
 
-
         
 
         <div className={styles.Buttons}>
