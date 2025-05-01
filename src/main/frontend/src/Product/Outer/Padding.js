@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Icon } from '@iconify/react';
 import styles from '../Product.module.css';
 import { useNavigate, useLocation } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 
 const Preview = () => {
@@ -220,7 +221,11 @@ const asks = [
 
                 {/* 장바구니 & 구매 버튼 */}
                 <div className={styles.buttonGroup}>
-                  <button className={styles.cartButton}>장바구니</button>
+                
+                    <button className={styles.cartButton}>  
+                      <Link to="/cart" className={styles.InfoEditLink}>장바구니</Link>
+                    </button>
+               
                   <button className={styles.buyButton}>구매하기</button>
                 </div>
               </div>

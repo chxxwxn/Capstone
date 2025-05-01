@@ -9,7 +9,7 @@
   
 .InfoEdit{
   padding: 150px 400px 0px 400px;
-
+  margin-bottom: 150px;
 }
 
 
@@ -83,11 +83,35 @@
     font-weight: 500;
     font-size: 12px;
     color: #505050;
+    margin-left: -5px;
  }
+
+ .Information4{
+  font-weight: 500;
+  font-size: 12px;
+  color: #505050;
+  padding: 0 20px;
+  margin-top: 5px;
+ }
+
+ .InputWrapper2 {
+  position: relative;
+}
+
+.Information3 {
+  position: absolute;
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 13px;
+  color: #666;
+  pointer-events: none;
+  padding-left: 4px;
+}
 
  .PhoneInputWrapper {
   display: flex;
-  width: 268px; /* 부모 요소의 너비에 맞게 100% */
+  width: 284px; 
   box-sizing: border-box; /* 패딩을 포함한 너비 계산 */
   align-items: center;
   justify-content: center;
@@ -165,6 +189,11 @@
   
   }
 
+  .InputArea{
+    display: flex;
+    flex-direction: column;
+  }
+
   .emailInputContainer {
     display: flex;
     align-items: center;
@@ -230,6 +259,9 @@ select:disabled {
   width: 120px; /* select의 너비 조정 (필요에 따라 변경) */
   margin-right: 10px; /* 각 select 간의 간격 조정 */
 }
+.Information select:last-of-type {
+  margin-right: 0;
+}
 
 
 .SelectInput{
@@ -241,7 +273,7 @@ select:disabled {
 
 
 .birthwrapper{
-  width: 268px;
+  width: 284px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -263,3 +295,132 @@ margin-bottom: 0px;
   color: #888;
 }
 
+.InputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0px 20px;
+}
+
+.InfoInput {
+  flex: 1;
+  padding-right: 24px; /* 아이콘이 겹쳐지는 만큼 오른쪽 여백 */
+}
+
+.InfoHintIcon {
+  position: absolute;
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #888;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+
+
+@media (max-width: 479px) {
+  
+  .InfoEdit {
+    padding: 100px 20px 0px 20px; /* 좌우 패딩 축소 */
+  }
+
+  .InfoEditTitle {
+    font-size: 18px; /* 타이틀 크기 축소 */
+    padding-bottom: 20px;
+  }
+
+  .InfoHeader {
+    align-items: center;
+  }
+
+  .editButton {
+    padding: 6px 15px;
+    font-size: 12px;
+  }
+
+  .InfoBox {
+    margin-bottom: 30px; /* 박스 간 간격 축소 */
+  }
+
+  .InfoItem {
+    align-items: center;
+    justify-content: space-around;
+    
+  }
+  .InfoItem2 {
+    justify-content: space-around;
+  }
+
+  
+
+  .InfoTitle {
+    border-right: none;
+  }
+
+  .Information, .emailInputContainer, .PhoneInputWrapper, .birthwrapper {
+    padding: 0px;
+  }
+
+  .Information{
+    align-items: flex-end;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .Information4{
+   padding: 0px;
+    white-space: pre-line;
+  }
+
+  .InfoInput2{
+    width: 120px;
+  }
+
+  .Information select{
+    margin: 0px;
+  }
+  .InfoInput, .emailIdInput, .emailDomainSelect {
+    width: 200px;
+  }
+
+  .SelectInput,.birthwrapper{
+    width: 218px;
+    margin: 0px;
+  }
+
+  .PhoneInputWrapper, .birthwrapper ,.AddressWrapper1 ,.adwrapper{
+    width: 234px;
+  }
+
+  .PhoneInput {
+    width: 100%; /* 전화번호 입력칸도 전체 너비 */
+    
+  }
+  .Information3{
+    right: 10px;
+  }
+
+  .AddressWrapper1 {
+    gap: 5px;
+  }
+
+  .AddressButton {
+    width: 100%; /* 주소 찾기 버튼도 전체 너비 */
+    margin-left: 0;
+  }
+
+  .Secession {
+    justify-content: flex-end; /* 회원탈퇴 링크 중앙 정렬 */
+    font-size: 14px;
+  }
+
+  .InputWrapper {
+    padding: 0px 0px;
+  }
+  .InfoHintIcon{
+    right: 10px
+  }
+}

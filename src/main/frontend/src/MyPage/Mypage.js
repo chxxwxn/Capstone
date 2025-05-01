@@ -52,11 +52,11 @@ const Mypage = () => {
               </div>
             </div>
           </div>
-
+          <div className={styles.BoxContainer}>
           <div className={styles.Box2}>
             <div className={styles.SavingBox}>
             <div className={styles.SavingIcon}>
-            <Link to="/mypage/Saving&Rate">
+            <Link to="/mypage/Saving&Rate"  className={styles.iconLink}>
             <Icon
               icon={'material-symbols-light:money-bag-rounded'}
               className={styles.SavingIconcss}
@@ -70,7 +70,7 @@ const Mypage = () => {
           <div className={styles.Box3}>
             <div className={styles.CouponBox}>
             <div className={styles.CouponIcon}>
-              <Link to="/mypage/coupon">
+              <Link to="/mypage/coupon"  className={styles.iconLink}>
                 <Icon
                   icon={'mdi:coupon'}
                   className={styles.SavingIconcss}
@@ -84,10 +84,12 @@ const Mypage = () => {
           <div className={styles.Box4}>
             <div className={styles.WishBox}>
               <div className={styles.WishIcon}>
+              <Link to="/mypage/Wish"  className={styles.iconLink} >
                 <Icon
                   icon={'solar:heart-bold'}
                   className={styles.SavingIconcss}
                 />
+                </Link>
               </div>
               <div className={styles.WishPcs}>1개</div>
               <div className={styles.WishTotal}>찜한 상품</div>
@@ -96,20 +98,22 @@ const Mypage = () => {
 
           {/* 게시판 아이콘과 네모칸 전체를 클릭 가능하도록 변경 */}
           <div className={styles.Box4}>
-            <Link to="/Board" className={styles.BoardLink}> {/* Link 컴포넌트 사용 */}
-              <div className={styles.BoardBox}>
+            <div className={styles.BoardBox}>
                 <div className={styles.BoardIcon}>
+                <Link to="/Board"  className={styles.iconLink}> {/* Link 컴포넌트 사용 */}       
                   <Icon
                     icon={'tabler:file-filled'}
                     className={styles.SavingIconcss}
                   />
+                  </Link>
                 </div>
                 <div className={styles.BoardPcs}>1개</div>
                 <div className={styles.BoardTotal}>게시판</div>
               </div>
-            </Link>
           </div>
         </div>
+        </div>
+
         <div className={styles.OrderProcessing}>
           <div className={styles.OrderProcessingTitle}>나의 주문 처리 현황</div>
           <div className={styles.StatusBox}>
@@ -152,7 +156,7 @@ const Mypage = () => {
         <div className={styles.CurrentOrder}>
           <div className={styles.CurrentOrderHeader}>
             <div className={styles.CurrentOrderTitle}> 최근 주문 내역</div>
-            <div className={styles.CurrentOrderNext}> &gt;</div>
+            <div className={styles.CurrentOrderNext}> <Link to="/mypage/OrderHistory"> &gt;</Link> </div>
           </div>
           <div className={styles.CurrentLine}></div>
           {orders.map((order) => (
