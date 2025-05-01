@@ -1,0 +1,25 @@
+.banner {
+  width: 100%;
+  height: 94vh;
+  overflow: hidden;
+  position: relative;
+  margin-top: 3%;
+}
+
+.bannerImage {
+  width: 100%;
+  height: 140vh;
+  object-fit: cover;
+}
+
+/* 모바일 세로 (해상도 ~ 479px) */
+@media all and (max-width: 479px) {
+  .banner {
+    height: 50vh;
+    margin-top: 5%;
+  }
+  .bannerImage {
+    height: 30vh;
+    margin-top: 25%;
+  }
+}

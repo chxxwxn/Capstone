@@ -1,0 +1,372 @@
+* {
+    font-family: 'Pretendard', sans-serif;
+  }
+  body {
+    background-color: #ffffff;
+  }
+  .Cart {
+    padding: 150px 400px 0px 400px;
+    margin-bottom: 500px;
+  }
+  
+  .CartTitle {
+    font-weight: 600;
+    font-size: 22px;
+    padding-bottom: 40px;
+    color: #303030;
+  }
+  
+  .CartContainer {
+    display: flex;
+  }
+  
+  /* 좌측 영역 */
+  .leftSection {
+    width: 60%;
+    padding-right: 40px;
+  }
+  
+  .selectionControls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .selectAllLabel {
+    gap: 5px;
+    display: flex;
+    align-items: center;
+    padding: 0px;
+    background-color: transparent;
+    color: #303030;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  .selectAllLabel input {
+    transform: scale(1.2); /* 체크박스 크기 조절 */
+  }
+  
+  
+  .removeSelectedButton {
+    padding: 0px;
+    background-color: transparent;
+    color: #999;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .emptyMessage {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0px;
+  }
+  
+  /* 상품 정보 */
+  .OrderBox {
+    align-items: center;
+    padding: 10px 0px;
+  }
+  
+  .productInfo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+  }
+
+  .productInfo img {
+    height: 150px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+  
+  .productCheckbox {
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+  
+  .ProductLine {
+    margin: 0px 20px;
+    width: 1px;
+    height: 130px;
+    background-color: #999999;
+  }
+  
+  .productInfo2 {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+  
+  .InfoBox {
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .OrderInfo1 {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .ProductName {
+    font-weight: 500;
+    font-size: 18px;
+    color: #303030;
+    margin-bottom: 5px;
+  }
+  
+  .ProductInfo {
+    display: flex;
+    gap: 5px;
+    font-weight: 500;
+    font-size: 16px;
+    color: #505050;
+  }
+  
+  .Size {
+    font-weight: 500;
+    font-size: 14px;
+  }
+  
+  .Color {
+    font-weight: 500;
+    font-size: 14px;
+  }
+  
+  .BuyInfo {
+    display: flex;
+    gap: 5px;
+    font-weight: 500;
+    font-size: 18px;
+    color: #303030;
+  }
+  
+  .Price {
+    font-weight: 500;
+    font-size: 16px;
+    color: #303030;
+  }
+  
+  .controlsContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 8px;
+  }
+  
+  .quantityControl {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .quantityControl button {
+    width: 22px;
+    height: 22px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    background-color: transparent;
+    color: #999;
+  }
+  
+  .quantityControl button:hover {
+    color: #303030;
+  }
+  
+  .removeButtonContainer {
+    margin-left: auto;
+  }
+  
+  .removeButton {
+    padding: 6px 12px;
+    background-color: #999;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .removeButton:hover {
+    background-color: #303030;
+  }
+  
+  /* 우측 영역 */
+  .rightSection {
+    width: 40%;
+    border-left: 1px solid #ddd;
+    padding-left: 40px;
+  }
+  
+  .OrderDetailTitle2 {
+    font-weight: 600;
+    font-size: 18px;
+    color: #303030;
+  }
+  
+  .Line {
+    width: 100%;
+    height: 1px;
+    background-color: #ccc;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .totaldiscount {
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.4;
+    gap: 4px;
+    color: #505050;
+  }
+  
+  .OrderDetailTitle3 {
+    font-weight: 600;
+    font-size: 16px;
+    padding: 10px 0px;
+    color: #303030;
+  }
+  
+  /* 결제 동의 및 결제하기 */
+  .paymentAgreement {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .paymentAgreement label {
+    display: block;
+    font-size: 14px;
+    text-align: left;
+    display: flex;
+    align-items: center;
+  }
+
+  .payButtonWrapper {
+    margin-top: 10px;
+  }
+  
+  .payButton {
+    padding: 12px 24px;
+    background-color: #999;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px;
+    width: 100%;
+  }
+  
+  .payButton:hover {
+    background-color: #303030;
+  }
+  
+@media (max-width: 479px) {
+  .Cart {
+    padding: 150px 20px 0px 20px;
+  }
+
+  .CartTitle {
+    font-size: 16px;
+    padding-bottom: 20px;
+  }
+
+  .CartContainer {
+    flex-direction: column;
+  }
+
+  .leftSection, .rightSection {
+    width: 100%;
+    padding: 0;
+    border: none;
+  }
+
+  .OrderBox{
+    padding: 5px 0px 0px 0px;
+  }
+  .rightSection {
+    margin-top: 30px;
+  }
+
+  .selectionControls {
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .productInfo {
+    align-items: flex-start;
+    padding-bottom: 10px;
+  }
+
+  .productInfo img {
+    width: 100px;
+    height: auto;
+    margin-bottom: 10px;
+  }
+
+  .ProductLine {
+    height: 100px;
+    margin: 0px 10px;
+  }
+
+  .productInfo2 {
+    width: 100%;
+  }
+
+  .controlsContainer {
+
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .InfoBox {
+    height: 69px;
+  }
+
+  .ProductName {
+    font-size: 14px;
+  }
+
+  .ProductInfo {
+    font-size: 14px;
+  }
+
+  .BuyInfo {
+    font-size: 16px;
+  }
+
+  .payButton {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .paymentAgreement label {
+    font-size: 13px;
+  }
+
+  .removeButton {
+    font-size: 13px;
+    padding: 4px 10px;
+  }
+
+  .removeSelectedButton,
+  .selectAllLabel {
+    font-size: 13px;
+  }
+}

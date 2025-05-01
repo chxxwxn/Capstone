@@ -1,0 +1,265 @@
+* {
+    font-family: 'Pretendard', sans-serif;
+    cursor: pointer;
+    
+  }
+  body {
+    background-color: #ffffff;
+  }
+  
+.InfoEdit{
+  padding: 150px 400px 0px 400px;
+
+}
+
+
+.InfoEditTitle{
+  font-weight: 600;
+  font-size: 22px;
+  padding-bottom: 40px;
+  color: #303030;
+}
+
+.InfoHeader{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 8px;
+}
+
+.InfoEditTitle2{
+    font-weight: 600;
+    font-size: 18px;
+    color: #303030;
+  }
+
+  .editButton {
+    display: inline-block;
+    padding: 6px 18px;
+    background-color: #505050;
+    color: white;
+    font-size: 12px;
+    border: none;
+  }
+
+.InfoBox{
+    width: 100%;
+  height: 100%;
+  border-top: 1px solid #30303080;
+  border-bottom: 1px solid #30303080;
+  margin-bottom: 50px;
+}
+
+.InfoItem {
+    display: flex;
+    align-items: center;
+    padding: 10px 0px;
+  }
+  
+  .InfoTitle {
+    width: 100px;
+    font-weight: 500;
+    color: #303030;
+    border-right: 1px solid #30303080;
+    height: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .Information {
+    padding: 0px 20px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .InfoInput {
+    width: 250px;
+    padding: 8px;
+    border: 1px solid #ccc;
+  }
+  
+ .Information2{
+    font-weight: 500;
+    font-size: 12px;
+    color: #505050;
+ }
+
+ .PhoneInputWrapper {
+  display: flex;
+  width: 268px; /* 부모 요소의 너비에 맞게 100% */
+  box-sizing: border-box; /* 패딩을 포함한 너비 계산 */
+  align-items: center;
+  justify-content: center;
+  color: #505050;
+  gap: 2px;
+}
+
+.PhoneInput {
+  width: 100%; /* 각 input의 너비를 전체 너비의 1/3로 설정 */
+  text-align: center; /* 텍스트 가운데 정렬 */
+  padding: 8px;
+  box-sizing: border-box; /* 패딩을 포함하여 너비 계산 */
+  border: 1px solid #ccc;
+  
+}
+
+.RadioLabel {
+  display: flex; /* Flexbox로 설정 */
+  align-items: flex-end;
+  font-size: 12px;
+  cursor: pointer;
+  margin-right: 10px; 
+  accent-color: #303030;
+}
+
+
+.RadioInput {
+  margin-right: 5px; /* 라디오 버튼과 텍스트 사이 간격 */
+}
+
+
+
+.adwrapper{
+  width: 218px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* InfoEdit.module.css */
+
+.AddressWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* 각 입력란 사이의 간격 */
+}
+
+.AddressWrapper1{
+  display: flex;
+ 
+}
+
+.AddressButton {
+  width: 100%;
+  font-weight: 600;
+  padding: 6px 18px;
+  background-color: #505050;
+  color: white;
+  font-size: 12px;
+  border: none;
+  align-items: center;
+  margin-left: 5px;
+}
+
+.InfoInput2{
+  width: 150px;
+    padding: 8px;
+    border: 1px solid #ccc;
+  }
+
+  .InfoItem2{
+    display: flex;
+    align-items: flex-start;
+    padding: 10px 0px;
+  
+  }
+
+  .emailInputContainer {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    width: 268px;
+  }
+  
+  .emailIdInput {
+    border: 1px solid #ccc;
+    padding: 8px;
+    width: 100%;
+    font-size: 14px;
+  }
+  
+  .emailAt {
+    color: #505050;
+  }
+  
+  .emailDomainSelect {
+    border: 1px solid #ccc;
+    padding: 8px;
+    width: 100%;
+    font-size: 14px;
+    color: #505050;
+
+  }
+
+
+ /* 유효성 검사 실패 시 빨간 테두리 */
+.invalidBorder {
+  border: 1px solid red;
+}
+
+.invalidBorder:focus {
+  border-color: red;  /* 포커스 상태에서도 빨간 테두리 유지 */
+  outline: none;      /* 기본 outline을 제거 */
+}
+
+/* 유효성 검사 통과 시 초록 테두리 */
+.validBorder {
+  border: 1px solid green;
+}
+
+.validBorder:focus {
+  border-color: green;  /* 포커스 상태에서도 초록 테두리 유지 */
+  outline: none;         /* 기본 outline을 제거 */
+}
+/* 비활성화 상태에서 테두리 색상 제거 */
+input:disabled {
+  border-color: #ccc;  /* 기본 회색 테두리 */
+}
+
+
+/* Disabled 상태에 대한 스타일 추가 */
+input:disabled,
+select:disabled {
+  border-color: #ccc;  /* 기본 회색 테두리 */
+  background-color: #f2f2f2;  /* 비활성화된 선택지는 배경색을 약간 회색으로 */
+  color: #888;  /* 비활성화된 상태에서 글자 색을 약간 회색으로 */
+}
+
+.Information select {
+  width: 120px; /* select의 너비 조정 (필요에 따라 변경) */
+  margin-right: 10px; /* 각 select 간의 간격 조정 */
+}
+
+
+.SelectInput{
+  border: 1px solid #ccc;
+    padding: 8px;
+    width: 100%;
+    font-size: 14px;
+}
+
+
+.birthwrapper{
+  width: 268px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.InfoBox2{
+  width: 100%;
+height: 100%;
+border-top: 1px solid #30303080;
+border-bottom: 1px solid #30303080;
+margin-bottom: 0px;
+}
+
+.Secession{
+  margin-top: 3px;
+  display: flex;
+  justify-content: flex-end;
+  font-size: 12px;
+  color: #888;
+}
+
