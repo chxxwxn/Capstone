@@ -1,0 +1,3 @@
+com\FM\backend\mapper\MemberMapperTests.class
+com\FM\backend\persistence\JDBCTest.class
+com\FM\backend\BackendApplicationTests.class
