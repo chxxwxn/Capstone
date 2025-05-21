@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import * as tmImage from '@teachablemachine/image';
-import styles from './Chatbot.module.css'; // CSS 모듈로 임포트
+import styles from './Chatbot.module.css';
 
-function PersonalColor() {
+function PersonalColorChat() {
   const [model, setModel] = useState(null);
-  const [prediction, setPrediction] = useState(null);
-  const [imageUrl, setImageUrl] = useState(null); // 미리보기 이미지 URL 상태 추가
-  const [isGenderMale, setIsGenderMale] = useState(true); // 성별 상태 추가
+  const [messages, setMessages] = useState([]);
+  const [inputText, setInputText] = useState('');
+  const [isAwaitingImage, setIsAwaitingImage] = useState(false);
+  const [isGenderMale] = useState(true);
+
+  useEffect(() => {
+    const chatbox = document.querySelector(`.${styles.chatbox}`);
+    chatbox.scrollTop = chatbox.scrollHeight;
+  }, [messages]);
 
   useEffect(() => {
     const loadModel = async () => {
-      const modelURL = `${process.env.PUBLIC_URL}/models/model.json`; // 모델 경로
-      const metadataURL = `${process.env.PUBLIC_URL}/models/metadata.json`; // 메타데이터 경로
-
+      const modelURL = `${process.env.PUBLIC_URL}/models/model.json`;
+      const metadataURL = `${process.env.PUBLIC_URL}/models/metadata.json`;
       try {
         const loadedModel = await tmImage.load(modelURL, metadataURL);
         setModel(loadedModel);
@@ -20,79 +25,87 @@ function PersonalColor() {
         console.error("모델 로드 실패:", error);
       }
     };
-
     loadModel();
   }, []);
 
-  const handleImageUpload = async (e) => {
-    const file = e.target.files[0];
-    if (file && model) {
-      const img = document.createElement('img');
-      img.src = URL.createObjectURL(file);
-      setImageUrl(img.src); // 이미지 URL 상태 업데이트
-      img.onload = async () => {
-        const predictionResult = await model.predict(img);
-        setPrediction(predictionResult);
-      };
+  const addMessage = (sender, content, isImage = false) => {
+    setMessages((prev) => [...prev, { sender, content, isImage }]);
+  };
+
+  const handleSendText = () => {
+    if (!inputText.trim()) return;
+    const userText = inputText.trim();
+    addMessage('user', userText);
+    setInputText('');
+  
+    const lowerText = userText.toLowerCase().replace(/\s/g, '');
+    if (['퍼스널컬러', '퍼컬'].some(keyword => lowerText.includes(keyword))) {
+      addMessage('bot', '사진을 업로드해주세요.');
+      setIsAwaitingImage(true);
+    } else {
+      addMessage('bot', '죄송해요, "퍼스널컬러"라고 입력해 주세요.');
     }
   };
+  
 
-  const getResult = (className) => {
-    let resultTitle, resultExplain;
-    if (isGenderMale) {
-      switch (className) {
-        case "spring":
-          resultTitle = "봄 웜톤";
-          break;
-        case "summer":
-          resultTitle = "여름 쿨톤";
-          break;
-        case "fall":
-          resultTitle = "가을 웜톤";
-          break;
-        case "winter":
-          resultTitle = "겨울 쿨톤";
-          break;
-        default:
-          resultTitle = "알수없음";
-      }
-    } 
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file || !model) return;
 
-    return { resultTitle };
+    const img = document.createElement('img');
+    img.src = URL.createObjectURL(file);
+    addMessage('user', img.src, true);
+
+    img.onload = async () => {
+      const prediction = await model.predict(img);
+      const resultComponent = getResultComponent(prediction);
+      addMessage('bot', resultComponent);
+      setIsAwaitingImage(false);
+    };
   };
 
-  const renderPrediction = () => {
-    if (!prediction) return null;
+  const getResultComponent = (prediction) => {
+    const sorted = prediction.sort((a, b) => b.probability - a.probability);
+    const top = sorted[0];
 
-    // 예측값을 확률에 따라 내림차순으로 정렬
-    const sortedPredictions = prediction.sort((a, b) => b.probability - a.probability);
-    
-    // 가장 높은 확률을 가진 클래스 가져오기
-    const topPrediction = sortedPredictions[0];
-    const { resultTitle, resultExplain } = getResult(topPrediction.className);
+    const getToneName = (className) => {
+      switch (className) {
+        case 'spring': return '봄 웜톤';
+        case 'summer': return '여름 쿨톤';
+        case 'fall': return '가을 웜톤';
+        case 'winter': return '겨울 쿨톤';
+        default: return '알 수 없음';
+      }
+    };
+
+    const resultTitle = getToneName(top.className);
 
     return (
-      <div className={styles.predictionResult}>
-        <h2>{resultTitle}</h2>
-        <p>{resultExplain}</p>
-        <div className={styles.progressBar}>
-          {sortedPredictions.map((pred, index) => {
-            const probability = (pred.probability * 100).toFixed(2);
-            let barWidth = `${probability}%`;
-            if (probability < 10) barWidth = '4%';
-            else if (probability < 1) barWidth = '2%';
-
+      <div>
+        <strong>당신의 퍼스널컬러는 "{resultTitle}"입니다!</strong>
+        <div style={{ marginTop: '10px' }}>
+          {sorted.map((pred, index) => {
+            const toneName = getToneName(pred.className);
+            const percentage = (pred.probability * 100).toFixed(2);
             return (
-              <div key={index} className={styles.classResult}>
-                <p>{pred.className === "spring" ? "봄 웜톤" : 
-                     pred.className === "summer" ? "여름 쿨톤" :
-                     pred.className === "fall" ? "가을 웜톤" : 
-                     pred.className === "winter" ? "겨울 쿨톤" : "알수없음"}: {probability}%</p>
-                <div className={styles.progressBar}>
-                  <div
-                    className={`${styles.bar} ${styles[pred.className]}`}
-                    style={{ width: barWidth }}
-                  ></div>
+              <div key={index} style={{ marginBottom: '8px' }}>
+                <div style={{ fontSize: '0.9em', marginBottom: '2px' }}>{toneName}: {percentage}%</div>
+                <div style={{
+                  height: '8px',
+                  background: '#eee',
+                  borderRadius: '4px',
+                  overflow: 'hidden'
+                }}>
+                  <div style={{
+                    width: `${percentage}%`,
+                    height: '100%',
+                    background:
+                      pred.className === 'spring' ? '#f9c74f' :
+                      pred.className === 'summer' ? '#90be6d' :
+                      pred.className === 'fall' ? '#f9844a' :
+                      pred.className === 'winter' ? '#577590' :
+                      '#ccc'
+                  }} />
                 </div>
               </div>
             );
@@ -104,12 +117,38 @@ function PersonalColor() {
 
   return (
     <div className={styles.container}>
-      <h1>퍼스널 컬러 테스트</h1>
-      <input type="file" onChange={handleImageUpload} />
-      {imageUrl && <img src={imageUrl} alt="Uploaded Preview" className={styles.previewImg} />}
-      {renderPrediction()}
+      <div className={styles.header}>퍼스널컬러 챗봇</div>
+
+      <div className={styles.chatbox}>
+        {messages.map((msg, idx) => (
+          <div key={idx} className={msg.sender === 'user' ? styles.userMsg : styles.botMsg}>
+            {msg.isImage ? (
+              <img src={msg.content} alt="uploaded" className={styles.imageMsg} />
+            ) : typeof msg.content === 'string' ? (
+              <p>{msg.content}</p>
+            ) : (
+              msg.content // JSX 형태 메시지 렌더링
+            )}
+          </div>
+        ))}
+      </div>
+
+      {isAwaitingImage && (
+        <input type="file" accept="image/*" onChange={handleImageUpload} className={styles.fileInput} />
+      )}
+
+      <div className={styles.inputArea}>
+        <input
+          type="text"
+          value={inputText}
+          onChange={(e) => setInputText(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && handleSendText()}
+          placeholder="메시지를 입력하세요..."
+        />
+        <button onClick={handleSendText}>전송</button>
+      </div>
     </div>
   );
 }
 
-export default PersonalColor;
+export default PersonalColorChat;

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styles from './Header.module.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Header() {
   const categories = {
@@ -16,9 +16,19 @@ function Header() {
   const searchInputRef = useRef(null);
   const [isFixed, setIsFixed] = useState(false);
   const [member, setMember] = useState(null);
+  const [menuOpen, setMenuOpen] = useState(false); // 드롭다운 메뉴 열림 여부
+
+  const navigate = useNavigate();
 
   const toggleSearch = () => {
     setSearchVisible(!searchVisible);
+  };
+
+  const handleLogout = () => {
+    sessionStorage.removeItem('member');
+    setMember(null);
+    navigate('/');
+    window.location.reload(); // 새로고침
   };
 
   useEffect(() => {
@@ -29,45 +39,38 @@ function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsFixed(true);
-      } else {
-        setIsFixed(false);
-      }
+      setIsFixed(window.scrollY > 50);
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // 로그인 상태 확인 (sessionStorage에서 member 정보 가져오기)
   useEffect(() => {
-    // 1️⃣ 기존 `sessionStorage`에서 member 정보 가져오기
     const storedMember = sessionStorage.getItem('member');
 
     if (storedMember) {
-        try {
-            setMember(JSON.parse(storedMember)); // JSON 변환
-        } catch (error) {
-            console.error('JSON parsing error:', error);
-            sessionStorage.removeItem('member'); // 오류 발생 시 데이터 삭제
-        }
+      try {
+        setMember(JSON.parse(storedMember));
+      } catch (error) {
+        console.error('JSON parsing error:', error);
+        sessionStorage.removeItem('member');
+      }
     } else {
-        // 2️⃣ URL에 `member` 정보가 있는지 확인 (카카오 로그인 후 리다이렉트 시)
-        const params = new URLSearchParams(window.location.search);
-        const memberParam = params.get('member');
+      const params = new URLSearchParams(window.location.search);
+      const memberParam = params.get('member');
 
-        if (memberParam) {
-            try {
-                const memberData = JSON.parse(decodeURIComponent(memberParam));
-                sessionStorage.setItem('member', JSON.stringify(memberData)); // 세션에 저장
-                setMember(memberData); // 상태 업데이트
-            } catch (error) {
-                console.error('Failed to parse member data:', error);
-            }
+      if (memberParam) {
+        try {
+          const memberData = JSON.parse(decodeURIComponent(memberParam));
+          sessionStorage.setItem('member', JSON.stringify(memberData));
+          setMember(memberData);
+        } catch (error) {
+          console.error('Failed to parse member data:', error);
         }
+      }
     }
-}, []);
+  }, []);
 
   return (
     <header className={`${styles.header} ${isFixed ? styles.fixed : ''}`}>
@@ -125,13 +128,29 @@ function Header() {
               ref={searchInputRef}
             />
           </div>
+
           {member ? (
             <>
-              <Link to="/mypage">
-                <button type="button" className={styles.iconButton} aria-label="로그인">
-                  <img src="/icon/login2.png" alt="로그인" className={styles.icon} />
+              <div
+                className={styles.dropdownWrapper}
+                onMouseEnter={() => setMenuOpen(true)}
+                onMouseLeave={() => setMenuOpen(false)}
+              >
+                <button type="button" className={styles.iconButton} aria-label="마이페이지">
+                  <img src="/icon/login2.png" alt="마이페이지" className={styles.icon} />
                 </button>
-              </Link>
+                {menuOpen && (
+                  <ul className={styles.dropdownMenu}>
+                    <li>
+                      <Link to="/mypage" className={styles.dropdownItem}>마이페이지</Link>
+                    </li>
+                    <li>
+                      <button onClick={handleLogout} className={styles.dropdownItem}>로그아웃</button>
+                    </li>
+                  </ul>
+                )}
+              </div>
+
               <Link to="/Cart">
                 <button type="button" className={styles.iconButton} aria-label="장바구니">
                   <img src="/icon/cart2.png" alt="장바구니" className={styles.icon} />

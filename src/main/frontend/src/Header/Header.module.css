@@ -212,6 +212,41 @@ main, .bodyContent {
   z-index: 999;
 }
 
+.dropdownWrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: 100%;
+  right: -35px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  z-index: 1000;
+  min-width: 100px;
+  padding: 4px 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.dropdownItem {
+  display: block;
+  width: 100%;
+  padding: 6px 0px;
+  font-size: 13px;
+  color: #333;
+  background: none;
+  border: none;
+  text-align: center;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.dropdownItem:hover {
+  background-color: #f5f5f5;
+}
+
+
 /* 반응형 스타일 */
 @media all and (min-width: 1024px) and (max-width: 1279px) {
   .header {
@@ -286,6 +321,50 @@ main, .bodyContent {
     display: flex;
     justify-content: center;
     margin-top: 10px;
+
+    .searchContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: #347ab7;
+  border-radius: 20px;
+  padding: 2px 8px;
+  max-width: 130px;
+  transition: max-width 0.3s ease-in-out;
+  z-index: 2;
+}
+
+.searchContainer.open {
+  max-width: 200px;
+}
+
+.searchButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.searchInput {
+  width: 0;
+  opacity: 0;
+  pointer-events: none;
+  border: none;
+  height: 25px;
+  font-size: 13px;
+  border-radius: 10px;
+  padding-left: 6px;
+  transition: width 0.3s ease, opacity 0.3s ease;
+}
+
+.searchContainer.open .searchInput {
+  width: 100px;
+  opacity: 1;
+  pointer-events: auto;
+}
 
   }
 

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Main.module.css';
-import Header from '../Header/Header';   // 로그인 안 했을 때
 import Footer from '../Footer/Footer'; // Footer 불러오기
 
 function Main() {
@@ -13,11 +12,17 @@ function Main() {
 
   const [scrollY, setScrollY] = useState(0);
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <div className={styles.container}>
-      {/* 🔹 로그인 상태에 따라 다른 Header 표시 */}
       <main className={styles.main}>
         {/* 📌 카테고리 섹션 추가 */}
 
