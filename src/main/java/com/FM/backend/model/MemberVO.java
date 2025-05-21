@@ -37,6 +37,8 @@ public class MemberVO {
   //회원 포인트
   private int point;
 
+  private int memberCoupon;
+
   public String getMemberMail() {
     return memberMail;
   }
@@ -124,11 +126,19 @@ public class MemberVO {
   public void setPoint(int point) {
     this.point = point;
   }
+
+  public int getMemberCoupon() {
+    return memberCoupon;
+  }
+  
+  public void setMemberCoupon(int memberCoupon) {
+    this.memberCoupon = memberCoupon;
+  }
   
   @Override
   public String toString() {
     return "MemberVO [memberMail="+ memberMail + ", memberPw=" + memberPw + ", memberFn=" + memberFn + ", memberLn=" + memberLn + ", memberNum1=" + memberNum1 + ", memberNum2=" + memberNum2 + ", memberNum3=" + memberNum3
-      + ", adminCk=" + adminCk + ", regDate=" + regDate + ", memberRating=" + memberRating + ", point=" + point + "]";
+      + ", adminCk=" + adminCk + ", regDate=" + regDate + ", memberRating=" + memberRating + ", point=" + point +  ", memberCoupon=" + memberCoupon + "]";
   }
   
     

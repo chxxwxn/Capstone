@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './ProductRegister.module.css';
 import { useNavigate } from "react-router-dom";
-import path from 'path-browserify'; // 경로 추출을 위해 설치 필요: npm install path-browserify
+//import path from 'path-browserify'; // 경로 추출을 위해 설치 필요: npm install path-browserify
 
 
 const ProductRegister = () => {
@@ -165,7 +165,7 @@ const ProductRegister = () => {
                             <li onClick={() => navigate("/admin/author-manage")}>
                                 <a className={styles.admin_list_04}>작가 관리</a>
                             </li>
-                            <li onClick={() => navigate("/admin/user-manage")}>
+                            <li onClick={() => navigate("/admin/UserManage")}>
                                 <a className={styles.admin_list_05}>회원 관리</a>
                             </li>
                         </ul>

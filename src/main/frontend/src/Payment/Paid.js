@@ -1,9 +1,14 @@
+import React,{useEffect, useState, useContext} from 'react';
 import styles from './Paid.module.css';
-import { Link, useNavigate } from 'react-router-dom';
-
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { LoginContext } from "../Login/LoginContext";
 
 export default function Paid() {
 const navigate = useNavigate();
+const [params] = useSearchParams();
+const pgToken = params.get("pg_token");
+const [approved, setApproved] = useState(false);
+const { isLoggedIn } = useContext(LoginContext);
 
   const filteredOrders = [
     {
@@ -21,8 +26,28 @@ const navigate = useNavigate();
   ];
   const visibleOrders = 1; // 보여줄 주문 개수
 
-  return (
+  useEffect(() => {
+    const approvePayment = async () => {
+      try {
+        const response = await fetch(`http://localhost:8090/payment/success?pg_token=${pgToken}`, {
+          method: 'GET',
+          credentials: 'include',
+        });
+        const data = await response.json();
+        console.log("결제 승인 성공:", data);
+        setApproved(true);
+      } catch (error) {
+        console.error("결제 승인 실패:", error);
+      }
+    };
+  
+    if (pgToken) {
+      approvePayment();
+    }
+  }, [pgToken]);
 
+  return (
+    isLoggedIn ? (
     
     <div className={styles.Paid}>
         <div className={styles.PaidText}>결제가 완료되었습니다!</div>
@@ -90,5 +115,8 @@ const navigate = useNavigate();
 
       </div>
     </div>
+    ) :(
+      <div></div>
+    )
   );
 }

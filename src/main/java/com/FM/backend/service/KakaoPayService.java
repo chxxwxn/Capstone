@@ -39,7 +39,7 @@ public class KakaoPayService {
     parameters.add("total_amount", String.valueOf(totalAmount));
     parameters.add("vat_amount", "0");
     parameters.add("tax_free_amount", "0");
-    parameters.add("approval_url", "http://localhost:8090/payment/success"); // 성공 시 redirect url
+    parameters.add("approval_url", "http://localhost:3000/Paid"); // 성공 시 redirect url
     parameters.add("cancel_url", "http://localhost:8090/payment/cancel"); // 취소 시 redirect url
     parameters.add("fail_url", "http://localhost:8090/payment/fail"); // 실패 시 redirect url
     
@@ -49,7 +49,7 @@ public class KakaoPayService {
     //외부에 보낼 url
     RestTemplate restTemplate = new RestTemplate();
 
-    KakaoReadyResponse kakaoReady = restTemplate.postForObject(
+    this.kakaoReady = restTemplate.postForObject(
       "https://kapi.kakao.com/v1/payment/ready",
       requestEntity,
       KakaoReadyResponse.class);
