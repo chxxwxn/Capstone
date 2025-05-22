@@ -15,18 +15,12 @@ const Preview = () => {
   const location = useLocation(); // 현재 경로 가져오기
   const { member } = useContext(LoginContext); // member 정보 가져오기
   const memberMail = member?.memberMail || '';
-  
-  const categories = [
-    { name: "MTM", path: "MTM" },
-    { name: "Hoodie", path: "Hoodie" },
-    { name: "Knit", path: "Knit" },
-    { name: "Shirts", path: "Shirts" },
-    { name: "Tee", path: "Tee" },
-  ];
-  
+  const queryParams = new URLSearchParams(location.search);
+  const keyword = queryParams.get('keyword') || '';
+
   const fetchProducts = async () => {
     try {
-      const response = await fetch("http://localhost:8090/products/top");
+      const response = await fetch("http://localhost:8090/products");
       const data = await response.json();
   
       // 서버 데이터를 ClothVo 형식으로 매핑
@@ -38,13 +32,22 @@ const Preview = () => {
         date: item.registerYear,
         image: item.imageUrl,
       }));
+
+      // 상품 이름에 키워드가 포함된 것만 필터링
+      const filtered = mappedData.filter(product =>
+        product.name && product.name.toLowerCase().includes(keyword.toLowerCase())
+      );
   
-      setProducts(mappedData); // 매핑된 데이터를 상태에 저장
-      setSortedProducts(mappedData); // 처음에는 정렬된 상태로 설정
+        setProducts(filtered);
+        setSortedProducts(filtered); // 꼭 같이 설정
     } catch (error) {
       console.error("Error fetching products:", error);
     }
   };
+
+  useEffect(() => {
+    fetchProducts();
+  }, [keyword]);
 
   // 로그인된 사용자의 찜 목록 불러오기
   const fetchWishlist = async () => {
@@ -95,7 +98,7 @@ const Preview = () => {
       .then((res) => {
         if (res.status === 409) {
           alert('이미 등록된 상품입니다.');
-          throw new Error('서버 응답 오류');
+          throw new Error('이미 등록됨');
         }
         if (!res.ok) {
           throw new Error('서버 응답 오류');
@@ -106,6 +109,7 @@ const Preview = () => {
         console.error('찜 처리 중 오류:', err);
       });
   };
+  
 
   const totalPages = Math.ceil(sortedProducts.length / itemsPerPage);
   const paginatedProducts = sortedProducts.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
@@ -114,110 +118,28 @@ const Preview = () => {
     setCurrentPage(pageNumber);
   };
 
-  const handleSortBest = () => {
-    const sorted = [...products].sort((a, b) => a.id - b.id); // id 기준 오름차순 정렬
-    setSortedProducts(sorted);
-    setCurrentPage(1); // 정렬 후 첫 페이지로 리셋
-    setSelectedSort('best'); // 선택된 소트 상태 업데이트
-  };
-
-  const handleSortNew = () => {
-    const sorted = [...products].sort((a, b) => new Date(b.date) - new Date(a.date)); // 최신 날짜 기준 내림차순 정렬
-    setSortedProducts(sorted);
-    setCurrentPage(1); // 정렬 후 첫 페이지로 리셋
-    setSelectedSort('new'); // 선택된 소트 상태 업데이트
-  };
-
-  const handleSortHigh = () => {
-    const sorted = [...products].sort((a, b) => b.price - a.price); // 가격 내림차순 정렬
-    setSortedProducts(sorted);
-    setCurrentPage(1); // 정렬 후 첫 페이지로 리셋
-    setSelectedSort('high'); // 선택된 소트 상태 업데이트
-  };
-
-  const handleSortLow = () => {
-    const sorted = [...products].sort((a, b) => a.price - b.price); // 가격 오름차순 정렬
-    setSortedProducts(sorted);
-    setCurrentPage(1); // 정렬 후 첫 페이지로 리셋
-    setSelectedSort('low'); // 선택된 소트 상태 업데이트
-  };
-
-  useEffect(() => {
-    // 초기 페이지 로드 시 'best' 버튼을 선택된 상태로 설정
-    setSortedProducts([...products]);
-  }, []);
-
-  useEffect(() => {
-    // 정렬된 상품 목록이 변경되면 현재 페이지를 1로 초기화
-    setCurrentPage(1);
-  }, [sortedProducts]);
-
-  
-
-  
   return (
     <>
+ 
       {/* Category Header 컴포넌트 */}
       <div className={styles.categoryHeader}>
         <div className={styles.categoryTop}>
-          <div className={styles.categoryTitle}>TOP &gt;</div>
+          <div className={styles.categoryTitle}>SEARCHING : {keyword}</div>
           <div className={styles.categoryItems}>
           <div className={styles.categoryItems}>
-          {categories.map((category, index) => (
-              <div
-                key={index}
-                className={styles.categoryItem}
-                style={{
-                  cursor: "pointer",
-                  color: "rgba(0, 0, 0, 0.5)", 
-                  borderBottom: "none"
-                }}
-                onClick={() => handleNavigation(category.path)}
-              >
-                {category.name}
-              </div>
-            ))}
-
+         
           </div>
           </div>
         </div>
         <div className={styles.categoryLine}></div>
-        <div className={styles.sortButtons}>
-          <button
-            className={`${styles.sortButton} ${selectedSort === 'best' ? '' : styles.inactive}`}
-            onClick={handleSortBest}
-          >
-            BEST
-          </button>
-          <div className={styles.borderDivider}></div>
-          <button
-            className={`${styles.sortButton} ${selectedSort === 'new' ? '' : styles.inactive}`}
-            onClick={handleSortNew}
-          >
-            NEW
-          </button>
-          <div className={styles.borderDivider}></div>
-          <button
-            className={`${styles.sortButton} ${selectedSort === 'high' ? '' : styles.inactive}`}
-            onClick={handleSortHigh}
-          >
-            HIGH
-          </button>
-          <div className={styles.borderDivider}></div>
-          <button
-            className={`${styles.sortButton} ${selectedSort === 'low' ? '' : styles.inactive}`}
-            onClick={handleSortLow}
-          >
-            LOW
-          </button>
-        </div>
+        
       </div>
 
       <div className={styles.productList}>
         <div className={styles.productGrid}>
           {paginatedProducts.map((product) => (
             <div key={product.id} className={styles.product}>
-              <a href={`/top/${product.id}`}>
+              <a href={`/all/${product.id}`}>
                   <img src={product.image} alt={product.name} className={styles.productImage} />
                 </a>
 

@@ -16,17 +16,9 @@ const Preview = () => {
   const { member } = useContext(LoginContext); // member 정보 가져오기
   const memberMail = member?.memberMail || '';
   
-  const categories = [
-    { name: "MTM", path: "MTM" },
-    { name: "Hoodie", path: "Hoodie" },
-    { name: "Knit", path: "Knit" },
-    { name: "Shirts", path: "Shirts" },
-    { name: "Tee", path: "Tee" },
-  ];
-  
   const fetchProducts = async () => {
     try {
-      const response = await fetch("http://localhost:8090/products/top");
+      const response = await fetch("http://localhost:8090/products");
       const data = await response.json();
   
       // 서버 데이터를 ClothVo 형식으로 매핑
@@ -51,7 +43,7 @@ const Preview = () => {
     if (!member?.memberMail) return; // 로그인되지 않은 경우는 패스
 
     try {
-      const response = await fetch(`http://localhost:8090/wishlist/list?memberMail=${memberMail}`);
+      const response = await fetch(http://localhost:8090/wishlist/list?memberMail=${memberMail});
       if (!response.ok) throw new Error("찜 목록 로딩 실패");
 
       const data = await response.json(); // 예: [{ productId: 1 }, { productId: 2 }]
@@ -70,7 +62,7 @@ const Preview = () => {
   const handleNavigation = (subcategory) => {
     // 현재 경로에서 마지막 슬래시 이후의 부분을 제외하고 사용
     const basePath = location.pathname.split("/")[1]; // 첫 번째 경로(segment) 가져오기
-    navigate(`/${basePath}/${subcategory.toLowerCase()}`);
+    navigate(/${basePath}/${subcategory.toLowerCase()});
   };
   
   const toggleWishlist = (id) => {
@@ -85,7 +77,7 @@ const Preview = () => {
       productId: id,
     };
   
-    fetch(`http://localhost:8090/wishlist/${isWishlisted ? 'delete' : 'insert'}`, {
+    fetch(http://localhost:8090/wishlist/${isWishlisted ? 'delete' : 'insert'}, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -95,17 +87,18 @@ const Preview = () => {
       .then((res) => {
         if (res.status === 409) {
           alert('이미 등록된 상품입니다.');
-          throw new Error('서버 응답 오류');
+          throw new Error('이미 등록됨');
         }
         if (!res.ok) {
           throw new Error('서버 응답 오류');
         }
-        console.log(`${isWishlisted ? '삭제' : '추가'} 완료`);
+        console.log(${isWishlisted ? '삭제' : '추가'} 완료);
       })
       .catch((err) => {
         console.error('찜 처리 중 오류:', err);
       });
   };
+  
 
   const totalPages = Math.ceil(sortedProducts.length / itemsPerPage);
   const paginatedProducts = sortedProducts.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
@@ -157,55 +150,42 @@ const Preview = () => {
   
   return (
     <>
+ 
       {/* Category Header 컴포넌트 */}
       <div className={styles.categoryHeader}>
         <div className={styles.categoryTop}>
-          <div className={styles.categoryTitle}>TOP &gt;</div>
+          <div className={styles.categoryTitle}>SEARCHING : </div>
           <div className={styles.categoryItems}>
           <div className={styles.categoryItems}>
-          {categories.map((category, index) => (
-              <div
-                key={index}
-                className={styles.categoryItem}
-                style={{
-                  cursor: "pointer",
-                  color: "rgba(0, 0, 0, 0.5)", 
-                  borderBottom: "none"
-                }}
-                onClick={() => handleNavigation(category.path)}
-              >
-                {category.name}
-              </div>
-            ))}
-
+         
           </div>
           </div>
         </div>
         <div className={styles.categoryLine}></div>
         <div className={styles.sortButtons}>
           <button
-            className={`${styles.sortButton} ${selectedSort === 'best' ? '' : styles.inactive}`}
+            className={${styles.sortButton} ${selectedSort === 'best' ? '' : styles.inactive}}
             onClick={handleSortBest}
           >
             BEST
           </button>
           <div className={styles.borderDivider}></div>
           <button
-            className={`${styles.sortButton} ${selectedSort === 'new' ? '' : styles.inactive}`}
+            className={${styles.sortButton} ${selectedSort === 'new' ? '' : styles.inactive}}
             onClick={handleSortNew}
           >
             NEW
           </button>
           <div className={styles.borderDivider}></div>
           <button
-            className={`${styles.sortButton} ${selectedSort === 'high' ? '' : styles.inactive}`}
+            className={${styles.sortButton} ${selectedSort === 'high' ? '' : styles.inactive}}
             onClick={handleSortHigh}
           >
             HIGH
           </button>
           <div className={styles.borderDivider}></div>
           <button
-            className={`${styles.sortButton} ${selectedSort === 'low' ? '' : styles.inactive}`}
+            className={${styles.sortButton} ${selectedSort === 'low' ? '' : styles.inactive}}
             onClick={handleSortLow}
           >
             LOW
@@ -217,7 +197,7 @@ const Preview = () => {
         <div className={styles.productGrid}>
           {paginatedProducts.map((product) => (
             <div key={product.id} className={styles.product}>
-              <a href={`/top/${product.id}`}>
+              <a href={/all/${product.id}}>
                   <img src={product.image} alt={product.name} className={styles.productImage} />
                 </a>
 
@@ -249,7 +229,7 @@ const Preview = () => {
         {Array.from({ length: totalPages }, (_, index) => (
           <button
             key={index}
-            className={`${styles.pageButton} ${currentPage === index + 1 ? styles.active : ''}`}
+            className={${styles.pageButton} ${currentPage === index + 1 ? styles.active : ''}}
             onClick={() => handlePageChange(index + 1)}
           >
             {index + 1}
