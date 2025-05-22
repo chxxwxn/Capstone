@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.FM.backend.mapper.CartMapper">
+
+    <insert id="insertCart" parameterType="com.FM.backend.model.CartVO">
+        INSERT INTO fm_cart (memberMail, product_id, product_quantity, product_color, product_size)
+        VALUES (#{memberMail}, #{productId}, #{productQuantity}, #{productColor}, #{productSize})
+    </insert>
+
+    <!-- 단일 상품 삭제 -->
+    <delete id="deleteCartItem">
+        DELETE FROM fm_cart
+        WHERE cart_id = #{cartId}
+    </delete>
+
+    <!-- 여러 상품 삭제 -->
+    <delete id="deleteSelectedCartItems">
+        DELETE FROM fm_cart
+        WHERE cart_id IN
+        <foreach item="id" collection="cartIds" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="updateQuantity" parameterType="com.FM.backend.model.CartVO">
+        UPDATE fm_cart
+        SET product_quantity = #{productQuantity}
+        WHERE cart_id = #{cartId}
+    </update>
+
+    <select id="getCartListByMemberMail" resultMap="CartDetailResultMap" parameterType="String">
+        SELECT 
+            c.cart_id,
+            c.memberMail,
+            c.product_id,
+            c.product_quantity,
+            c.product_color,
+            c.product_size,
+            cl.product_name,
+            cl.product_price,
+            cl.product_discount,
+            cl.product_stock,
+            cl.color_codes,
+            cl.cate_code,
+            i.image_url
+        FROM 
+            fm_cart c
+        JOIN 
+            fm_cloth cl ON c.product_id = cl.product_id
+        LEFT JOIN 
+            fm_image i ON cl.product_id = i.product_id AND i.image_order = 0
+        WHERE 
+            c.memberMail = #{memberMail}
+    </select>
+
+    <resultMap id="CartDetailResultMap" type="com.FM.backend.model.CartVO">
+        <id property="cartId" column="cart_id"/>
+        <result property="memberMail" column="memberMail"/>
+        <result property="productId" column="product_id"/>
+        <result property="productQuantity" column="product_quantity"/>
+        <result property="productColor" column="product_color"/>
+        <result property="productSize" column="product_size"/>
+        <result property="imageUrl" column="image_url"/>
+        <!-- 먼저 result 요소들 -->
+
+        <!-- 그 다음에 association -->
+        <association property="product" javaType="com.FM.backend.model.ClothVO">
+            <result property="productId" column="product_id"/>
+            <result property="productName" column="product_name"/>
+            <result property="productPrice" column="product_price"/>
+            <result property="productDiscount" column="product_discount"/>
+            <result property="productStock" column="product_stock"/>
+            <result property="colorCodes" column="color_codes"/>
+            <result property="cateCode" column="cate_code"/>
+        </association>
+
+    </resultMap>
+
+
+</mapper>

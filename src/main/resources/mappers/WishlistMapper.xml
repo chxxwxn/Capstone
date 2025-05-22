@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.FM.backend.mapper.WishlistMapper">
+
+    <insert id="insertWishlist">
+        INSERT INTO fm_wishlist (memberMail, product_id)
+        VALUES (#{memberMail}, #{productId})
+    </insert>
+
+    <delete id="deleteWishlist">
+        DELETE FROM fm_wishlist
+        WHERE memberMail = #{memberMail} AND product_id = #{productId}
+    </delete>
+
+    <select id="getWishlistByMember" resultMap="wishlistClothMap">
+        SELECT 
+            c.product_id,
+            c.product_name,
+            c.register_year,
+            c.product_price,
+            c.color_codes,
+            c.cate_code,
+            i.image_url
+        FROM fm_wishlist w
+        JOIN fm_cloth c ON w.product_id = c.product_id
+        LEFT JOIN (
+            SELECT product_id, image_url
+            FROM fm_image
+            WHERE image_order = 0
+        ) i ON c.product_id = i.product_id
+        WHERE w.memberMail = #{memberMail}
+    </select>
+
+    <resultMap id="wishlistClothMap" type="com.FM.backend.model.ClothVO">
+        <id property="productId" column="product_id"/>
+        <result property="productName" column="product_name"/>
+        <result property="registerYear" column="register_year"/>
+        <result property="productPrice" column="product_price"/>
+        <result property="colorCodes" column="color_codes"/>
+        <result property="cateCode" column="cate_code"/>
+        <result property="imageUrl" column="image_url"/>
+    </resultMap>
+
+
+</mapper>
+
+

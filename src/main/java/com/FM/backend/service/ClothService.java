@@ -24,16 +24,68 @@ public class ClothService {
         return clothMapper.getOuterCloths();
     }
 
+    public List<ClothVO> getPaddingCloths() {
+        return clothMapper.getPaddingCloths();
+    }
+
+    public List<ClothVO> getJacketCloths() {
+        return clothMapper.getJacketCloths();
+    }
+
+    public List<ClothVO> getCoatCloths() {
+        return clothMapper.getCoatCloths();
+    }
+
+    public List<ClothVO> getCardiganCloths() {
+        return clothMapper.getCardiganCloths();
+    }
+
     public List<ClothVO> getTopCloths() {
         return clothMapper.getTopCloths();
+    }
+
+    public List<ClothVO> getMTMCloths() {
+        return clothMapper.getMTMCloths();
+    }
+
+    public List<ClothVO> getHoodieCloths() {
+        return clothMapper.getHoodieCloths();
+    }
+
+    public List<ClothVO> getKnitCloths() {
+        return clothMapper.getKnitCloths();
+    }
+
+    public List<ClothVO> getShirtsCloths() {
+        return clothMapper.getShirtsCloths();
+    }
+
+    public List<ClothVO> getTeeCloths() {
+        return clothMapper.getTeeCloths();
     }
 
     public List<ClothVO> getBottomCloths() {
         return clothMapper.getBottomCloths();
     }
 
+    public List<ClothVO> getDenimCloths() {
+        return clothMapper.getDenimCloths();
+    }
+
+    public List<ClothVO> getSkirtCloths() {
+        return clothMapper.getSkirtCloths();
+    }
+
+    public List<ClothVO> getPantsCloths() {
+        return clothMapper.getPantsCloths();
+    }
+
     public List<ClothVO> getETCCloths() {
         return clothMapper.getETCCloths();
+    }
+
+    public List<ClothVO> getRingCloths() {
+        return clothMapper.getRingCloths();
     }
 
     public ClothVO getClothById(int productId) {

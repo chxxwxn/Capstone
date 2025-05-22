@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Icon } from '@iconify/react';
 import styles from '../Product.module.css';
 import { useNavigate, useParams } from "react-router-dom";
-
+import { LoginContext } from "../../Login/LoginContext";
 
 
 const Preview = () => {
@@ -15,6 +15,7 @@ const Preview = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(null); // 모달 이미지 상태 추가
   const navigate = useNavigate(); 
+  const { member } = useContext(LoginContext); // member 정보 가져오기
 
   const handleNavigation = (category) => {
     navigate(`/${category.toLowerCase()}/`); // 
@@ -45,10 +46,71 @@ const Preview = () => {
     fetchProducts(); // 컴포넌트가 마운트될 때 API 호출
   }, [id]);
 
+  const handleAddToCart = async (product) => {
+    const memberMail = member?.memberMail || ''; // 로그인한 사용자 이메일
+    const productId = product.id;       // 상품 ID
+    const productQuantity = quantity;          // 수량 (필요시 선택 기능 추가 가능)
+    const productColor = selectedColor; // 기본값 예시
+    const productSize = selectedSize;        // 기본값 예시
+  
+    try {
+      const response = await fetch("http://localhost:8090/cart/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          memberMail,
+          productId,
+          productQuantity,
+          productColor,
+          productSize
+        })
+      });
+  
+      if (!response.ok) {
+        throw new Error("서버 오류 발생");
+      }
+  
+      const result = await response.text(); // 백에서 메시지 반환 시
+  
+      alert("장바구니에 담겼습니다!");
+      console.log(result);
+    } catch (error) {
+      console.error("장바구니 담기 실패:", error);
+      alert("장바구니 담기에 실패했습니다.");
+    }
+  };
+
+  
   const toggleWishlist = (id) => {
+    const isWishlisted = wishlist.includes(id);
+  
     setWishlist((prevWishlist) =>
-      prevWishlist.includes(id) ? prevWishlist.filter((item) => item !== id) : [...prevWishlist, id]
+      isWishlisted ? prevWishlist.filter((item) => item !== id) : [...prevWishlist, id]
     );
+  
+    const wishlistData = {
+      memberMail: member?.memberMail || '', // 실제 로그인된 사용자 ID로 교체 필요
+      productId: id,
+    };
+  
+    fetch(`http://localhost:8090/wishlist/${isWishlisted ? 'delete' : 'insert'}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(wishlistData),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('서버 응답 오류');
+        }
+        console.log(`${isWishlisted ? '삭제' : '추가'} 완료`);
+      })
+      .catch((err) => {
+        console.error('찜 처리 중 오류:', err);
+      });
   };
 
   const reviews = [
@@ -185,14 +247,17 @@ const asks = [
                 <div className={styles.productColorOptions}>
                   <p className={styles.optionTitle}>색상</p>
                   <div className={styles.colorOptions}>
-                    {product.color.map((color, index) => (
-                      <span
-                        key={index}
-                        className={`${styles.colorCircle} ${selectedColor === color ? styles.selectedColor : ''}`}
-                        style={{ backgroundColor: color }}
-                        onClick={() => setSelectedColor(color)}
-                      ></span>
-                    ))}
+                    {product.color.map((color, index) => {
+                      const [colorCode, colorName] = color.split('-'); // '#ffffff', '블랙'
+                      return (
+                        <span
+                          key={index}
+                          className={`${styles.colorCircle} ${selectedColor === color ? styles.selectedColor : ''}`}
+                          style={{ backgroundColor: colorCode }}
+                          onClick={() => setSelectedColor(color)} // 저장할 값은 '#ffffff-블랙' 그대로
+                        ></span>
+                      );
+                    })}
                   </div>
                 </div>
 
@@ -208,7 +273,7 @@ const asks = [
 
                 {/* 장바구니 & 구매 버튼 */}
                 <div className={styles.buttonGroup}>
-                  <button className={styles.cartButton}>장바구니</button>
+                  <button className={styles.cartButton} onClick={() => handleAddToCart(product)}>장바구니</button>
                   <button className={styles.buyButton}>구매하기</button>
                 </div>
               </div>
