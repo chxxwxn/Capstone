@@ -26,6 +26,8 @@ import Wish from './MyPage/Wish';
 
 import Paid from './Payment/Paid';
 
+import Image360Viewer from '.Chatbot/Image360Viewer'
+
 /*outer*/
 import PaddingPre from './ProductPre/OuterPre/PaddingPre';
 import Padding from './Product/Outer/Padding';
