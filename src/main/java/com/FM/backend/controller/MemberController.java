@@ -179,7 +179,7 @@ public class MemberController {
     }
   }
 
-  /* 카카오 로그인 콜백 처리리 */
+  /* 카카오 로그인 콜백 처리 */
   @GetMapping("/kakao/callback") 
   public ResponseEntity<Void> kakaoCallback(
     @RequestParam("code") String code, 
@@ -204,6 +204,8 @@ public class MemberController {
         response.sendRedirect(redirectUrl);
         return ResponseEntity.ok().build();
     } catch (Exception e) {
+      System.out.println("❌ 예외 발생: " + e.getMessage());  // ✅ 이거 꼭 넣으세요
+      e.printStackTrace();
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
   }
