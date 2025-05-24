@@ -145,7 +145,10 @@ const Payment = () => {
             setShippingAddresses([
               {
                 name: parsedMember.memberLn + parsedMember.memberFn,
-                phone: `${parsedMember.memberNum1}-${parsedMember.memberNum2}-${parsedMember.memberNum3}`,
+                phone:
+                parsedMember.memberNum2 === "0000" && parsedMember.memberNum3 === "0000"
+                    ? parsedMember.memberNum1
+                    : `${parsedMember.memberNum1}-${parsedMember.memberNum2}-${parsedMember.memberNum3}`,
                 address: '서울특별시', // 나중에 DB나 사용자 입력으로 바꾸는 것도 가능
                 detailAddress: '1동 002호',
                 zipCode: '12345',
@@ -155,9 +158,8 @@ const Payment = () => {
             console.error("회원 정보 파싱 오류:", err);
           }
         }
-      }, []);
-
-
+    }, []);
+ 
     return (
         isLoggedIn ? (
         <>
