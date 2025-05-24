@@ -14,7 +14,7 @@
         LEFT JOIN (
             SELECT product_id, image_url
             FROM fm_image
-            WHERE image_order = 1
+            WHERE image_order = 0
         ) i ON c.product_id = i.product_id
     </select>
 
@@ -28,11 +28,71 @@
         LEFT JOIN (
             SELECT product_id, image_url
             FROM fm_image
-            WHERE image_order = 1
+            WHERE image_order = 0
         ) i ON c.product_id = i.product_id
         WHERE c.cate_code IN (
             SELECT cate_code FROM fm_category WHERE parent_code = 'OUTER'
         )
+    </select>
+
+    <select id="getPaddingCloths" resultMap="clothWithImageMap">
+        SELECT 
+            c.product_id, c.product_name, c.register_year, c.product_price, 
+            c.product_stock, c.product_discount, c.color_codes, 
+            c.cate_code, c.reg_date, c.update_date,
+            i.image_url
+        FROM fm_cloth c
+        LEFT JOIN (
+            SELECT product_id, image_url
+            FROM fm_image
+            WHERE image_order = 0
+        ) i ON c.product_id = i.product_id
+        WHERE c.cate_code = 'Padding'
+    </select>
+
+    <select id="getJacketCloths" resultMap="clothWithImageMap">
+        SELECT 
+            c.product_id, c.product_name, c.register_year, c.product_price, 
+            c.product_stock, c.product_discount, c.color_codes, 
+            c.cate_code, c.reg_date, c.update_date,
+            i.image_url
+        FROM fm_cloth c
+        LEFT JOIN (
+            SELECT product_id, image_url
+            FROM fm_image
+            WHERE image_order = 0
+        ) i ON c.product_id = i.product_id
+        WHERE c.cate_code = 'Jacket'
+    </select>
+
+    <select id="getCoatCloths" resultMap="clothWithImageMap">
+        SELECT 
+            c.product_id, c.product_name, c.register_year, c.product_price, 
+            c.product_stock, c.product_discount, c.color_codes, 
+            c.cate_code, c.reg_date, c.update_date,
+            i.image_url
+        FROM fm_cloth c
+        LEFT JOIN (
+            SELECT product_id, image_url
+            FROM fm_image
+            WHERE image_order = 0
+        ) i ON c.product_id = i.product_id
+        WHERE c.cate_code = 'Coat'
+    </select>
+
+    <select id="getCardiganCloths" resultMap="clothWithImageMap">
+        SELECT 
+            c.product_id, c.product_name, c.register_year, c.product_price, 
+            c.product_stock, c.product_discount, c.color_codes, 
+            c.cate_code, c.reg_date, c.update_date,
+            i.image_url
+        FROM fm_cloth c
+        LEFT JOIN (
+            SELECT product_id, image_url
+            FROM fm_image
+            WHERE image_order = 0
+        ) i ON c.product_id = i.product_id
+        WHERE c.cate_code = 'Cardigan'
     </select>
 
     <select id="getTopCloths" resultMap="clothWithImageMap">
@@ -45,11 +105,86 @@
         LEFT JOIN (
             SELECT product_id, image_url
             FROM fm_image
-            WHERE image_order = 1
+            WHERE image_order = 0
         ) i ON c.product_id = i.product_id
         WHERE c.cate_code IN (
             SELECT cate_code FROM fm_category WHERE parent_code = 'TOP'
         )
+    </select>
+
+    <select id="getMTMCloths" resultMap="clothWithImageMap">
+        SELECT 
+            c.product_id, c.product_name, c.register_year, c.product_price, 
+            c.product_stock, c.product_discount, c.color_codes, 
+            c.cate_code, c.reg_date, c.update_date,
+            i.image_url
+        FROM fm_cloth c
+        LEFT JOIN (
+            SELECT product_id, image_url
+            FROM fm_image
+            WHERE image_order = 0
+        ) i ON c.product_id = i.product_id
+        WHERE c.cate_code = 'MTM'
+    </select>
+
+    <select id="getHoodieCloths" resultMap="clothWithImageMap">
+        SELECT 
+            c.product_id, c.product_name, c.register_year, c.product_price, 
+            c.product_stock, c.product_discount, c.color_codes, 
+            c.cate_code, c.reg_date, c.update_date,
+            i.image_url
+        FROM fm_cloth c
+        LEFT JOIN (
+            SELECT product_id, image_url
+            FROM fm_image
+            WHERE image_order = 0
+        ) i ON c.product_id = i.product_id
+        WHERE c.cate_code = 'Hoodie'
+    </select>
+
+    <select id="getKnitCloths" resultMap="clothWithImageMap">
+        SELECT 
+            c.product_id, c.product_name, c.register_year, c.product_price, 
+            c.product_stock, c.product_discount, c.color_codes, 
+            c.cate_code, c.reg_date, c.update_date,
+            i.image_url
+        FROM fm_cloth c
+        LEFT JOIN (
+            SELECT product_id, image_url
+            FROM fm_image
+            WHERE image_order = 0
+        ) i ON c.product_id = i.product_id
+        WHERE c.cate_code = 'Knit'
+    </select>
+
+    <select id="getShirtsCloths" resultMap="clothWithImageMap">
+        SELECT 
+            c.product_id, c.product_name, c.register_year, c.product_price, 
+            c.product_stock, c.product_discount, c.color_codes, 
+            c.cate_code, c.reg_date, c.update_date,
+            i.image_url
+        FROM fm_cloth c
+        LEFT JOIN (
+            SELECT product_id, image_url
+            FROM fm_image
+            WHERE image_order = 0
+        ) i ON c.product_id = i.product_id
+        WHERE c.cate_code = 'Shirts'
+    </select>
+    
+    <select id="getTeeCloths" resultMap="clothWithImageMap">
+        SELECT 
+            c.product_id, c.product_name, c.register_year, c.product_price, 
+            c.product_stock, c.product_discount, c.color_codes, 
+            c.cate_code, c.reg_date, c.update_date,
+            i.image_url
+        FROM fm_cloth c
+        LEFT JOIN (
+            SELECT product_id, image_url
+            FROM fm_image
+            WHERE image_order = 0
+        ) i ON c.product_id = i.product_id
+        WHERE c.cate_code = 'Tee'
     </select>
 
     <select id="getBottomCloths" resultMap="clothWithImageMap">
@@ -62,11 +197,56 @@
         LEFT JOIN (
             SELECT product_id, image_url
             FROM fm_image
-            WHERE image_order = 1
+            WHERE image_order = 0
         ) i ON c.product_id = i.product_id
         WHERE c.cate_code IN (
             SELECT cate_code FROM fm_category WHERE parent_code = 'BOTTOM'
         )
+    </select>
+
+    <select id="getDenimCloths" resultMap="clothWithImageMap">
+        SELECT 
+            c.product_id, c.product_name, c.register_year, c.product_price, 
+            c.product_stock, c.product_discount, c.color_codes, 
+            c.cate_code, c.reg_date, c.update_date,
+            i.image_url
+        FROM fm_cloth c
+        LEFT JOIN (
+            SELECT product_id, image_url
+            FROM fm_image
+            WHERE image_order = 0
+        ) i ON c.product_id = i.product_id
+        WHERE c.cate_code = 'Denim'
+    </select>
+    
+    <select id="getSkirtCloths" resultMap="clothWithImageMap">
+        SELECT 
+            c.product_id, c.product_name, c.register_year, c.product_price, 
+            c.product_stock, c.product_discount, c.color_codes, 
+            c.cate_code, c.reg_date, c.update_date,
+            i.image_url
+        FROM fm_cloth c
+        LEFT JOIN (
+            SELECT product_id, image_url
+            FROM fm_image
+            WHERE image_order = 0
+        ) i ON c.product_id = i.product_id
+        WHERE c.cate_code = 'Skirt'
+    </select>
+
+    <select id="getPantsCloths" resultMap="clothWithImageMap">
+        SELECT 
+            c.product_id, c.product_name, c.register_year, c.product_price, 
+            c.product_stock, c.product_discount, c.color_codes, 
+            c.cate_code, c.reg_date, c.update_date,
+            i.image_url
+        FROM fm_cloth c
+        LEFT JOIN (
+            SELECT product_id, image_url
+            FROM fm_image
+            WHERE image_order = 0
+        ) i ON c.product_id = i.product_id
+        WHERE c.cate_code = 'Pants'
     </select>
 
     <select id="getETCCloths" resultMap="clothWithImageMap">
@@ -79,11 +259,26 @@
         LEFT JOIN (
             SELECT product_id, image_url
             FROM fm_image
-            WHERE image_order = 1
+            WHERE image_order = 0
         ) i ON c.product_id = i.product_id
         WHERE c.cate_code IN (
             SELECT cate_code FROM fm_category WHERE parent_code = 'ETC'
         )
+    </select>
+
+    <select id="getRingCloths" resultMap="clothWithImageMap">
+        SELECT 
+            c.product_id, c.product_name, c.register_year, c.product_price, 
+            c.product_stock, c.product_discount, c.color_codes, 
+            c.cate_code, c.reg_date, c.update_date,
+            i.image_url
+        FROM fm_cloth c
+        LEFT JOIN (
+            SELECT product_id, image_url
+            FROM fm_image
+            WHERE image_order = 0
+        ) i ON c.product_id = i.product_id
+        WHERE c.cate_code = 'Ring'
     </select>
 
     <resultMap id="clothWithImageMap" type="com.FM.backend.model.ClothVO">

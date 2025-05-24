@@ -86,14 +86,15 @@ function Password() {
                     {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
           </div>
-          <button 
-            className={styles.findPasswordButton} 
-            onClick={() => navigate("/FindPw")} // 클릭 시 findPw로 이동
-          >
-            비밀번호 찾기
-          </button>
+          
           <button className={styles.button} type="submit">로그인</button>
         </form>
+        <button 
+          className={styles.findPasswordButton} 
+          onClick={() => navigate("/FindPw")} // 클릭 시 findPw로 이동
+        >
+          비밀번호 찾기
+        </button>
       </main>
     </div>  
     )
