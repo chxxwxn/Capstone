@@ -37,11 +37,11 @@ public class MemberServiceImpl implements MemberService{
     return membermapper.memberLogin(member);
   }
   
-  /* 카카오 인증 코드로 Access Token 가져오기 */
+  /* 카카오 인증 코드로 Access Token 가져오기 */ 
   @SuppressWarnings("rawtypes")
   @Override
   public String getKakaoAccessToken(String code) {
-    String clientId = "116129a2f6241bd118d98c52c1758667";
+    String clientId = "e0004ba73de38814f9c3d941049efff8";
     String redirectUri = "http://localhost:8090/member/kakao/callback"; // ✅ 올바른 URL 확인
     String tokenUrl = "https://kauth.kakao.com/oauth/token"; // ✅ 올바른 URL
 
@@ -89,6 +89,7 @@ public class MemberServiceImpl implements MemberService{
 
     String email = kakaoAccount.path("email").asText();
     String nickname = profile.path("nickname").asText();
+    String phoneNumber = kakaoAccount.path("phone_number").asText(null);
 
     // DB에서 이메일 존재 여부 확인
     MemberVO existingMember = membermapper.findByEmail(email);
@@ -104,12 +105,12 @@ public class MemberServiceImpl implements MemberService{
     member.setMemberFn(nickname);
     member.setMemberLn("");
     member.setMemberPw(UUID.randomUUID().toString()); // 랜덤 비밀번호 설정
-    member.setMemberNum1("010"); // 기본 전화번호 설정
-    member.setMemberNum2("1234");
-    member.setMemberNum3("5678");
+    member.setMemberNum1(phoneNumber);
+    member.setMemberNum2("0000");
+    member.setMemberNum3("0000");
     member.setMemberRating("Enjoy");
     member.setPoint(5000);
-    member.setMemberCoupon(0);
+    member.setMemberCoupon(2);
 
     // 회원가입 진행
     membermapper.memberJoin(member);
