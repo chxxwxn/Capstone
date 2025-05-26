@@ -100,7 +100,7 @@ function Header() {
               <img src="/icon/login2.png" alt="로그인" className={styles.icon} />
             </button>
           </Link>
-          <Link to="/Board">
+          <Link to="/Cart">
             <button type="button" className={styles.iconButton} aria-label="장바구니">
               <img src="/icon/cart2.png" alt="장바구니" className={styles.icon} />
             </button>
