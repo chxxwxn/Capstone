@@ -25,4 +25,6 @@ public interface MemberMapper {
   public MemberVO memberLogin(MemberVO member);
 
   public List<MemberVO> getAllMembers();
+
+  void updateMemberInfo(MemberVO member);
 }
