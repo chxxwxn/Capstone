@@ -22,4 +22,7 @@ public interface MemberService {
 
   public List<MemberVO> getAllMembers() throws Exception;
 
+  public void updateMemberInfo(MemberVO member);
+
+
 }
