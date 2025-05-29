@@ -37,8 +37,21 @@ public class MemberVO {
   //회원 포인트
   private int point;
 
+  //회원 쿠폰
   private int memberCoupon;
 
+  //회원 성별
+  private String gender;
+
+  //회원 생년월일
+  private String birth;
+  
+  //회원 키
+  private int height;
+
+  //회원 몸무게게
+  private int weight;
+  
   public String getMemberMail() {
     return memberMail;
   }
@@ -134,11 +147,44 @@ public class MemberVO {
   public void setMemberCoupon(int memberCoupon) {
     this.memberCoupon = memberCoupon;
   }
+
+  public String getGender() {
+    return gender;
+  }
   
+  public void setGender(String gender) {
+    this.gender = gender;
+  }
+
+  public String getBirth() {
+    return birth;
+  }
+  
+  public void setBirth(String birth) {
+    this.birth = birth;
+  }
+
+  public int getHeight() {
+    return height;
+  }
+  
+  public void setHeight(int height) {
+    this.height = height;
+  }
+  
+  public int getWeight() {
+    return weight;
+  }
+  
+  public void setWeight(int weight) {
+    this.weight = weight;
+  }
+
   @Override
   public String toString() {
     return "MemberVO [memberMail="+ memberMail + ", memberPw=" + memberPw + ", memberFn=" + memberFn + ", memberLn=" + memberLn + ", memberNum1=" + memberNum1 + ", memberNum2=" + memberNum2 + ", memberNum3=" + memberNum3
-      + ", adminCk=" + adminCk + ", regDate=" + regDate + ", memberRating=" + memberRating + ", point=" + point +  ", memberCoupon=" + memberCoupon + "]";
+      + ", adminCk=" + adminCk + ", regDate=" + regDate + ", memberRating=" + memberRating + ", point=" + point +  ", memberCoupon=" + memberCoupon + ", gender=" + gender + ", birth=" + birth
+      + ", height=" + height + ", weight=" + weight + "]";
   }
   
     
