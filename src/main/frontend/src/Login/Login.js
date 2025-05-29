@@ -74,9 +74,9 @@ function Login() {
   const handleKakaoLogin = () => {
     if (window.Kakao) {
       window.Kakao.Auth.authorize({
-  redirectUri: "http://localhost:8090/member/kakao/callback",
-  scope: "profile_nickname account_email phone_number" // ✅ 꼭 포함해야 함
-});
+        redirectUri: "http://localhost:8090/member/kakao/callback",
+        scope: "profile_nickname account_email phone_number" // ✅ 꼭 포함해야 함
+      });
     } else {
       console.error("Kakao SDK not initialized");
     }
