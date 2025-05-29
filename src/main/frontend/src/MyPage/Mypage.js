@@ -110,7 +110,7 @@ const Mypage = () => {
                 />
                 </Link>
               </div>
-              <div className={styles.WishPcs}>1개</div>
+              <div className={styles.WishPcs}>0개</div>
               <div className={styles.WishTotal}>찜한 상품</div>
             </div>
           </div>
@@ -126,7 +126,7 @@ const Mypage = () => {
                   />
                   </Link>
                 </div>
-                <div className={styles.BoardPcs}>1개</div>
+                <div className={styles.BoardPcs}>0개</div>
                 <div className={styles.BoardTotal}>게시판</div>
               </div>
           </div>
