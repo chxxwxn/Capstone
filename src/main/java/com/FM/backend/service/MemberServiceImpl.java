@@ -41,7 +41,7 @@ public class MemberServiceImpl implements MemberService{
   public MemberVO memberLogin(MemberVO member) throws Exception {
     return membermapper.memberLogin(member);
   }
-  
+
   @Override
   public void updateMemberInfo(MemberVO member) {
     // 비밀번호가 변경되었을 경우에만 암호화
@@ -51,7 +51,6 @@ public class MemberServiceImpl implements MemberService{
     }
     membermapper.updateMemberInfo(member);
   }
-
 
   /* 카카오 인증 코드로 Access Token 가져오기 */ 
   @SuppressWarnings("rawtypes")
