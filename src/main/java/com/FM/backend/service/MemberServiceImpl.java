@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.UUID;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 import com.FM.backend.mapper.MemberMapper;
+import com.FM.backend.mapper.CouponMapper;
+import com.FM.backend.model.CouponVO;
 import com.FM.backend.model.MemberVO;
 
 @Service
@@ -27,9 +30,37 @@ public class MemberServiceImpl implements MemberService{
   @Autowired
   MemberMapper membermapper;
 
+  @Autowired
+  CouponMapper couponmapper;
+
   @Override
   public void memberJoin(MemberVO member) throws Exception {
     membermapper.memberJoin(member);
+
+    // 기본 쿠폰 2종 발급
+    CouponVO discountCoupon = new CouponVO();
+    discountCoupon.setMemberMail(member.getMemberMail());
+    discountCoupon.setCouponCode(UUID.randomUUID().toString().substring(0, 10)); // 랜덤 코드
+    discountCoupon.setName("10% 할인 쿠폰");
+    discountCoupon.setDiscountType("percent");
+    discountCoupon.setDiscountValue(10);
+    discountCoupon.setStatus("사용 가능");
+    discountCoupon.setIssueDate(LocalDate.now());
+    discountCoupon.setExpireDate(LocalDate.now().plusMonths(1)); // 1달 유효
+
+    CouponVO freeShippingCoupon = new CouponVO();
+    freeShippingCoupon.setMemberMail(member.getMemberMail());
+    freeShippingCoupon.setCouponCode(UUID.randomUUID().toString().substring(0, 10));
+    freeShippingCoupon.setName("무료 배송 쿠폰");
+    freeShippingCoupon.setDiscountType("free_shipping");
+    freeShippingCoupon.setDiscountValue(0);
+    freeShippingCoupon.setStatus("사용 가능");
+    freeShippingCoupon.setIssueDate(LocalDate.now());
+    freeShippingCoupon.setExpireDate(LocalDate.now().plusMonths(1));
+
+    // 쿠폰 저장
+    couponmapper.insertCoupon(discountCoupon);
+    couponmapper.insertCoupon(freeShippingCoupon);
   }
   
   @Override
@@ -127,6 +158,31 @@ public class MemberServiceImpl implements MemberService{
     member.setPoint(5000);
     member.setMemberCoupon(2);
 
+    // 기본 쿠폰 2종 발급
+    CouponVO discountCoupon = new CouponVO();
+    discountCoupon.setMemberMail(member.getMemberMail());
+    discountCoupon.setCouponCode(UUID.randomUUID().toString().substring(0, 10)); // 랜덤 코드
+    discountCoupon.setName("10% 할인 쿠폰");
+    discountCoupon.setDiscountType("percent");
+    discountCoupon.setDiscountValue(10);
+    discountCoupon.setStatus("사용 가능");
+    discountCoupon.setIssueDate(LocalDate.now());
+    discountCoupon.setExpireDate(LocalDate.now().plusMonths(1)); // 1달 유효
+
+    CouponVO freeShippingCoupon = new CouponVO();
+    freeShippingCoupon.setMemberMail(member.getMemberMail());
+    freeShippingCoupon.setCouponCode(UUID.randomUUID().toString().substring(0, 10));
+    freeShippingCoupon.setName("무료 배송 쿠폰");
+    freeShippingCoupon.setDiscountType("free_shipping");
+    freeShippingCoupon.setDiscountValue(0);
+    freeShippingCoupon.setStatus("사용 가능");
+    freeShippingCoupon.setIssueDate(LocalDate.now());
+    freeShippingCoupon.setExpireDate(LocalDate.now().plusMonths(1));
+
+    // 쿠폰 저장
+    couponmapper.insertCoupon(discountCoupon);
+    couponmapper.insertCoupon(freeShippingCoupon);
+
     // 회원가입 진행
     membermapper.memberJoin(member);
 
@@ -136,5 +192,10 @@ public class MemberServiceImpl implements MemberService{
   @Override
   public List<MemberVO> getAllMembers() throws Exception {
     return membermapper.getAllMembers();
+  }
+
+  @Override
+  public void useCouponAndPoint(String memberMail, int usedPoint) {
+      membermapper.useCouponAndPoint(memberMail, usedPoint);
   }
 }
