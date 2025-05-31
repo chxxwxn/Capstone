@@ -395,24 +395,24 @@ const InfoEdit = () => {
 
       // 주소 저장 요청
       await fetch('http://localhost:8090/address/save', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  credentials: 'include',
-  body: JSON.stringify({
-    address: info.address.roadAddress,
-    detailAddress: info.address.detailAddress,
-    zipCode: info.address.postcode,
-  }),
-});
-      alert("정보가 성공적으로 저장되었습니다.");
-      setIsEditable(false);
-    } catch (error) {
-      console.error("저장 중 오류 발생:", error);
-      alert("저장에 실패했습니다.");
-    }
-  };
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          address: info.address.roadAddress,
+          detailAddress: info.address.detailAddress,
+          zipCode: info.address.postcode,
+        }),
+      });
+          alert("정보가 성공적으로 저장되었습니다.");
+          setIsEditable(false);
+        } catch (error) {
+          console.error("저장 중 오류 발생:", error);
+          alert("저장에 실패했습니다.");
+        }
+      };
 
   const [showTooltip, setShowTooltip] = useState(false);
   
