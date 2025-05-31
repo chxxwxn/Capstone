@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Icon } from '@iconify/react';
 import styles from './Mypage.module.css';
-import Header2 from '../Header/Header2';
+import Header from '../Header/Header';
 import { Link } from 'react-router-dom'; // Link 컴포넌트 import
 import { LoginContext } from "../Login/LoginContext";
 
@@ -46,11 +46,35 @@ const Mypage = () => {
     }
   }, []);
 
+  useEffect(() => {
+    fetch(`http://localhost:8090/order/list?memberMail=${member.memberMail}`, {
+      credentials: 'include'
+    })
+      .then(res => res.json())
+      .then(data => {
+        const statusCounts = {
+          입금전: 0,
+          배송준비중: 0,
+          배송중: 0,
+          배송완료: 0
+        };
+
+        data.forEach(order => {
+          if (order.status in statusCounts) {
+            statusCounts[order.status]++;
+          }
+        });
+
+        setOrderStatusCounts(statusCounts);
+        setRecentOrders(data.slice(0, 3)); // 최근 3건
+      });
+  }, []);
+
   return (
     isLoggedIn && member ? (
     <>
       <div className={styles.Mypage}>
-        <Header2 />
+        <Header />
         <div className={styles.MypageHeader}>
           <div className={styles.MypageTitle}>마이페이지</div>
         </div>
