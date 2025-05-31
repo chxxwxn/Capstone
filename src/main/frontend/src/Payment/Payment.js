@@ -27,6 +27,7 @@ const Payment = () => {
     });
     const [showAddressList, setShowAddressList] = useState(false);
     const [coupons, setCoupons] = useState([]); // ✅ 쿠폰 상태 추가
+    const [cartItems, setCartItems] = useState([]);
 
     useEffect(() => {
         const fetchCoupons = async () => {
@@ -64,6 +65,28 @@ const Payment = () => {
         };
 
         fetchCoupons();
+    }, []);
+
+    useEffect(() => {
+        const storedMember = sessionStorage.getItem("member");
+        if (storedMember) {
+            const parsed = JSON.parse(storedMember);
+            fetch(`http://localhost:8090/cart/list?memberMail=${parsed.memberMail}`)
+            .then(res => res.json())
+            .then(data => {
+                const mapped = data.map(item => ({
+                cartId: item.cartId,
+                id: item.productId,
+                name: item.product.productName,
+                price: item.product.productPrice,
+                size: item.productSize,
+                color: item.productColor,
+                image: item.imageUrl,
+                quantity: item.productQuantity
+                }));
+                setCartItems(mapped);
+            });
+        }
     }, []);
 
     const [paymentItems, setPaymentItems] = useState([]);
@@ -193,7 +216,8 @@ const Payment = () => {
                     color: item.color,
                     price: item.price,
                     quantity: item.quantity,
-                    status: orderStatus
+                    status: orderStatus,
+                    image: item.image,
                 }));
 
                 sessionStorage.setItem("orderToSave", JSON.stringify(orderData));
@@ -218,7 +242,7 @@ const Payment = () => {
                         'Content-Type': 'application/json',
                     },
                     credentials: 'include',
-                    body: JSON.stringify(orderItems), // 결제한 상품 리스트
+                    body: JSON.stringify(orderData), // 결제한 상품 리스트
                     });
 
                 const response = await fetch('http://localhost:8090/payment/ready', {
@@ -253,6 +277,9 @@ const Payment = () => {
                 }
           
                 const data = await response.json();
+
+                sessionStorage.setItem("tid", data.tid);
+
                 window.location.href = data.next_redirect_pc_url;
             } catch (error) {
                 console.error('결제 오류:', error);
