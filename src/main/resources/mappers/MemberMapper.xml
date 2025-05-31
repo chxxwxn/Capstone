@@ -50,4 +50,12 @@
     WHERE memberMail = #{memberMail}
   </update>
 
+  <update id="useCouponAndPoint">
+    UPDATE fm_member
+    SET
+        point = point - #{usedPoint},
+        memberCoupon = memberCoupon - 1
+    WHERE memberMail = #{memberMail}
+  </update>
+
 </mapper>
