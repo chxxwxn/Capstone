@@ -8,14 +8,13 @@ import { Link } from 'react-router-dom';
 const Payment = () => {
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
     const [paymentAgreement, setPaymentAgreement] = useState(false);
-    const [productPrice] = useState(59900);
-    const [discount] = useState(5990);
+    const [productPrice, setProductPrice] = useState(0);
     const [shippingCost] = useState(3000);
     const [rewardPoints, setRewardPoints] = useState('');
     const [couponDiscount, setCouponDiscount] = useState(0);
     const [showAddressSearch, setShowAddressSearch] = useState(false);
     const [selectedAddress, setSelectedAddress] = useState(null);
-    const [selectedCoupon, setSelectedCoupon] = useState("");
+    const [selectedCoupon, setSelectedCoupon] = useState(null);
     const [isEditingShipping, setIsEditingShipping] = useState(false);
     const [member, setMember] = useState(null);
     const [shippingAddresses, setShippingAddresses] = useState([]);
@@ -27,7 +26,60 @@ const Payment = () => {
         zipCode: '',
     });
     const [showAddressList, setShowAddressList] = useState(false);
+    const [coupons, setCoupons] = useState([]); // ✅ 쿠폰 상태 추가
 
+    useEffect(() => {
+        const fetchCoupons = async () => {
+            try {
+                const res = await fetch(`http://localhost:8090/coupon/list`, {
+                    method: 'GET',
+                    credentials: 'include',
+                });
+
+                if (res.ok) {
+                    const data = await res.json();
+
+                    // 사용 완료 쿠폰은 제외
+                    const mapped = data
+                        .filter(coupon => coupon.status !== '사용 완료')
+                        .map((coupon) => ({
+                            id: coupon.couponId,
+                            couponCode: coupon.couponCode,
+                            name: coupon.name,
+                            discount: coupon.discountType === 'percent'
+                                ? `${coupon.discountValue}% 할인`
+                                : '무료 배송',
+                            dead: `( ${coupon.expireDate} 소멸 예정)`,
+                            date: coupon.issueDate,
+                            use: coupon.status,
+                        }));
+
+                    setCoupons(mapped);
+                } else {
+                    console.warn("쿠폰 목록을 가져오지 못했습니다");
+                }
+            } catch (error) {
+                console.error("쿠폰 불러오기 실패:", error);
+            }
+        };
+
+        fetchCoupons();
+    }, []);
+
+    const [paymentItems, setPaymentItems] = useState([]);
+
+    useEffect(() => {
+        const storedItems = sessionStorage.getItem("paymentItems");
+        if (storedItems) {
+            const parsedItems = JSON.parse(storedItems);
+            setPaymentItems(parsedItems);
+
+            // 상품 금액 계산: 단가 × 수량 합산
+            const total = parsedItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+            setProductPrice(total);
+        }
+    }, []);
+    
     const handleSearchAddressClick = () => {
         setShowAddressSearch(true);
     };
@@ -41,8 +93,25 @@ const Payment = () => {
         setShowAddressSearch(false);
     };
 
-    const handleSaveAddress = () => {
+    const handleSaveAddress = async () => {
         const newAddress = { ...tempAddress };
+
+        try {
+            const response = await fetch("http://localhost:8090/address/save", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify(newAddress),
+            });
+
+            if (!response.ok) throw new Error("주소 저장 실패");
+            console.log("주소 저장 성공");
+        } catch (err) {
+            console.error("주소 저장 오류:", err);
+            alert("주소 저장에 실패했습니다.");
+            return;
+        }
+
         setShippingAddresses((prevAddresses) => [...prevAddresses, newAddress]);
         setSelectedAddress(newAddress);
         setIsEditingShipping(false);
@@ -79,15 +148,29 @@ const Payment = () => {
     };
 
     const handleCouponChange = (e) => {
-        setSelectedCoupon(e.target.value);
-        if (e.target.value === '10') {
-            setCouponDiscount(productPrice * 0.1);
-        } else if (e.target.value === 'free') {
-            setCouponDiscount(shippingCost);
-        } else {
-            setCouponDiscount(0);
+    const selectedCode = e.target.value;
+    const foundCoupon = coupons.find(c => c.couponCode === selectedCode);
+    setSelectedCoupon(foundCoupon || null);
+
+    let newCouponDiscount = 0;
+    let tempTotal = productPrice - discount + shippingCost;
+
+    if (foundCoupon) {
+        if (foundCoupon.discount.includes('%')) {
+            const percent = parseInt(foundCoupon.discount); // 예: "10% 할인" → 10
+            newCouponDiscount = Math.floor((productPrice - discount) * (percent / 100));
+            tempTotal -= newCouponDiscount;
+        } else if (foundCoupon.discount.includes('무료')) {
+            newCouponDiscount = shippingCost;
+            tempTotal -= shippingCost;
         }
-    };
+    }
+
+    tempTotal -= rewardPoints;
+
+    setCouponDiscount(newCouponDiscount);
+    setTotalAmount(tempTotal);
+};
 
     const handlePayButtonClick = async () => {
         if (!paymentAgreement) {
@@ -100,68 +183,134 @@ const Payment = () => {
         }
         if (selectedPaymentMethod === 'kakaopay') {
             try {
-              const response = await fetch('http://localhost:8090/payment/ready', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
+                if (selectedCoupon) {
+                    fetch(`http://localhost:8090/coupon/use?couponCode=${selectedCoupon.couponCode}`, {
+                        method: "PUT",
+                        credentials: "include",
+                    })
+                    .then((res) => {
+                        if (!res.ok) throw new Error("쿠폰 상태 변경 실패");
+                        console.log("쿠폰 상태 업데이트 완료");
+                    })
+                    .catch((err) => {
+                        console.error("쿠폰 상태 업데이트 오류:", err);
+                    });
+                }
+
+                const orderStatus = selectedPaymentMethod === 'account' ? '입금 전' : '배송 준비 중';
+
+                const orderData = cartItems.map(item => ({
+                productId: item.id,
+                productName: item.name,
+                size: item.size,
+                color: item.color,
+                price: item.price,
+                quantity: item.quantity,
+                status: orderStatus
+                }));
+
+                await fetch("http://localhost:8090/order/save", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
                 credentials: "include",
-                body: JSON.stringify({
-                  quantity: 1,               // 수량
-                  totalAmount: totalAmount, // 총 결제 금액
-                  itemName: "REGLAN SYMBOL KNIT ZIP-UP"
-                }),
-              });
+                body: JSON.stringify(orderData)
+                });
+
+
+                const response = await fetch('http://localhost:8090/payment/ready', {
+                    method: 'POST',
+                    headers: {
+                    'Content-Type': 'application/json',
+                    },
+                    credentials: "include",
+                    body: JSON.stringify({
+                    quantity: 1,               // 수량
+                    totalAmount: totalAmount, // 총 결제 금액
+                    itemName: "REGLAN SYMBOL KNIT ZIP-UP"
+                    }),
+                });
+
+                if (selectedCoupon || rewardPoints > 0) {
+                    fetch(`http://localhost:8090/member/use-benefits?memberMail=${member.memberMail}&usedPoint=${rewardPoints}`, {
+                        method: 'PUT',
+                        credentials: 'include',
+                    })
+                    .then((res) => {
+                        if (!res.ok) throw new Error("혜택 차감 실패");
+                        console.log("적립금과 쿠폰 차감 완료");
+                    })
+                    .catch((err) => {
+                        console.error("혜택 차감 오류:", err);
+                    });
+                }
           
-              if (!response.ok) {
-                throw new Error('카카오페이 결제 준비 실패');
-              }
+                if (!response.ok) {
+                    throw new Error('카카오페이 결제 준비 실패');
+                }
           
-              const data = await response.json();
-              window.location.href = data.next_redirect_pc_url;
+                const data = await response.json();
+                window.location.href = data.next_redirect_pc_url;
             } catch (error) {
-              console.error('결제 오류:', error);
-              alert('카카오페이 결제 중 오류가 발생했습니다.');
+                console.error('결제 오류:', error);
+                alert('카카오페이 결제 중 오류가 발생했습니다.');
             }
         }
     };
 
     const { isLoggedIn } = useContext(LoginContext);
 
-    const calculateTotal = () => {
-        const parsedRewardPoints = parseInt(rewardPoints) || 0;
-        return productPrice + shippingCost - discount - parsedRewardPoints - couponDiscount;
-    };
+    const isPromotionActive = false; // 예시: 지금은 프로모션 아님
+    const discount = isPromotionActive ? Math.floor(productPrice * 0.1) : 0;
+    const [totalAmount, setTotalAmount] = useState(0);
 
-    const totalAmount = calculateTotal();
+    useEffect(() => {
+        const calculatedTotal = productPrice - discount - couponDiscount - rewardPoints + shippingCost;
+        setTotalAmount(calculatedTotal > 0 ? calculatedTotal : 0); // 음수 방지
+    }, [productPrice, discount, couponDiscount, rewardPoints, shippingCost]);
     
     useEffect(() => {
-        const storedMember = sessionStorage.getItem("member");
-        if (storedMember) {
-          try {
+    const storedMember = sessionStorage.getItem("member");
+    if (storedMember) {
+        try {
             const parsedMember = JSON.parse(storedMember);
             setMember(parsedMember);
-      
-            setShippingAddresses([
-              {
-                name: parsedMember.memberLn + parsedMember.memberFn,
-                phone:
+
+            const name = parsedMember.memberLn + parsedMember.memberFn;
+            const phone =
                 parsedMember.memberNum2 === "0000" && parsedMember.memberNum3 === "0000"
                     ? parsedMember.memberNum1
-                    : `${parsedMember.memberNum1}-${parsedMember.memberNum2}-${parsedMember.memberNum3}`,
-                address: '서울특별시', // 나중에 DB나 사용자 입력으로 바꾸는 것도 가능
-                detailAddress: '1동 002호',
-                zipCode: '12345',
-              },
-            ]);
-          } catch (err) {
+                    : `${parsedMember.memberNum1}-${parsedMember.memberNum2}-${parsedMember.memberNum3}`;
+
+            // ✅ 배송지 목록 전체 가져오기
+            fetch(`http://localhost:8090/address/getAll?memberMail=${parsedMember.memberMail}`, {
+                method: "GET",
+                credentials: "include",
+            })
+                .then((res) => res.json())
+                .then((addressList) => {
+                    if (Array.isArray(addressList)) {
+                        const processed = addressList.map(addr => ({
+                            name,
+                            phone,
+                            address: addr.address,
+                            detailAddress: addr.detailAddress,
+                            zipCode: addr.zipCode
+                        }));
+                        setShippingAddresses(processed);
+                        setSelectedAddress(processed[0]); // 가장 최근 주소 선택
+                    }
+                })
+                .catch((err) => {
+                    console.error("배송지 목록 불러오기 오류:", err);
+                });
+        } catch (err) {
             console.error("회원 정보 파싱 오류:", err);
-          }
         }
-    }, []);
+    }
+}, []);
  
     return (
-        isLoggedIn ? (
+        isLoggedIn && member ? (
         <>
         <div className={styles.paymentContainer}>
             <h1>주문하기</h1>
@@ -169,13 +318,17 @@ const Payment = () => {
                 {/* 좌측 영역 */}
                 <div className={styles.leftSection}>
                     {/* 상품 정보 */}
-                    <div className={styles.productInfo}>
-                        <img src="cardigan/1-1.jpg" alt="상품 이미지" />
-                        <div>
-                            <span>REGLAN SYMBOL KNIT ZIP-UP</span>
-                            <p>S / CHARCOAL</p>
-                            <p>{productPrice.toLocaleString()}원  1개</p>
-                        </div>
+                    <div>
+                        {paymentItems.map((item, index) => (
+                            <div key={index} className={styles.productInfo}>
+                                <img src={item.image} alt="상품 이미지" />
+                                <div>
+                                    <span>{item.name}</span>
+                                    <p>{item.size} / {item.color}</p>
+                                    <p>{(item.price).toLocaleString()}원 × {item.quantity}개</p>
+                                </div>
+                            </div>
+                        ))}
                     </div>
 
                     {/* 배송 정보 */}
@@ -265,10 +418,13 @@ const Payment = () => {
                         </div>
                         <div>
                             <label>쿠폰</label>
-                            <select value={selectedCoupon} onChange={handleCouponChange}>
+                            <select value={selectedCoupon?.couponCode || ''} onChange={handleCouponChange}>
                                 <option value="">사용할 쿠폰을 선택하세요</option>
-                                <option value="10">10% 할인 쿠폰</option>
-                                <option value="free">무료 배송 쿠폰</option>
+                                {coupons.map(coupon => (
+                                    <option key={coupon.id} value={coupon.couponCode}>
+                                        {coupon.name}
+                                    </option>
+                                ))}
                             </select>
                         </div>
                     </div>
