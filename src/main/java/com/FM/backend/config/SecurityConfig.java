@@ -27,24 +27,17 @@ public class SecurityConfig {
             .cors(cors -> {}) // CORS 활성화
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
-                    "/member/mailChk",
-                    "/member/Join2",
-                    "/member/login.do",
-                    "/member/kakao/callback",
+                    "/member/**",
                     "/products",
                     "/products/**",
-                    "/payment/ready",
-                    "/payment/success",
-                    "/payment/cancel",
-                    "/payment/fail",
-                    "/payment/refund",
-                    "/member/list",
+                    "/payment/**",
                     "/wishlist/**", 
                     "/cart/**",
                     "/api/**",
-                    "/member/update",
-                    "/address/save",
-                    "/address/get"
+                    "/address/**",
+                    "/coupon/**",
+                    "/point/**",
+                    "/order/**"
                 ).permitAll()
                 .anyRequest().authenticated()
             )
