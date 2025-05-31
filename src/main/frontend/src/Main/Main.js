@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Main.module.css';
-import Footer from '../Footer/Footer'; // Footer 불러오기
 
 function Main() {
   const products = [
