@@ -7,9 +7,8 @@ export default function Paid() {
 const navigate = useNavigate();
 const [params] = useSearchParams();
 const pgToken = params.get("pg_token");
-const [approved, setApproved] = useState(false);
 const { isLoggedIn } = useContext(LoginContext);
-  const [member, setMember] = useState(null);
+const [member, setMember] = useState(null);
 const [recentOrders, setRecentOrders] = useState([]);
 
   const filteredOrders = [
@@ -26,44 +25,51 @@ const [recentOrders, setRecentOrders] = useState([]);
       status: "배송 완료",
     }
   ];
-  const visibleOrders = 1; // 보여줄 주문 개수
 
   useEffect(() => {
+    if (!pgToken) return;
+
+    const approveKey = `approved-${pgToken}`;
+    if (sessionStorage.getItem(approveKey)) {
+      console.log("✅ 이미 승인된 pg_token입니다.");
+      return;
+    }
+
     const approvePayment = async () => {
       try {
-        const response = await fetch(`http://localhost:8090/payment/success?pg_token=${pgToken}`, {
+        const tid = sessionStorage.getItem("tid");
+        if (!tid) throw new Error("❌ TID 없음");
+
+        const response = await fetch(`http://localhost:8090/payment/success?pg_token=${pgToken}&tid=${tid}`, {
           method: 'GET',
           credentials: 'include',
         });
 
-        const data = await response.json();
-        console.log("결제 승인 성공:", data);
-        setApproved(true);
+        if (!response.ok) throw new Error("결제 승인 실패");
 
-        // ✅ 주문 정보 세션스토리지에서 꺼내기
-        const orderToSave = sessionStorage.getItem("orderToSave");
-        if (orderToSave) {
-          const parsedOrders = JSON.parse(orderToSave);
+        const data = await response.json();
+        console.log("✅ 결제 승인 성공:", data);
+        sessionStorage.setItem(approveKey, "true");
+
+        const orderData = sessionStorage.getItem("orderToSave");
+        if (orderData) {
           await fetch("http://localhost:8090/order/save", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include",
-            body: JSON.stringify(parsedOrders),
+            body: orderData,
           });
-
-          console.log("주문 정보 저장 완료");
-          sessionStorage.removeItem("orderToSave"); // 저장 후 삭제
+          console.log("✅ 주문 정보 저장 완료");
+          sessionStorage.removeItem("orderToSave");
         }
+
       } catch (error) {
-        console.error("결제 승인 실패:", error);
+        console.error("❌ 결제 승인 실패:", error);
       }
     };
 
-    if (pgToken) {
-      approvePayment();
-    }
+    approvePayment();
   }, [pgToken]);
-
 
   useEffect(() => {
     const storedMember = sessionStorage.getItem('member');
@@ -77,7 +83,6 @@ const [recentOrders, setRecentOrders] = useState([]);
     }
   }, []);
 
-  
 
   useEffect(() => {
     if (!member) return;
@@ -102,8 +107,8 @@ const [recentOrders, setRecentOrders] = useState([]);
       <div className={styles.PaidContainer}>
         <div className={styles.PaidProduct}>
           <div className={styles.ProductList}>
-            {recentOrders.slice(0, 1).map((order) => (
-              <div key={order.id} className={styles.ProductList}>
+            {recentOrders.map((order, index) => (
+              <div key={order.id || index} className={styles.ProductList}>
                 <div className={styles.OrederNumDate}>
                   <div className={styles.OrederDate}>{new Date(order.order_date).toLocaleDateString()}</div>
                   <div> | </div>
