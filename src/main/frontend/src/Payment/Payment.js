@@ -183,6 +183,21 @@ const Payment = () => {
         }
         if (selectedPaymentMethod === 'kakaopay') {
             try {
+
+                const orderStatus = selectedPaymentMethod === 'account' ? '입금 전' : '배송 준비 중';
+
+                const orderData = cartItems.map(item => ({
+                    productId: item.id,
+                    productName: item.name,
+                    size: item.size,
+                    color: item.color,
+                    price: item.price,
+                    quantity: item.quantity,
+                    status: orderStatus
+                }));
+
+                sessionStorage.setItem("orderToSave", JSON.stringify(orderData));
+
                 if (selectedCoupon) {
                     fetch(`http://localhost:8090/coupon/use?couponCode=${selectedCoupon.couponCode}`, {
                         method: "PUT",
@@ -197,25 +212,14 @@ const Payment = () => {
                     });
                 }
 
-                const orderStatus = selectedPaymentMethod === 'account' ? '입금 전' : '배송 준비 중';
-
-                const orderData = cartItems.map(item => ({
-                productId: item.id,
-                productName: item.name,
-                size: item.size,
-                color: item.color,
-                price: item.price,
-                quantity: item.quantity,
-                status: orderStatus
-                }));
-
-                await fetch("http://localhost:8090/order/save", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                credentials: "include",
-                body: JSON.stringify(orderData)
-                });
-
+                await fetch('http://localhost:8090/order/save', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify(orderItems), // 결제한 상품 리스트
+                    });
 
                 const response = await fetch('http://localhost:8090/payment/ready', {
                     method: 'POST',
