@@ -1,10 +1,56 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import styles from "./Coupon.module.css";
+import { Link } from 'react-router-dom'; // Link 컴포넌트 import
+import { LoginContext } from "../Login/LoginContext";
+
 
 const Coupon = () => {
     const [couponCode, setCouponCode] = useState('');
     const [filter, setFilter] = useState("전체"); // 사용 여부 필터
     const [selectedPeriod, setSelectedPeriod] = useState("전체"); // 기간 필터
+    const { isLoggedIn } = useContext(LoginContext);
+    const [member, setMember] = useState(null);
+
+    useEffect(() => {
+        const storedMember = sessionStorage.getItem('member');
+        if (storedMember) {
+          try {
+            setMember(JSON.parse(storedMember)); // JSON 변환
+          } catch (error) {
+            console.error('JSON parsing error:', error);
+            sessionStorage.removeItem('member'); // 오류 발생 시 데이터 삭제
+          }
+        }
+      }, []);
+
+    useEffect(() => {
+        const storedMember = sessionStorage.getItem('member');
+        if (!storedMember) return;
+
+        const parsed = JSON.parse(storedMember);
+        const email = parsed.memberMail;
+
+        fetch(`http://localhost:8090/coupon/list?memberMail=${email}`, {
+            method: "GET",
+            credentials: "include"
+        })
+            .then((res) => res.json())
+            .then((data) => {
+            const mappedCoupons = data.map((coupon) => ({
+                id: coupon.couponId,
+                discount: coupon.discountType === 'percent' ? `${coupon.discountValue}% 할인` : "무료 배송",
+                name: coupon.name,
+                dead: coupon.expireDate ? `( ${coupon.expireDate} 소멸 예정)` : "",
+                date: coupon.issueDate || "날짜 없음",
+                use: coupon.status
+            }));
+
+            setCoupons(mappedCoupons);
+            })
+            .catch((err) => {
+            console.error("쿠폰 불러오기 실패:", err);
+            });
+    }, []);
 
     const handleCouponCodeChange = (e) => {
         const value = e.target.value;
@@ -83,32 +129,46 @@ const Coupon = () => {
         return coupon.use === filter;
     });
 
-    const handleCouponSubmit = () => {
-        const validCouponCode = '0123456789';
-        if (couponCode === validCouponCode) {
-            // 현재 날짜를 YYYY-MM-DD 형식으로 변환
-            const currentDate = new Date();
-            const formattedDate = currentDate.toISOString().split('T')[0];  // "2025-03-25" 형식
-    
-            setCoupons([
-                ...coupons,
-                {
-                    id: coupons.length + 1,
-                    discount: "테스트 쿠폰",
-                    name: "테스트 쿠폰",
-                    dead: "( 2222-22-22 소멸 예정)",
-                    date: formattedDate,  // 변환된 날짜 사용
-                    use: "사용 가능",
-                },
-            ]);
-            setCouponCode('');
-        } else {
-            alert("잘못된 쿠폰 코드입니다.");
+    const handleCouponSubmit = async () => {
+        if (couponCode.length !== 10) {
+            alert("쿠폰 코드는 숫자 10자리여야 합니다.");
+            return;
+        }
+
+        try {
+            const response = await fetch("http://localhost:8090/coupon/save", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: "include", // 세션 기반 인증 시 필요
+            body: JSON.stringify({
+                couponCode: couponCode,
+                name: "사용자 입력 쿠폰",          // 예시 이름, 서버에서도 변경 가능
+                discountType: "percent",          // 또는 "free_shipping"
+                discountValue: 10,                // 예: 10% 할인
+                status: "사용 가능",
+                expireDate: "2025-12-31"          // 만료일 직접 지정 또는 서버에서 계산
+            }),
+            });
+
+            if (response.ok) {
+            alert("쿠폰이 등록되었습니다!");
+            setCouponCode("");
+            } else {
+            const errorText = await response.text();
+            alert(`쿠폰 등록 실패: ${errorText}`);
+            }
+        } catch (error) {
+            console.error("쿠폰 등록 중 오류:", error);
+            alert("쿠폰 등록에 실패했습니다.");
         }
     };
     
 
     return (
+        isLoggedIn && member ? (
+    <>
         <div className={styles.Coupon}>
             <div className={styles.CouponHeader}>
                 <div className={styles.CouponTitle}>쿠폰</div>
@@ -190,6 +250,10 @@ const Coupon = () => {
                 </div>
             </div>
         </div>
+        </>
+        ) : (
+            <Link to="/login"></Link>
+        )
     );
 };
 
