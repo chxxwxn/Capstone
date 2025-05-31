@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.FM.backend.mapper.OrderMapper">
+
+    <insert id="saveOrder" parameterType="com.FM.backend.model.OrderVO">
+        INSERT INTO fm_order (member_mail, product_id, product_name, size, color, price, quantity, status)
+        VALUES (#{memberMail}, #{productId}, #{productName}, #{size}, #{color}, #{price}, #{quantity}, #{status})
+    </insert>
+
+
+</mapper>
