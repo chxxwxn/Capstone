@@ -220,7 +220,7 @@ const filteredSavings = filteredByPeriodSavings.filter((saving) => {
       <div className={styles.Saving}>
         <div className={styles.SavingRateTitle}>적립금 및 회원등급</div>
         <div className={styles.SavingTitle}>현재 적립금</div>
-        <div className={styles.SavingTotal}>{savingTotal}</div>
+        <div className={styles.SavingTotal}>{member.point}</div>
         <div className={styles.Lost}>
           <span className={styles.LostText}>소멸 예정 적립금 (30일 이내)</span>
           <span className={styles.LostTotal}>{lostTotal}</span>
