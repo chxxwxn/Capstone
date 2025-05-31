@@ -4,6 +4,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -58,29 +59,34 @@ public class KakaoPayService {
   }
 
   /* 결제 완료 승인 */
-  public KakaoApproveResponse ApproveResponse(String pgToken){
-
-    // 카카오 요청
+  public KakaoApproveResponse approveResponse(String pgToken, String tid) {
     MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
     parameters.add("cid", cid);
-    parameters.add("tid", kakaoReady.getTid());
+    parameters.add("tid", tid);
     parameters.add("partner_order_id", "가맹점 주문 번호");
-    parameters.add("partner_user_id","가맹점 회원 ID");
+    parameters.add("partner_user_id", "가맹점 회원 ID");
     parameters.add("pg_token", pgToken);
 
-    // 파라미터, 헤더
-    HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(parameters,this.getHeaders());
-
-    // 외부에 보낼 url
+    HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(parameters, this.getHeaders());
     RestTemplate restTemplate = new RestTemplate();
 
-    KakaoApproveResponse approveResponse = restTemplate.postForObject(
-      "https://kapi.kakao.com/v1/payment/approve",
-      requestEntity,
-      KakaoApproveResponse.class);
-      
-    return approveResponse;
+    try {
+        return restTemplate.postForObject(
+                "https://kapi.kakao.com/v1/payment/approve",
+                requestEntity,
+                KakaoApproveResponse.class
+        );
+    } catch (HttpClientErrorException e) {
+        // ✅ 이미 승인된 결제일 경우
+        if (e.getResponseBodyAsString().contains("payment is already done")) {
+            System.out.println("⚠️ 이미 승인된 결제입니다.");
+            return null; // 또는 커스텀 응답 객체 리턴
+        } else {
+            throw e; // 그 외 오류는 그대로 던짐
+        }
+    }
   }
+
 
   /*결제 환불 */
   public KakaoCancelResponse kakaoCancel(){
