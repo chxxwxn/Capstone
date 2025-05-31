@@ -5,34 +5,16 @@ import Header from '../Header/Header';
 import { Link } from 'react-router-dom'; // Link 컴포넌트 import
 import { LoginContext } from "../Login/LoginContext";
 
-const orders = [
-  {
-    id: "1",
-    img: '/padding/3-4.jpg',
-    productName: '2WAY HOOD DOWN JACKET',
-    size: "M",
-    color: "BLUE",
-    price: '200,000' ,
-    quantity: 1,
-    status: "상품 준비 중"
-  },
-  {
-    id: "2",
-    img: '/padding/1-4.jpg',
-    productName: 'LIGHT DOWN JACKET',
-    size: "M",
-    color: "BEIGE",
-    price: '358,000' ,
-    quantity: 1,
-    status: "배송 준비 중"
-  },
-];
-
-
-
 const Mypage = () => {
   const { isLoggedIn } = useContext(LoginContext);
   const [member, setMember] = useState(null);
+  const [recentOrders, setRecentOrders] = useState([]);
+  const [orderStatusCounts, setOrderStatusCounts] = useState({
+    입금전: 0,
+    배송준비중: 0,
+    배송중: 0,
+    배송완료: 0
+  });
 
   useEffect(() => {
     const storedMember = sessionStorage.getItem('member');
@@ -47,28 +29,34 @@ const Mypage = () => {
   }, []);
 
   useEffect(() => {
-    fetch(`http://localhost:8090/order/list?memberMail=${member.memberMail}`, {
-      credentials: 'include'
+  if (!member) return;
+
+  fetch(`http://localhost:8090/order/list?memberMail=${member.memberMail}`, {
+    credentials: 'include'
+  })
+    .then(res => {
+      if (!res.ok) throw new Error("주문 목록 요청 실패");
+      return res.json();
     })
-      .then(res => res.json())
-      .then(data => {
-        const statusCounts = {
-          입금전: 0,
-          배송준비중: 0,
-          배송중: 0,
-          배송완료: 0
-        };
+    .then(data => {
+      const statusCounts = {
+        입금전: 0,
+        배송준비중: 0,
+        배송중: 0,
+        배송완료: 0
+      };
 
-        data.forEach(order => {
-          if (order.status in statusCounts) {
-            statusCounts[order.status]++;
-          }
-        });
-
-        setOrderStatusCounts(statusCounts);
-        setRecentOrders(data.slice(0, 3)); // 최근 3건
+      data.forEach(order => {
+        if (order.status in statusCounts) {
+          statusCounts[order.status]++;
+        }
       });
-  }, []);
+
+      setOrderStatusCounts(statusCounts);
+      setRecentOrders(data.slice(0, 3)); // 최근 3건
+    })
+    .catch(err => console.error("주문 정보 불러오기 오류:", err));
+}, [member]);
 
   return (
     isLoggedIn && member ? (
@@ -161,7 +149,7 @@ const Mypage = () => {
           <div className={styles.OrderProcessingTitle}>나의 주문 처리 현황</div>
           <div className={styles.StatusBox}>
             <div className={styles.Status1}>
-              <div className={styles.StatusNum1}>0</div>
+              <div className={styles.StatusNum1}>{orderStatusCounts.입금전}</div>
               <div className={styles.StatusText}>입금 전</div>
             </div>
             <div className={styles.StatusNext}>
@@ -171,7 +159,7 @@ const Mypage = () => {
               />
             </div>
             <div className={styles.Status2}>
-              <div className={styles.StatusNum2}>0</div>
+              <div className={styles.StatusNum2}>{orderStatusCounts.입금전}</div>
               <div className={styles.StatusText}>배송 준비 중</div>
             </div>
             <div className={styles.StatusNext}>
@@ -202,11 +190,11 @@ const Mypage = () => {
             <div className={styles.CurrentOrderNext}> <Link to="/mypage/OrderHistory"> &gt;</Link> </div>
           </div>
           <div className={styles.CurrentLine}></div>
-          {orders.map((order) => (
-            <div key={order.id} className={styles.OrderBox}>
+          {recentOrders.map((order, index) => (
+            <div key={index} className={styles.OrderBox}>
               <div className={styles.OrederInfoBox}>
                 <div className={styles.OrderPhoto}>
-                  <img src={order.img} alt={order.productName} />
+                  <img src={order.image || "/default-image.jpg"} alt={order.productName} />
                 </div>
                 <div className={styles.ProductLine}></div>
                 <div className={styles.InfoBox}>
@@ -218,7 +206,7 @@ const Mypage = () => {
                     </div>
                   </div>
                   <div className={styles.BuyInfo}>
-                    <div className={styles.Price}>{order.price}</div> •
+                    <div className={styles.Price}>{order.price.toLocaleString()}원</div> •
                     <div className={styles.Info}>{order.quantity}개</div>
                   </div>
                 </div>
