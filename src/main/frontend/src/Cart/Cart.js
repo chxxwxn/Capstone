@@ -110,13 +110,14 @@ const Cart = () => {
 
     // 결제 버튼 클릭 시 동작
     const handlePayButtonClick = (event) => {
-        if (selectedItems.length === 0) {
-            alert('상품을 선택하세요.'); // 상품이 선택되지 않으면 경고
-            event.preventDefault();
-        } else if (!paymentAgreement) {
-            alert('결제 내용을 확인하고 동의해야 합니다.'); // 결제 동의가 없으면 경고
-            event.preventDefault();
+        const selectedCartItems = cartItems.filter(item => selectedItems.includes(item.cartid));
+        if (selectedCartItems.length === 0) {
+            alert("결제할 상품을 선택해주세요.");
+            return;
         }
+
+        sessionStorage.setItem("paymentItems", JSON.stringify(selectedCartItems));
+        window.location.href = "/payment";
     };
 
     // 수량 변경 핸들러
@@ -278,11 +279,9 @@ const Cart = () => {
                             />
                             결제 내용을 확인하고 동의합니다.
                         </label>
-                        <Link to="/Payment" className={styles.payButtonWrapper}>
                             <button className={styles.payButton} onClick={handlePayButtonClick}>
                                 결제하기
                             </button>
-                        </Link>
                     </div>
                 </div>
             </div>
