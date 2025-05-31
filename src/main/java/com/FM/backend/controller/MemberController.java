@@ -226,4 +226,14 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("회원 정보 수정 실패");
     }
   }
+
+  @PutMapping("/use-benefits")
+  public ResponseEntity<String> useCouponAndPoint(@RequestParam String memberMail, @RequestParam int usedPoint) {
+      try {
+          memberservice.useCouponAndPoint(memberMail, usedPoint);
+          return ResponseEntity.ok("적립금 및 쿠폰 차감 완료");
+      } catch (Exception e) {
+          return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("차감 실패");
+      }
+  }
 }
