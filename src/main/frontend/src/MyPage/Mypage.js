@@ -159,7 +159,7 @@ const Mypage = () => {
               />
             </div>
             <div className={styles.Status2}>
-              <div className={styles.StatusNum2}>{orderStatusCounts.입금전}</div>
+              <div className={styles.StatusNum2}>{orderStatusCounts.배송준비중}</div>
               <div className={styles.StatusText}>배송 준비 중</div>
             </div>
             <div className={styles.StatusNext}>
