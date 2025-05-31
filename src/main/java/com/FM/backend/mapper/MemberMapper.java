@@ -27,4 +27,7 @@ public interface MemberMapper {
   public List<MemberVO> getAllMembers();
 
   void updateMemberInfo(MemberVO member);
+
+  void useCouponAndPoint(@Param("memberMail") String memberMail, @Param("usedPoint") int usedPoint);
+
 }
