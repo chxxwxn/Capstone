@@ -29,34 +29,34 @@ const Mypage = () => {
   }, []);
 
   useEffect(() => {
-  if (!member) return;
+    if (!member) return;
 
-  fetch(`http://localhost:8090/order/list?memberMail=${member.memberMail}`, {
-    credentials: 'include'
-  })
-    .then(res => {
-      if (!res.ok) throw new Error("주문 목록 요청 실패");
-      return res.json();
+    fetch(`http://localhost:8090/order/list?memberMail=${member.memberMail}`, {
+      credentials: 'include'
     })
-    .then(data => {
-      const statusCounts = {
-        입금전: 0,
-        배송준비중: 0,
-        배송중: 0,
-        배송완료: 0
-      };
+      .then(res => {
+        if (!res.ok) throw new Error("주문 목록 요청 실패");
+        return res.json();
+      })
+      .then(data => {
+        const statusCounts = {
+          입금전: 0,
+          배송준비중: 0,
+          배송중: 0,
+          배송완료: 0
+        };
 
-      data.forEach(order => {
-        if (order.status in statusCounts) {
-          statusCounts[order.status]++;
-        }
-      });
+        data.forEach(order => {
+          if (order.status in statusCounts) {
+            statusCounts[order.status]++;
+          }
+        });
 
-      setOrderStatusCounts(statusCounts);
-      setRecentOrders(data.slice(0, 3)); // 최근 3건
-    })
-    .catch(err => console.error("주문 정보 불러오기 오류:", err));
-}, [member]);
+        setOrderStatusCounts(statusCounts);
+        setRecentOrders(data.slice(0, 3)); // 최근 3건
+      })
+      .catch(err => console.error("주문 정보 불러오기 오류:", err));
+  }, [member]);
 
   return (
     isLoggedIn && member ? (
