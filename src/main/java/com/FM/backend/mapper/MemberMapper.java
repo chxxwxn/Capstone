@@ -28,6 +28,10 @@ public interface MemberMapper {
 
   void updateMemberInfo(MemberVO member);
 
-  void useCouponAndPoint(@Param("memberMail") String memberMail, @Param("usedPoint") int usedPoint);
+  void useCouponAndPoint(
+    @Param("memberMail") String memberMail,
+    @Param("usedPoint") int usedPoint,
+    @Param("usedCoupon") boolean usedCoupon
+  );
 
 }
