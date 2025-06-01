@@ -24,6 +24,6 @@ public interface MemberService {
 
   public void updateMemberInfo(MemberVO member);
 
-  void useCouponAndPoint(String memberMail, int usedPoint);
+  void useCouponAndPoint(String memberMail, int usedPoint, boolean usedCoupon);
 
 }
