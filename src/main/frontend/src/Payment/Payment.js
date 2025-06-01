@@ -207,9 +207,9 @@ const Payment = () => {
         if (selectedPaymentMethod === 'kakaopay') {
             try {
 
-                const orderStatus = selectedPaymentMethod === 'account' ? '입금 전' : '배송 준비 중';
+                const orderStatus = selectedPaymentMethod === 'account' ? '입금전' : '배송준비중';
 
-                const orderData = cartItems.map(item => ({
+                const orderData = paymentItems.map(item => ({
                     productId: item.id,
                     productName: item.name,
                     size: item.size,
@@ -218,6 +218,7 @@ const Payment = () => {
                     quantity: item.quantity,
                     status: orderStatus,
                     image: item.image,
+                    orderdate: new Date().toISOString(),
                 }));
 
                 sessionStorage.setItem("orderToSave", JSON.stringify(orderData));
