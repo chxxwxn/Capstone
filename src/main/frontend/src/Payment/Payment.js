@@ -28,6 +28,8 @@ const Payment = () => {
     const [showAddressList, setShowAddressList] = useState(false);
     const [coupons, setCoupons] = useState([]); // ✅ 쿠폰 상태 추가
     const [cartItems, setCartItems] = useState([]);
+    const [defaultName, setDefaultName] = useState('');
+    const [defaultPhone, setDefaultPhone] = useState('');
 
     useEffect(() => {
         const fetchCoupons = async () => {
@@ -301,45 +303,48 @@ const Payment = () => {
     }, [productPrice, discount, couponDiscount, rewardPoints, shippingCost]);
     
     useEffect(() => {
-    const storedMember = sessionStorage.getItem("member");
-    if (storedMember) {
-        try {
-            const parsedMember = JSON.parse(storedMember);
-            setMember(parsedMember);
+        const storedMember = sessionStorage.getItem("member");
+        if (storedMember) {
+            try {
+                const parsedMember = JSON.parse(storedMember);
+                setMember(parsedMember);
 
-            const name = parsedMember.memberLn + parsedMember.memberFn;
-            const phone =
-                parsedMember.memberNum2 === "0000" && parsedMember.memberNum3 === "0000"
-                    ? parsedMember.memberNum1
-                    : `${parsedMember.memberNum1}-${parsedMember.memberNum2}-${parsedMember.memberNum3}`;
+                const name = parsedMember.memberLn + parsedMember.memberFn;
+                const phone =
+                    parsedMember.memberNum2 === "0000" && parsedMember.memberNum3 === "0000"
+                        ? parsedMember.memberNum1
+                        : `${parsedMember.memberNum1}-${parsedMember.memberNum2}-${parsedMember.memberNum3}`;
 
-            // ✅ 배송지 목록 전체 가져오기
-            fetch(`http://localhost:8090/address/getAll?memberMail=${parsedMember.memberMail}`, {
-                method: "GET",
-                credentials: "include",
-            })
-                .then((res) => res.json())
-                .then((addressList) => {
-                    if (Array.isArray(addressList)) {
-                        const processed = addressList.map(addr => ({
-                            name,
-                            phone,
-                            address: addr.address,
-                            detailAddress: addr.detailAddress,
-                            zipCode: addr.zipCode
-                        }));
-                        setShippingAddresses(processed);
-                        setSelectedAddress(processed[0]); // 가장 최근 주소 선택
-                    }
+                setDefaultName(name);
+                setDefaultPhone(phone);
+
+                // ✅ 배송지 목록 전체 가져오기
+                fetch(`http://localhost:8090/address/getAll?memberMail=${parsedMember.memberMail}`, {
+                    method: "GET",
+                    credentials: "include",
                 })
-                .catch((err) => {
-                    console.error("배송지 목록 불러오기 오류:", err);
-                });
-        } catch (err) {
-            console.error("회원 정보 파싱 오류:", err);
+                    .then((res) => res.json())
+                    .then((addressList) => {
+                        if (Array.isArray(addressList)) {
+                            const processed = addressList.map(addr => ({
+                                name,
+                                phone,
+                                address: addr.address,
+                                detailAddress: addr.detailAddress,
+                                zipCode: addr.zipCode
+                            }));
+                            setShippingAddresses(processed);
+                            setSelectedAddress(processed[0]); // 가장 최근 주소 선택
+                        }
+                    })
+                    .catch((err) => {
+                        console.error("배송지 목록 불러오기 오류:", err);
+                    });
+            } catch (err) {
+                console.error("회원 정보 파싱 오류:", err);
+            }
         }
-    }
-}, []);
+    }, []);
  
     return (
         isLoggedIn && member ? (
@@ -384,9 +389,19 @@ const Payment = () => {
                         </h2>
                         {!isEditingShipping ? (
                             <>
-                                <p>수령인명: {selectedAddress?.name ||(shippingAddresses.length > 0 ? shippingAddresses[0].name : '')}</p>
-                                <p>전화번호: {selectedAddress?.phone ||(shippingAddresses.length > 0 ? shippingAddresses[0].phone : '')}</p>
-                                <p>주소: {(selectedAddress?.address || shippingAddresses[0]?.address || '') + ' ' +(selectedAddress?.detailAddress || shippingAddresses[0]?.detailAddress || '') +' (' + (selectedAddress?.zipCode || shippingAddresses[0]?.zipCode || '') + ')'}</p>
+                                <p>수령인명: {
+                                    selectedAddress?.name ||
+                                    (shippingAddresses.length > 0 ? shippingAddresses[0].name : defaultName)
+                                }</p>
+                                <p>전화번호: {
+                                    selectedAddress?.phone ||
+                                    (shippingAddresses.length > 0 ? shippingAddresses[0].phone : defaultPhone)
+                                }</p>
+                                <p>주소: {
+                                    (selectedAddress?.address || shippingAddresses[0]?.address || '') + ' ' +
+                                    (selectedAddress?.detailAddress || shippingAddresses[0]?.detailAddress || '') + ' (' +
+                                    (selectedAddress?.zipCode || shippingAddresses[0]?.zipCode || '') + ')'
+                                }</p>
                             </>
                         ) : (
                             <>
