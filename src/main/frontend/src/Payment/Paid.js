@@ -30,10 +30,7 @@ const [recentOrders, setRecentOrders] = useState([]);
     if (!pgToken) return;
 
     const approveKey = `approved-${pgToken}`;
-    if (sessionStorage.getItem(approveKey)) {
-      console.log("✅ 이미 승인된 pg_token입니다.");
-      return;
-    }
+    if (sessionStorage.getItem(approveKey)) return;
 
     const approvePayment = async () => {
       try {
@@ -59,8 +56,38 @@ const [recentOrders, setRecentOrders] = useState([]);
             credentials: "include",
             body: orderData,
           });
-          console.log("✅ 주문 정보 저장 완료");
           sessionStorage.removeItem("orderToSave");
+        }
+
+        // ✅ 포인트 및 쿠폰 차감
+        const parsedMember = JSON.parse(sessionStorage.getItem("member"));
+        const usedCoupon = sessionStorage.getItem("usedCoupon") === "true";
+        const usedPoint = parseInt(sessionStorage.getItem("usedPoint"), 10) || 0;
+
+        if (parsedMember) {
+          // 1. 서버에 포인트 차감 요청
+          await fetch(`http://localhost:8090/member/use-benefits?memberMail=${parsedMember.memberMail}&usedPoint=${usedPoint}`, {
+            method: "PUT",
+            credentials: "include"
+          });
+
+          // 2. 서버에서 최신 정보 불러와 세션 갱신
+          const res = await fetch(`http://localhost:8090/member/get?memberMail=${parsedMember.memberMail}`, {
+            credentials: 'include'
+          });
+
+          if (res.ok) {
+            const latest = await res.json();
+
+            // 3. 쿠폰은 백엔드에서 차감되지 않으므로 프론트에서 차감
+            if (usedCoupon) {
+              latest.memberCoupon--;
+            }
+
+            sessionStorage.setItem("member", JSON.stringify(latest));
+            setMember(latest);
+            console.log("🟢 최신 회원 정보 세션/상태 반영 완료");
+          }
         }
 
       } catch (error) {
