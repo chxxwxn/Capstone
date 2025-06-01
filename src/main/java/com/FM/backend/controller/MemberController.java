@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
+import com.FM.backend.mapper.MemberMapper;
 import com.FM.backend.model.MemberVO;
 import com.FM.backend.service.MemberService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -51,6 +52,9 @@ public class MemberController {
   @Autowired
   private JavaMailSender mailSender;
   */
+
+  @Autowired
+  private MemberMapper membermapper;
 
   @Autowired
   private PasswordEncoder passwordEncoder;
@@ -228,12 +232,13 @@ public class MemberController {
   }
 
   @PutMapping("/use-benefits")
-  public ResponseEntity<String> useCouponAndPoint(@RequestParam String memberMail, @RequestParam int usedPoint) {
-      try {
-          memberservice.useCouponAndPoint(memberMail, usedPoint);
-          return ResponseEntity.ok("적립금 및 쿠폰 차감 완료");
-      } catch (Exception e) {
-          return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("차감 실패");
-      }
+  public ResponseEntity<?> useBenefits(
+    @RequestParam String memberMail,
+    @RequestParam int usedPoint,
+    @RequestParam boolean usedCoupon
+  ) {
+    membermapper.useCouponAndPoint(memberMail, usedPoint, usedCoupon);
+    return ResponseEntity.ok().build();
   }
+
 }
