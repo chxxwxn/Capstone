@@ -58,6 +58,22 @@ const Mypage = () => {
       .catch(err => console.error("주문 정보 불러오기 오류:", err));
   }, [member]);
 
+  useEffect(() => {
+  const storedMember = sessionStorage.getItem('member');
+  if (storedMember) {
+    const parsed = JSON.parse(storedMember);
+    fetch(`http://localhost:8090/member/get?memberMail=${parsed.memberMail}`, {
+      credentials: "include"
+    })
+      .then(res => res.json())
+      .then(freshMember => {
+        sessionStorage.setItem("member", JSON.stringify(freshMember));
+        setMember(freshMember);
+      })
+      .catch(err => console.error("회원 정보 불러오기 실패", err));
+  }
+}, []);
+
   return (
     isLoggedIn && member ? (
     <>
