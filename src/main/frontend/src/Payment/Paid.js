@@ -83,21 +83,18 @@ const [recentOrders, setRecentOrders] = useState([]);
     }
   }, []);
 
-
   useEffect(() => {
-    if (!member) return;
-
-    fetch(`http://localhost:8090/order/recent?memberMail=${member.memberMail}`, {
-      credentials: 'include',
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setRecentOrders(data);
-      })
-      .catch((err) => {
-        console.error("최근 주문 불러오기 실패:", err);
-      });
-  }, [member]);
+    const savedOrders = sessionStorage.getItem("orderToSave");
+    if (savedOrders) {
+      try {
+        const parsedOrders = JSON.parse(savedOrders);
+        setRecentOrders(parsedOrders); // 그대로 화면에 출력
+        sessionStorage.removeItem("orderToSave");
+      } catch (error) {
+        console.error("orderToSave JSON 파싱 실패", error);
+      }
+    }
+  }, []);
 
   return (
     isLoggedIn && member ? (
@@ -110,7 +107,7 @@ const [recentOrders, setRecentOrders] = useState([]);
             {recentOrders.map((order, index) => (
               <div key={order.id || index} className={styles.ProductList}>
                 <div className={styles.OrederNumDate}>
-                  <div className={styles.OrederDate}>{new Date(order.order_date).toLocaleDateString()}</div>
+                  <div className={styles.OrederDate}>{new Date(order.orderdate).toLocaleDateString()}</div>
                   <div> | </div>
                   <div className={styles.OrederNum}>
                     <Link to={`/mypage/OrderHistory/${order.orderId}`} className={styles.OrderLink}>
