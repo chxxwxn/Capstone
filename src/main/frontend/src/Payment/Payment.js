@@ -237,6 +237,7 @@ const Payment = () => {
                     .catch((err) => {
                         console.error("쿠폰 상태 업데이트 오류:", err);
                     });
+                    sessionStorage.setItem("usedCoupon", "true");
                 }
 
                 await fetch('http://localhost:8090/order/save', {
@@ -246,7 +247,21 @@ const Payment = () => {
                     },
                     credentials: 'include',
                     body: JSON.stringify(orderData), // 결제한 상품 리스트
+                });
+
+                if (selectedCoupon || rewardPoints > 0) {
+                    fetch(`http://localhost:8090/member/use-benefits?memberMail=${member.memberMail}&usedPoint=${rewardPoints}&usedCoupon=${selectedCoupon ? 'true' : 'false'}`, {
+                        method: 'PUT',
+                        credentials: 'include'
+                    })
+                    .then((res) => {
+                        if (!res.ok) throw new Error("혜택 차감 실패");
+                        console.log("적립금과 쿠폰 차감 완료");
+                    })
+                    .catch((err) => {
+                        console.error("혜택 차감 오류:", err);
                     });
+                }
 
                 const response = await fetch('http://localhost:8090/payment/ready', {
                     method: 'POST',
@@ -261,19 +276,6 @@ const Payment = () => {
                     }),
                 });
 
-                if (selectedCoupon || rewardPoints > 0) {
-                    fetch(`http://localhost:8090/member/use-benefits?memberMail=${member.memberMail}&usedPoint=${rewardPoints}`, {
-                        method: 'PUT',
-                        credentials: 'include',
-                    })
-                    .then((res) => {
-                        if (!res.ok) throw new Error("혜택 차감 실패");
-                        console.log("적립금과 쿠폰 차감 완료");
-                    })
-                    .catch((err) => {
-                        console.error("혜택 차감 오류:", err);
-                    });
-                }
           
                 if (!response.ok) {
                     throw new Error('카카오페이 결제 준비 실패');
