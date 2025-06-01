@@ -53,9 +53,11 @@
   <update id="useCouponAndPoint">
     UPDATE fm_member
     SET
-        point = point - #{usedPoint},
-        memberCoupon = memberCoupon - 1
+        point = point - #{usedPoint}
+        <if test="usedCoupon == true">
+            , memberCoupon = memberCoupon - 1
+        </if>
     WHERE memberMail = #{memberMail}
-  </update>
+</update>
 
 </mapper>
