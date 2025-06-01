@@ -195,7 +195,7 @@ public class MemberServiceImpl implements MemberService{
   }
 
   @Override
-  public void useCouponAndPoint(String memberMail, int usedPoint) {
-      membermapper.useCouponAndPoint(memberMail, usedPoint);
+  public void useCouponAndPoint(String memberMail, int usedPoint, boolean usedCoupon) {
+      membermapper.useCouponAndPoint(memberMail, usedPoint, usedCoupon);
   }
 }
