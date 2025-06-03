@@ -10,21 +10,9 @@ const pgToken = params.get("pg_token");
 const { isLoggedIn } = useContext(LoginContext);
 const [member, setMember] = useState(null);
 const [recentOrders, setRecentOrders] = useState([]);
-
-  const filteredOrders = [
-    {
-      id: "1",
-      orderDate: "2025.01.21",
-      orderNum: "202501210002",
-      img: "/padding/3-4.jpg",
-      productName: "2WAY HOOD DOWN JACKET",
-      size: "M",
-      color: "BLUE",
-      price: "59,900",
-      quantity: 1,
-      status: "배송 완료",
-    }
-  ];
+const [orders, setOrders] = useState([]);
+const [filteredOrders, setFilteredOrders] = useState([]);
+const [visibleOrders, setVisibleOrders] = useState(0);
 
   useEffect(() => {
     if (!pgToken) return;
@@ -50,13 +38,15 @@ const [recentOrders, setRecentOrders] = useState([]);
 
         const orderData = sessionStorage.getItem("orderToSave");
         if (orderData) {
-          await fetch("http://localhost:8090/order/save", {
+          const response = await fetch("http://localhost:8090/order/save", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include",
             body: orderData,
           });
-          sessionStorage.removeItem("orderToSave");
+
+          const savedOrders = await response.json(); // ✅ 여기서 받은 최신 order_id 포함된 목록
+          setRecentOrders(savedOrders); // ✅ 최근 주문 내역 저장
         }
 
         // ✅ 포인트 및 쿠폰 차감
@@ -123,6 +113,41 @@ const [recentOrders, setRecentOrders] = useState([]);
     }
   }, []);
 
+  useEffect(() => {
+    if (!member) return;
+  
+    fetch(`http://localhost:8090/order/list?memberMail=${member.memberMail}`, {
+      credentials: "include"
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log("✅ 주문 원본 데이터:", JSON.stringify(data, null, 2));
+  
+        const converted = data.map(order => ({
+          ...order,
+          orderDate: new Date().toISOString().split("T")[0],
+          orderNum: order.orderId,
+          img: order.image,
+          productName: order.productName,
+          size: order.size,
+          color: order.color,
+          price: Number(order.price).toLocaleString() + "원",
+          quantity: order.quantity,
+          status: order.status
+          }));
+  
+          setOrders(converted);
+          setFilteredOrders(converted); // 초기값으로 설정
+      })
+        .catch(err => console.error("주문 데이터 불러오기 실패:", err));
+    }, [member]);
+
+    useEffect(() => {
+      if (recentOrders.length > 0) {
+        setVisibleOrders(recentOrders.length);
+      }
+    }, [recentOrders]);
+
   return (
     isLoggedIn && member ? (
     
@@ -137,8 +162,8 @@ const [recentOrders, setRecentOrders] = useState([]);
                   <div className={styles.OrederDate}>{new Date(order.orderdate).toLocaleDateString()}</div>
                   <div> | </div>
                   <div className={styles.OrederNum}>
-                    <Link to={`/mypage/OrderHistory/${order.orderId}`} className={styles.OrderLink}>
-                      {order.orderId}
+                    <Link to={`/mypage/OrderHistory/${order.orderNum}`} className={styles.OrderLink}>
+                      {order.orderNum}
                     </Link>
                   </div>
                 </div>
@@ -178,13 +203,14 @@ const [recentOrders, setRecentOrders] = useState([]);
             >
             더 쇼핑하기
             </button>
-
-            <button
-            className={styles.OrderDetailButton}
-            onClick={() => navigate(`/mypage/OrderHistory/${filteredOrders[0].orderNum}`)}
+        {filteredOrders.slice(0, visibleOrders).map((order) => (
+          <button
+              className={styles.OrderDetailButton}
+              onClick={() => navigate(`/mypage/OrderHistory/${order.orderNum}`)}
             >
-            주문내역 보기
-            </button>
+              주문내역 보기
+          </button>
+          ))}
         </div>
 
 
