@@ -10,6 +10,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class OrderVO {
+    private String orderId;
     private String memberMail;
     private int productId;
     private String productName;
@@ -22,4 +23,15 @@ public class OrderVO {
     private int usedPoint;
     private String usedCouponCode;
     private boolean isRefunded;
+    private String image;
+    private String name;
+    private String phone;
+    private String address;
+    private String discount;
+    private String delcharges;
+    private String totalprice;
+    private String paymethod;
+    private String payment;
+    private int couponDiscount;
+
 }
