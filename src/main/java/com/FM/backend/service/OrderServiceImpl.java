@@ -41,4 +41,9 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderVO> getRecentOrders(String memberMail) {
         return orderMapper.getRecentOrders(memberMail);
     }
+
+    @Override
+    public OrderVO getOrderByOrderNum(String orderNum) {
+        return orderMapper.getOrderByOrderNum(orderNum);
+    }
 }

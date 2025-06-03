@@ -30,6 +30,7 @@ const Payment = () => {
     const [cartItems, setCartItems] = useState([]);
     const [defaultName, setDefaultName] = useState('');
     const [defaultPhone, setDefaultPhone] = useState('');
+    const [order, setOrder] = useState(null);
 
     useEffect(() => {
         const fetchCoupons = async () => {
@@ -165,12 +166,19 @@ const Payment = () => {
     
 
     const handleApplyRewardPoints = () => {
-        const parsedRewardPoints = parseInt(rewardPoints) || 0;
-        if (parsedRewardPoints > 5000) {
-            alert('최대 사용 가능한 적립금은 5,000원입니다.');
-            setRewardPoints('5000');
-        }
+    const parsedRewardPoints = parseInt(rewardPoints) || 0;
+    
+    if (member?.point === 0) {
+        alert("보유한 적립금이 없습니다.");
+        return;
+    }
+
+    if (parsedRewardPoints > 5000) {
+        alert('최대 사용 가능한 적립금은 5,000원입니다.');
+        setRewardPoints('5000');
+    }
     };
+
 
     const handleCouponChange = (e) => {
     const selectedCode = e.target.value;
@@ -221,7 +229,60 @@ const Payment = () => {
                     status: orderStatus,
                     image: item.image,
                     orderdate: new Date().toISOString(),
+                    usedPoint: rewardPoints,
+                    usedCouponCode: selectedCoupon?.couponCode || null,
+                    couponDiscount: couponDiscount, // ✅ 이 줄 추가
+                    name: selectedAddress?.name || defaultName,
+                    phone: selectedAddress?.phone || defaultPhone,
+                    address:
+                        (selectedAddress?.address || '') +
+                        ' ' +
+                        (selectedAddress?.detailAddress || '') +
+                        ' (' +
+                        (selectedAddress?.zipCode || '') +
+                        ')',
+                    discount: discount,
+                    delcharges: shippingCost,
+                    totalprice: totalAmount,
+                    paymethod:
+                        selectedPaymentMethod === 'kakaopay'
+                        ? '카카오페이'
+                        : selectedPaymentMethod === 'creditCard'
+                        ? '신용카드'
+                        : '계좌이체',
+                    payment: '일시불',
+                    isRefunded: false
                 }));
+
+                const orderDetailData = {
+                    items: paymentItems,
+                    name: selectedAddress?.name || defaultName,
+                    phone: selectedAddress?.phone || defaultPhone,
+                    address:
+                        (selectedAddress?.address || '') +
+                        ' ' +
+                        (selectedAddress?.detailAddress || '') +
+                        ' (' +
+                        (selectedAddress?.zipCode || '') +
+                        ')',
+                    priceInfo: {
+                        productPrice,
+                        discount,
+                        shippingCost,
+                        couponDiscount,
+                        rewardPoints,
+                        totalAmount
+                    },
+                    payMethod:
+                        selectedPaymentMethod === 'kakaopay'
+                        ? '카카오페이'
+                        : selectedPaymentMethod === 'creditCard'
+                        ? '신용카드'
+                        : '계좌이체',
+                    paymentType: '일시불', // 일시불 또는 할부
+                    };
+
+                    sessionStorage.setItem("orderDetailData", JSON.stringify(orderDetailData));
 
                 sessionStorage.setItem("orderToSave", JSON.stringify(orderData));
 
@@ -391,19 +452,9 @@ const Payment = () => {
                         </h2>
                         {!isEditingShipping ? (
                             <>
-                                <p>수령인명: {
-                                    selectedAddress?.name ||
-                                    (shippingAddresses.length > 0 ? shippingAddresses[0].name : defaultName)
-                                }</p>
-                                <p>전화번호: {
-                                    selectedAddress?.phone ||
-                                    (shippingAddresses.length > 0 ? shippingAddresses[0].phone : defaultPhone)
-                                }</p>
-                                <p>주소: {
-                                    (selectedAddress?.address || shippingAddresses[0]?.address || '') + ' ' +
-                                    (selectedAddress?.detailAddress || shippingAddresses[0]?.detailAddress || '') + ' (' +
-                                    (selectedAddress?.zipCode || shippingAddresses[0]?.zipCode || '') + ')'
-                                }</p>
+                                <p>수령인명: {selectedAddress?.name || defaultName}</p>
+                                <p>전화번호: {selectedAddress?.phone || defaultPhone}</p>
+                                <p>주소: {(selectedAddress?.address || '') + ' ' + (selectedAddress?.detailAddress || '') + ' (' + (selectedAddress?.zipCode || '') + ')'}</p>
                             </>
                         ) : (
                             <>
@@ -457,11 +508,18 @@ const Payment = () => {
                         <div>
                             <label>적립금</label>
                             <input
-                                type="number"
-                                placeholder="사용할 적립금을 입력하세요."
-                                value={rewardPoints}
-                                onChange={handleRewardPointsChange}
-                                onBlur={handleApplyRewardPoints}
+                            type="number"
+                            placeholder="사용할 적립금을 입력하세요."
+                            value={rewardPoints}
+                            onChange={(e) => {
+                                if (member?.point === 0) {
+                                alert("보유한 적립금이 없습니다.");
+                                return;
+                                }
+                                handleRewardPointsChange(e);
+                            }}
+                            onBlur={handleApplyRewardPoints}
+                            disabled={member?.point === 0}
                             />
                             <span> / 보유 적립금: {member?.point?.toLocaleString()}원</span>
                         </div>

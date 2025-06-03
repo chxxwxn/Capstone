@@ -92,6 +92,11 @@ public class ClothService {
         return clothMapper.getClothById(productId);
     }
 
+    public List<ClothVO> getClothsByPersonalColor(String personalColor) {
+        return clothMapper.getClothsByPersonalColor(personalColor);
+    }
+
+
     public int insertCloth(ClothVO cloth) {
         // 1. 상품 등록 먼저
         int result = clothMapper.insertCloth(cloth);

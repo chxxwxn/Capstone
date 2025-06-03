@@ -112,6 +112,11 @@ public class ClothController {
         return clothService.getClothById(productId);
     }
 
+    @GetMapping("/color/{personalColor}")
+    public List<ClothVO> getClothsByColor(@PathVariable String personalColor) {
+        return clothService.getClothsByPersonalColor(personalColor);
+    }
+
     @PostMapping
     public int insertCloth(@RequestBody ClothVO cloth) {
         return clothService.insertCloth(cloth);
