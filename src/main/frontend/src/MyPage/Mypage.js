@@ -59,20 +59,27 @@ const Mypage = () => {
   }, [member]);
 
   useEffect(() => {
-  const storedMember = sessionStorage.getItem('member');
-  if (storedMember) {
-    const parsed = JSON.parse(storedMember);
-    fetch(`http://localhost:8090/member/get?memberMail=${parsed.memberMail}`, {
+    const storedMember = sessionStorage.getItem("member");
+    if (storedMember) {
+      try {
+        setMember(JSON.parse(storedMember));
+      } catch (e) {
+        console.error("세션 파싱 에러:", e);
+        sessionStorage.removeItem("member");
+      }
+    }
+
+    // 💡 최신 정보 강제 갱신
+    fetch(`http://localhost:8090/member/get?memberMail=${JSON.parse(storedMember).memberMail}`, {
       credentials: "include"
     })
       .then(res => res.json())
-      .then(freshMember => {
-        sessionStorage.setItem("member", JSON.stringify(freshMember));
-        setMember(freshMember);
+      .then(data => {
+        sessionStorage.setItem("member", JSON.stringify(data));
+        setMember(data);
       })
-      .catch(err => console.error("회원 정보 불러오기 실패", err));
-  }
-}, []);
+      .catch(err => console.error("회원 정보 갱신 실패:", err));
+  }, []);
 
   return (
     isLoggedIn && member ? (
