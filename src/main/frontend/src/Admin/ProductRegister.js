@@ -9,6 +9,8 @@ const ProductRegister = () => {
     const [mainCategory, setMainCategory] = useState("");
     const [subCategories, setSubCategories] = useState([]);
     const [colors, setColors] = useState([{ color: '#000000', name: '' }]);
+    const styleOptions = ["꾸안꾸", "댄디", "데이트", "캐주얼", "스트릿", "미니멀"];
+    const [selectedStyles, setSelectedStyles] = useState([]);
     const categoryOptions = {
         OUTER: ["Padding", "Jacket", "Coat", "Cardigan"],
         TOP: ["MTM", "Hoodie", "Knit", "Shirts", "Tee"],
@@ -89,16 +91,6 @@ const ProductRegister = () => {
         }
     };
 
-
-    useEffect(() => {
-        fetch("http://localhost:8090/admin/main") // ✅ Spring Boot API 호출
-            .then(response => response.json())
-            .then(data => {
-                setMessage(data.message); // ✅ JSON 데이터에서 message 가져오기
-            })
-            .catch(error => console.error("Error fetching admin data:", error));
-    }, []);
-
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
@@ -121,7 +113,8 @@ const ProductRegister = () => {
 
         const updatedFormData = {
             ...formData,
-            colorCodes: colorCodeString
+            colorCodes: colorCodeString,
+            productStyles: selectedStyles.join(", ")
         };
 
         console.log("색상 코드 확인", updatedFormData.colorCodes);
@@ -304,6 +297,33 @@ const ProductRegister = () => {
                                         </button>
                                     </div>
                                 </div>
+
+                                <div className={styles.form_section}>
+                                    <div className={styles.form_section_title}>
+                                        <label>상품 스타일</label>
+                                    </div>
+                                    <div className={styles.form_section_content} style={{ display: 'flex', flexWrap: 'wrap' }}>
+                                        {styleOptions.map((style, index) => (
+                                        <label key={index} style={{ marginRight: '15px', marginBottom: '8px' }}>
+                                            <input
+                                            type="checkbox"
+                                            value={style}
+                                            checked={selectedStyles.includes(style)}
+                                            onChange={(e) => {
+                                                const value = e.target.value;
+                                                if (e.target.checked) {
+                                                setSelectedStyles([...selectedStyles, value]);
+                                                } else {
+                                                setSelectedStyles(selectedStyles.filter((s) => s !== value));
+                                                }
+                                            }}
+                                            />
+                                            {style}
+                                        </label>
+                                        ))}
+                                    </div>
+                                </div>
+
 
                                 <div className={styles.form_section}>
                                     <div className={styles.form_section_title}>

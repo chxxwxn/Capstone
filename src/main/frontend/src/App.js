@@ -22,7 +22,7 @@ import OrderDetail from './MyPage/OrderDetail';
 import Payment from './Payment/Payment';
 import Cart from './Cart/Cart';
 import Wish from './MyPage/Wish';
-
+import SearchPre from './ProductPre/SearchPre/SearchPre';
 import Paid from './Payment/Paid';
 
 /*outer*/
@@ -123,6 +123,7 @@ function App() {
         <Route path="Chatbot" element={<Chatbot />} />
         <Route path="/Cart" element={<Cart />} />
         <Route path="/MyPage/Wish" element={<Wish />} />
+        <Route path="Search" element={<SearchPre />} />
 
         {/* All */}
         <Route path="/all" element={<AllPre />} />

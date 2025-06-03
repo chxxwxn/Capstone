@@ -8,7 +8,7 @@
         SELECT 
             c.product_id, c.product_name, c.register_year, c.product_price, 
             c.product_stock, c.product_discount, c.color_codes, 
-            c.cate_code, c.reg_date, c.update_date,
+            c.cate_code, c.reg_date, c.update_date, c.product_styles,
             i.image_url
         FROM fm_cloth c
         LEFT JOIN (
@@ -327,10 +327,42 @@
         </collection>
     </resultMap>
 
+    <select id="getClothsByPersonalColor" resultMap="clothWithImageMap">
+        SELECT 
+            c.product_id, c.product_name, c.register_year, c.product_price, 
+            c.product_stock, c.product_discount, c.color_codes, 
+            c.cate_code, c.reg_date, c.update_date,
+            i.image_url
+        FROM fm_cloth c
+        LEFT JOIN (
+            SELECT product_id, image_url
+            FROM fm_image
+            WHERE image_order = 0
+        ) i ON c.product_id = i.product_id
+        WHERE
+        <choose>
+            <when test="'springWarm'.equals(personalColor)">
+                c.color_codes LIKE '%#000000%' OR c.color_codes LIKE '%#808080%'
+            </when>
+            <when test="'summerCool'.equals(personalColor)">
+                c.color_codes LIKE '%#000000%' OR c.color_codes LIKE '%#808080%'
+            </when>
+            <when test="'autumnWarm'.equals(personalColor)">
+                c.color_codes LIKE '%#000000%' OR c.color_codes LIKE '%#808080%'
+            </when>
+            <when test="'winterCool'.equals(personalColor)">
+                c.color_codes LIKE '%#000000%' OR c.color_codes LIKE '%#808080%'
+            </when>
+            <otherwise>
+                1 = 0 <!-- 아무것도 안 나옴 -->
+            </otherwise>
+        </choose>
+    </select>
+
     <!-- 상품 등록 -->
     <insert id="insertCloth" useGeneratedKeys="true" keyProperty="productId">
-        INSERT INTO fm_cloth (product_name, register_year, product_price, product_stock, product_discount, color_codes, cate_code)
-        VALUES (#{productName}, #{registerYear}, #{productPrice}, #{productStock}, #{productDiscount}, #{colorCodes}, #{cateCode});
+        INSERT INTO fm_cloth (product_name, register_year, product_price, product_stock, product_discount, color_codes, cate_code, product_styles)
+        VALUES (#{productName}, #{registerYear}, #{productPrice}, #{productStock}, #{productDiscount}, #{colorCodes}, #{cateCode}, #{productStyles});
     </insert> 
 
     <!-- 이미지 등록 -->

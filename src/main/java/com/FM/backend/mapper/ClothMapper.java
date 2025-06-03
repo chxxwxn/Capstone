@@ -49,12 +49,14 @@ public interface ClothMapper {
     // 특정 상품 조회
     ClothVO getClothById(int productId);
     
+    List<ClothVO> getClothsByPersonalColor(String personalColor);
+
     // 상품 등록
     int insertCloth(ClothVO cloth);
 
     // 이미지 하나 등록
     int insertImage(ImageVO image);  
-  
+
     // 상품 수정
     int updateCloth(ClothVO cloth);
     

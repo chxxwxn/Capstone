@@ -34,6 +34,8 @@ public class ClothVO {
     /* 수정 날짜 */
     private Date updateDate;
 
+    private String productStyles;
+
     private List<ImageVO> images;
 
     private String imageUrl;
@@ -119,6 +121,14 @@ public class ClothVO {
         this.updateDate = updateDate;
     }
 
+    public String getProductStyles() {
+        return productStyles;
+    }
+
+    public void setProductStyles(String productStyles) {
+        this.productStyles = productStyles;
+    }
+
     public List<ImageVO> getImages() {
         return images;
     }
@@ -146,7 +156,8 @@ public class ClothVO {
             + ", colorCodes=" + colorCodes 
             + ", cateCode=" + cateCode 
             + ", regDate=" + regDate 
-            + ", updateDate=" + updateDate + "]";
+            + ", updateDate=" + updateDate
+            + ", productStyles=" + productStyles  + "]";
     }
 
 }
