@@ -16,17 +16,45 @@
 
     <insert id="insertOrder" parameterType="com.FM.backend.model.OrderVO">
         INSERT INTO fm_order (
-        member_mail, product_id, product_name, size, color, price, quantity, status, order_date, used_point, used_coupon_code, is_refunded, image
+            member_mail, product_id, product_name, size, color, price, quantity, status,
+            order_date, used_point, used_coupon_code, is_refunded, image,
+            name, phone, address, discount, delcharges, totalprice,
+            paymethod, payment, coupon_discount
         ) VALUES (
-        #{memberMail}, #{productId}, #{productName}, #{size}, #{color}, #{price}, #{quantity}, #{status}, NOW(), #{usedPoint}, #{usedCouponCode}, #{isRefunded}, #{image}
+            #{memberMail}, #{productId}, #{productName}, #{size}, #{color}, #{price}, #{quantity}, #{status},
+            NOW(), #{usedPoint}, #{usedCouponCode}, #{isRefunded}, #{image},
+            #{name}, #{phone}, #{address}, #{discount}, #{delcharges}, #{totalprice},
+            #{paymethod}, #{payment}, #{couponDiscount}
         )
     </insert>
+
 
     <select id="getRecentOrders" resultType="com.FM.backend.model.OrderVO">
         SELECT * FROM fm_order
         WHERE member_mail = #{memberMail}
         ORDER BY order_date DESC
         LIMIT 3
+    </select>
+
+    <select id="getOrdersByMemberMail" resultType="com.FM.backend.model.OrderVO">
+        SELECT 
+            o.order_id, -- ✅ 이 필드 포함
+            o.memberMail,
+            o.productId,
+            o.productName,
+            o.size,
+            o.color,
+            o.price,
+            o.quantity,
+            o.status,
+            o.order_date,
+            o.usedPoint,
+            o.usedCouponCode,
+            o.image,
+            o.refunded
+            o.name
+        FROM fm_order o
+        WHERE o.memberMail = #{memberMail}
     </select>
 
 </mapper>
