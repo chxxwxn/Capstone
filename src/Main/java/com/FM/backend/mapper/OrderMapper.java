@@ -15,4 +15,8 @@ public interface OrderMapper {
     OrderVO getOrderById(int orderId);
     
     void markOrderRefunded(int orderId);
+
+    List<OrderVO> getRecentOrders(String memberMail);
+
+    OrderVO getOrderByOrderNum(String orderNum);
 }
