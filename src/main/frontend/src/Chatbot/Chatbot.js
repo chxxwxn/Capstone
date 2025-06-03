@@ -81,6 +81,11 @@ function PersonalColorChat() {
       setIsAwaitingImage(true);
       addMessage('user', '퍼스널컬러 맞춤 추천');
       addMessage('bot', '사진을 업로드해주세요.');
+    } else if (option === 3) {  // 여기 옵션 3 추가
+      setMode('gpt');
+      setIsAwaitingImage(false);
+      addMessage('user', '자유채팅 모드 선택');
+      addMessage('bot', '무엇이든 물어보세요! 자유롭게 대화할 수 있어요.');
     }
   };
 
@@ -92,6 +97,7 @@ function PersonalColorChat() {
     addMessage('user', userText);
     setInputText('');
 
+    // 스타일 추천 기능
     if (mode === 'style') {
       const matchedKeywords = knownStyleKeywords.filter(keyword => userText.includes(keyword));
 
@@ -144,21 +150,30 @@ function PersonalColorChat() {
           addMessage('bot', '상품 데이터를 불러오는 데 실패했습니다.');
         }
       } else {
-        addMessage('bot', '죄송해요, 입력하신 키워드에 해당하는 스타일 정보를 찾지 못했어요 😢<br/>다시 입력해 주세요! (예: 꾸안꾸, 데이트)');
+        addMessage('bot', '스타일 키워드를 잘 인식하지 못했어요 😢 다시 입력해 주세요! (예: 꾸안꾸, 데이트)');
       }
 
+    // 퍼스널컬러 모드일 때
     } else if (mode === 'color') {
       addMessage('bot', '사진을 업로드해주세요.');
       setIsAwaitingImage(true);
-    } else {
-      const lowerText = userText.toLowerCase().replace(/\s/g, '');
-      if (['퍼스널컬러', '퍼컬'].some(keyword => lowerText.includes(keyword))) {
-        setMode('color');
-        setIsAwaitingImage(true);
-        addMessage('bot', '사진을 업로드해주세요.');
-      } else {
-        addMessage('bot', '먼저 옵션을 선택해 주세요.');
+
+    // 일반 대화 (OpenAI)
+    } else if (mode === 'gpt') {
+      try {
+        const res = await fetch('http://localhost:8090/api/chat/ask', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: userText })
+        });
+        const data = await res.text();
+        addMessage('bot', data);
+      } catch (err) {
+        console.error("GPT 대화 중 오류:", err);
+        addMessage('bot', '죄송합니다. 챗봇 응답에 문제가 발생했어요.');
       }
+    } else {
+      addMessage('bot', '먼저 옵션을 선택해 주세요.');
     }
   };
 
@@ -322,6 +337,12 @@ function PersonalColorChat() {
               onClick={() => handleOptionSelect(2)}
             >
               퍼스널컬러 맞춤 추천
+            </button>
+            <button
+              className={`${styles.keywordButton} ${mode === 'gpt' ? styles.activeButton : ''}`}
+              onClick={() => handleOptionSelect(3)}
+            >
+              자유채팅 모드
             </button>
           </div>
 

@@ -9,7 +9,9 @@ com\FM\backend\controller\CouponController.class
 com\FM\backend\controller\MemberController.class
 com\FM\backend\service\PointService.class
 com\FM\backend\controller\PointController.class
+com\FM\backend\service\OrderServiceImpl.class
 com\FM\backend\interceptor\AdminInterceptor.class
+com\FM\backend\service\PointServiceImpl.class
 com\FM\backend\service\AddressServiceImpl.class
 com\FM\backend\mapper\MemberMapper.class
 com\FM\backend\model\OrderVO.class
@@ -17,6 +19,7 @@ com\FM\backend\model\CartVO.class
 com\FM\backend\model\CouponVO.class
 com\FM\backend\mapper\AddressMapper.class
 com\FM\backend\config\SecurityConfig.class
+com\FM\backend\service\WishlistServiceImpl.class
 com\FM\backend\service\AddressService.class
 com\FM\backend\service\OrderService.class
 com\FM\backend\config\MyBatisConfig.class

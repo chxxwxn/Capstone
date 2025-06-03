@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -57,6 +58,23 @@ public class OrderController {
         
         List<OrderVO> recentOrders = orderService.getRecentOrders(member.getMemberMail());
         return ResponseEntity.ok(recentOrders);
+    }
+
+    @GetMapping("/detail")
+    @ResponseBody
+    public ResponseEntity<?> getOrderDetail(@RequestParam("orderNum") String orderNum) {
+        try {
+            OrderVO order = orderService.getOrderByOrderNum(orderNum);
+            if (order != null) {
+                return ResponseEntity.ok(order);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("해당 주문번호에 대한 정보가 없습니다.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("주문 상세 조회 중 오류 발생: " + e.getMessage());
+        }
     }
     
 }
