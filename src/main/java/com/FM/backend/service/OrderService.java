@@ -16,4 +16,6 @@ public interface OrderService {
     OrderVO getOrderById(int orderId);
 
     public List<OrderVO> getRecentOrders(String memberMail);
+
+    public OrderVO getOrderByOrderNum(String orderNum) throws Exception;
 }
