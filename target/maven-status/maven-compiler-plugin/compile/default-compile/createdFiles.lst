@@ -1,10 +1,12 @@
 com\FM\backend\BackendApplication.class
 com\FM\backend\service\CartServiceImpl.class
 com\FM\backend\service\CouponServiceImpl.class
+com\FM\backend\controller\ChatController.class
 com\FM\backend\model\MemberVO.class
 com\FM\backend\service\MemberService.class
 com\FM\backend\service\CouponService.class
 com\FM\backend\service\WishlistService.class
+com\FM\backend\service\OpenAIService.class
 com\FM\backend\controller\CouponController.class
 com\FM\backend\controller\MemberController.class
 com\FM\backend\service\PointService.class

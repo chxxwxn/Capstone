@@ -5,12 +5,12 @@ C:\Users\user\CapStone\src\main\java\com\FM\backend\config\WebConfig.java
 C:\Users\user\CapStone\src\main\java\com\FM\backend\controller\AddressController.java
 C:\Users\user\CapStone\src\main\java\com\FM\backend\controller\AdminController.java
 C:\Users\user\CapStone\src\main\java\com\FM\backend\controller\CartController.java
+C:\Users\user\CapStone\src\main\java\com\FM\backend\controller\ChatController.java
 C:\Users\user\CapStone\src\main\java\com\FM\backend\controller\ClothController.java
 C:\Users\user\CapStone\src\main\java\com\FM\backend\controller\CouponController.java
 C:\Users\user\CapStone\src\main\java\com\FM\backend\controller\KakaoPayController.java
 C:\Users\user\CapStone\src\main\java\com\FM\backend\controller\MemberController.java
 C:\Users\user\CapStone\src\main\java\com\FM\backend\controller\OrderController.java
-C:\Users\user\CapStone\src\main\java\com\FM\backend\controller\PhotoController.java
 C:\Users\user\CapStone\src\main\java\com\FM\backend\controller\PointController.java
 C:\Users\user\CapStone\src\main\java\com\FM\backend\controller\WishlistController.java
 C:\Users\user\CapStone\src\main\java\com\FM\backend\exception\BusinessLogicException.java
@@ -49,6 +49,7 @@ C:\Users\user\CapStone\src\main\java\com\FM\backend\service\CouponServiceImpl.ja
 C:\Users\user\CapStone\src\main\java\com\FM\backend\service\KakaoPayService.java
 C:\Users\user\CapStone\src\main\java\com\FM\backend\service\MemberService.java
 C:\Users\user\CapStone\src\main\java\com\FM\backend\service\MemberServiceImpl.java
+C:\Users\user\CapStone\src\main\java\com\FM\backend\service\OpenAIService.java
 C:\Users\user\CapStone\src\main\java\com\FM\backend\service\OrderService.java
 C:\Users\user\CapStone\src\main\java\com\FM\backend\service\OrderServiceImpl.java
 C:\Users\user\CapStone\src\main\java\com\FM\backend\service\PointService.java

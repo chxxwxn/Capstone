@@ -57,6 +57,6 @@ public class OpenAIService {
             message = message.substring(0, message.length() - 1) + "!";
         }
 
-        return "💬 " + message + " 오늘도 스타일리쉬한 하루 되세요! ✨😊";
+        return "💬 안녕하세요! F.M.의 스타일 서포터 프엠이입니다!" + message + " 오늘도 스타일리쉬한 하루 되세요! ✨😊";
     }
 }

@@ -56,5 +56,3 @@ build/
 .vscode/
 node_modules
 
-application.properties
-.env
