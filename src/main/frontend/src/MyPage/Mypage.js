@@ -60,25 +60,51 @@ const Mypage = () => {
 
   useEffect(() => {
     const storedMember = sessionStorage.getItem("member");
+
     if (storedMember) {
+      let parsed;
       try {
-        setMember(JSON.parse(storedMember));
+        parsed = JSON.parse(storedMember);
+        setMember(parsed); // 기본 상태 세팅
       } catch (e) {
         console.error("세션 파싱 에러:", e);
         sessionStorage.removeItem("member");
+        return;
       }
-    }
 
-    // 💡 최신 정보 강제 갱신
-    fetch(`http://localhost:8090/member/get?memberMail=${JSON.parse(storedMember).memberMail}`, {
-      credentials: "include"
-    })
+      // 🔥 최신 회원 정보 불러오기 (세션 포함)
+      fetch(`http://localhost:8090/member/get?memberMail=${parsed.memberMail}`, {
+        credentials: "include", // 세션 인증 포함
+      })
+        .then(res => {
+          if (!res.ok) {
+            throw new Error("회원 정보 요청 실패");
+          }
+          return res.json();
+        })
+        .then(data => {
+          sessionStorage.setItem("member", JSON.stringify(data)); // 세션 갱신
+          setMember(data); // 상태 갱신
+        })
+        .catch(err => console.error("회원 정보 갱신 실패:", err));
+    }
+  }, []);
+
+  useEffect(() => {
+    const storedMember = sessionStorage.getItem("member");
+    if (storedMember) {
+      const parsed = JSON.parse(storedMember);
+
+      fetch(`http://localhost:8090/member/get?memberMail=${parsed.memberMail}`, {
+        credentials: 'include'
+      })
       .then(res => res.json())
       .then(data => {
         sessionStorage.setItem("member", JSON.stringify(data));
-        setMember(data);
+        setMember(data);  // ✅ 최신 정보 반영
       })
       .catch(err => console.error("회원 정보 갱신 실패:", err));
+    }
   }, []);
 
   return (
