@@ -21,6 +21,7 @@ public class OpenAIService {
     private final String API_URL = "https://api.openai.com/v1/chat/completions";
 
     public String getChatResponse(String userInput) {
+        System.out.println("OpenAI API Key: " + apiKey);
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -57,6 +58,6 @@ public class OpenAIService {
             message = message.substring(0, message.length() - 1) + "!";
         }
 
-        return "💬 안녕하세요! F.M.의 스타일 서포터 프엠이입니다!" + message + " 오늘도 스타일리쉬한 하루 되세요! ✨😊";
+        return "💬 F.M.의 스타일 서포터 프엠이입니다!" + message + " 오늘도 스타일리쉬한 하루 되세요! ✨😊";
     }
 }
