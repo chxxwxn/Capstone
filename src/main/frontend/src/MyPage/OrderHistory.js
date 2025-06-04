@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styles from "./OrderHistory.module.css";
 import { Link } from "react-router-dom";
+import { LoginContext } from "../Login/LoginContext";
 
 const OrderHistory = () => {
     const [filterOrderCheck, setFilterOrderCheck] = useState("전체");
@@ -9,85 +10,11 @@ const OrderHistory = () => {
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
     const [activeTab, setActiveTab] = useState("OrderCheck");
-
-    const orders = [
-        {
-            id: "1",
-            orderDate: "2025.01.21",
-            orderNum: "202501210002",
-            img: "/padding/3-4.jpg",
-            productName: "2WAY HOOD DOWN JACKET",
-            size: "M",
-            color: "BLUE",
-            price: "59,900",
-            quantity: 1,
-            status: "배송 완료",
-        },
-        {
-            id: "2",
-            orderDate: "2025.01.21",
-            orderNum: "202501210003",
-            img: "/padding/1-4.jpg",
-            productName: "LIGHT DOWN JACKET",
-            size: "M",
-            color: "BEIGE",
-            price: "358,000",
-            quantity: 1,
-            status: "배송 준비 중",
-        },
-        {
-            id: "3",
-            orderDate: "2025.02.01",
-            orderNum: "202502010001",
-            img: "/padding/2-4.jpg",
-            productName: "COTTON PARKA",
-            size: "L",
-            color: "BLACK",
-            price: "120,000",
-            quantity: 1,
-            status: "배송 완료",
-        },
-        {
-            id: "4",
-            orderDate: "2025.02.05",
-            orderNum: "202502050004",
-            img: "/padding/4-4.jpg",
-            productName: "WATERPROOF COAT",
-            size: "S",
-            color: "NAVY",
-            price: "150,000",
-            quantity: 1,
-            status: "배송 시작",
-        },
-        {
-            id: "5",
-            orderDate: "2025.02.10",
-            orderNum: "202502100005",
-            img: "/padding/5-4.jpg",
-            productName: "DOWN VEST",
-            size: "M",
-            color: "GRAY",
-            price: "175,000",
-            quantity: 1,
-            status: "반품 완료",
-        },
-        {
-            id: "6",
-            orderDate: "2025.02.15",
-            orderNum: "202502150006",
-            img: "/padding/6-4.jpg",
-            productName: "WINTER BOOTS",
-            size: "XL",
-            color: "BROWN",
-            price: "250,000",
-            quantity: 1,
-            status: "취소 접수",
-        },
-    ];
-
-    const [filteredOrders, setFilteredOrders] = useState(orders);
+    const [orders, setOrders] = useState([]);
+    const [filteredOrders, setFilteredOrders] = useState([]);
     const [visibleOrders, setVisibleOrders] = useState(5); // 처음에는 5개만 표시
-
+    const { isLoggedIn } = useContext(LoginContext);
+    const [member, setMember] = useState(null);
     const getDateRange = (period) => {
         const today = new Date();
         let startDate = new Date("1900-01-01");
@@ -115,6 +42,54 @@ const OrderHistory = () => {
     };
 
     useEffect(() => {
+        const storedMember = sessionStorage.getItem('member');
+        if (storedMember) {
+          try {
+            setMember(JSON.parse(storedMember)); // JSON 변환
+          } catch (error) {
+            console.error('JSON parsing error:', error);
+            sessionStorage.removeItem('member'); // 오류 발생 시 데이터 삭제
+          }
+        }
+      }, []);
+
+    useEffect(() => {
+        const storedMember = sessionStorage.getItem("member");
+        if (storedMember) {
+            setMember(JSON.parse(storedMember));
+        }
+    }, []);
+
+    useEffect(() => {
+        if (!member) return;
+
+        fetch(`http://localhost:8090/order/list?memberMail=${member.memberMail}`, {
+            credentials: "include"
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log("✅ 주문 원본 데이터:", JSON.stringify(data, null, 2));
+
+            const converted = data.map(order => ({
+                ...order,
+                orderDate: new Date().toISOString().split("T")[0],
+                orderNum: order.orderId,
+                img: order.image,
+                productName: order.productName,
+                size: order.size,
+                color: order.color,
+                price: Number(order.price).toLocaleString() + "원",
+                quantity: order.quantity,
+                status: order.status
+            }));
+
+            setOrders(converted);
+            setFilteredOrders(converted); // 초기값으로 설정
+            })
+            .catch(err => console.error("주문 데이터 불러오기 실패:", err));
+    }, [member]);
+
+    useEffect(() => {
         let filtered = orders;
     
         // 1️⃣ 날짜 필터링
@@ -123,7 +98,7 @@ const OrderHistory = () => {
             const end = new Date();
             filtered = filtered.filter(order => {
                 const [year, month, day] = order.orderDate.split(".");
-                const orderDateObj = new Date(`${year}-${month}-${day}`);
+                const orderDateObj = new Date(order.order_date ?? order.orderDate); // 둘 다 고려
                 return orderDateObj >= start && orderDateObj <= end;
             });
         }
@@ -179,6 +154,7 @@ const OrderHistory = () => {
     };
 
     return (
+        isLoggedIn && member ? (
         <div className={styles.OrderHistory}>
             <div className={styles.Container}>
                 <div className={styles.OrderHistoryTitle}>주문 내역</div>
@@ -268,7 +244,9 @@ const OrderHistory = () => {
                     {filteredOrders.slice(0, visibleOrders).map((order) => (
                         <div key={order.id} className={styles.ProductList}>
                             <div className={styles.OrederNumDate}>
-                                <div className={styles.OrederDate}>{order.orderDate}</div>
+                               <div className={styles.OrederDate}>
+                                    {order.orderDate.replaceAll("-", ".")}
+                                </div>
                                 <div> | </div>
                                 <div className={styles.OrederNum}>
                                     <Link to={`/mypage/OrderHistory/${order.orderNum}`} className={styles.OrderLink}>
@@ -325,6 +303,9 @@ const OrderHistory = () => {
                 <div className={styles.NoOrders}>{filteredOrders.length === 0 && "주문 내역이 없습니다."}</div>
             </div>
         </div>
+        ) :(
+      <div></div>
+    )
     );
 };
 

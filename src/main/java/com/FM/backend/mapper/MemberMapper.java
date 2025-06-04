@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.FM.backend.model.MemberVO;
+import com.FM.backend.model.OrderVO;
 
 @Mapper
 public interface MemberMapper {
@@ -33,5 +34,7 @@ public interface MemberMapper {
     @Param("usedPoint") int usedPoint,
     @Param("usedCoupon") boolean usedCoupon
   );
+
+  OrderVO getOrderByOrderNum(String orderNum);
 
 }
