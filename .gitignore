@@ -57,3 +57,5 @@ build/
 node_modules
 
 /src/main/resources/application-private.properties
+
+/target/
