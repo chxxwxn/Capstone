@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Icon } from '@iconify/react';
 import styles from '../Product.module.css';
-import { useNavigate, useParams } from "react-router-dom";
-
-
+import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { LoginContext } from "../../Login/LoginContext";
 
 const Preview = () => {
   const { id } = useParams(); // /all/:id 에서 id 추출
@@ -14,10 +13,15 @@ const Preview = () => {
   const [products, setProducts] = useState([]); // API로부터 불러올 제품 데이터
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(null); // 모달 이미지 상태 추가
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
+  const location = useLocation(); // 현재 경로 가져오기 
+  const { member } = useContext(LoginContext); // member 정보 가져오기
+  const memberMail = member?.memberMail || '';
 
-  const handleNavigation = (category) => {
-    navigate(`/${category.toLowerCase()}/`); // 
+  const handleNavigation = (subcategory) => {
+    // 현재 경로에서 마지막 슬래시 이후의 부분을 제외하고 사용
+    const basePath = location.pathname.split("/")[1]; // 첫 번째 경로(segment) 가져오기
+    navigate(`/${basePath}/${subcategory.toLowerCase()}`);
   };
 
   const fetchProducts = async () => {
@@ -41,14 +45,92 @@ const Preview = () => {
     }
   };
 
+  // 로그인된 사용자의 찜 목록 불러오기
+  const fetchWishlist = async () => {
+    if (!member?.memberMail) return; // 로그인되지 않은 경우는 패스
+
+    try {
+      const response = await fetch(`http://localhost:8090/wishlist/list?memberMail=${memberMail}`);
+      if (!response.ok) throw new Error("찜 목록 로딩 실패");
+
+      const data = await response.json(); // 예: [{ productId: 1 }, { productId: 2 }]
+      const ids = data.map(item => item.productId); // ID 배열만 추출
+      setWishlist(ids); // 찜 상태로 설정
+    } catch (error) {
+      console.error("Wishlist fetch error:", error);
+    }
+  };
+
   useEffect(() => {
     fetchProducts(); // 컴포넌트가 마운트될 때 API 호출
-  }, [id]);
+    fetchWishlist(); // 찜 목록 불러오기
+  }, [member?.memberMail]);
 
+  const handleAddToCart = async (product) => {
+    const memberMail = member?.memberMail || ''; // 로그인한 사용자 이메일
+    const productId = product.id;       // 상품 ID
+    const productQuantity = quantity;          // 수량 (필요시 선택 기능 추가 가능)
+    const productColor = selectedColor; // 기본값 예시
+    const productSize = selectedSize;        // 기본값 예시
+  
+    try {
+      const response = await fetch("http://localhost:8090/cart/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          memberMail,
+          productId,
+          productQuantity,
+          productColor,
+          productSize
+        })
+      });
+  
+      if (!response.ok) {
+        throw new Error("서버 오류 발생");
+      }
+  
+      const result = await response.text(); // 백에서 메시지 반환 시
+  
+      alert("장바구니에 담겼습니다!");
+      console.log(result);
+    } catch (error) {
+      console.error("장바구니 담기 실패:", error);
+      alert("장바구니 담기에 실패했습니다.");
+    }
+  };
+
+  
   const toggleWishlist = (id) => {
+    const isWishlisted = wishlist.includes(id);
+  
     setWishlist((prevWishlist) =>
-      prevWishlist.includes(id) ? prevWishlist.filter((item) => item !== id) : [...prevWishlist, id]
+      isWishlisted ? prevWishlist.filter((item) => item !== id) : [...prevWishlist, id]
     );
+  
+    const wishlistData = {
+      memberMail: member?.memberMail || '', // 실제 로그인된 사용자 ID로 교체 필요
+      productId: id,
+    };
+  
+    fetch(`http://localhost:8090/wishlist/${isWishlisted ? 'delete' : 'insert'}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(wishlistData),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('서버 응답 오류');
+        }
+        console.log(`${isWishlisted ? '삭제' : '추가'} 완료`);
+      })
+      .catch((err) => {
+        console.error('찜 처리 중 오류:', err);
+      });
   };
 
   const reviews = [
@@ -62,7 +144,7 @@ const Preview = () => {
       date: "2024.12.30",
       idName: "abcd***",
       content: "옷이 예뻐요",
-      images: ["/padding/1-4.jpg", "/padding/1-5.jpg"] // 리뷰 사진 추가
+      images: ["/outer/cardigan/CroppedKnit-b4.jpg", "/outer/cardigan/CroppedKnit-b5.jpg"] // 리뷰 사진 추가
     },
     { 
       id: 2,
@@ -120,12 +202,10 @@ const asks = [
 
   return (
     <>
-     
       {/* 카테고리 헤더 */}
       <div className={styles.categoryHeader}>
         <div className={styles.categoryTop}>
           <div className={styles.categoryTitle}>All PRODUCT</div>
-          
         </div>
         <div className={styles.categoryLine}></div>
       </div>
@@ -185,14 +265,17 @@ const asks = [
                 <div className={styles.productColorOptions}>
                   <p className={styles.optionTitle}>색상</p>
                   <div className={styles.colorOptions}>
-                    {product.color.map((color, index) => (
-                      <span
-                        key={index}
-                        className={`${styles.colorCircle} ${selectedColor === color ? styles.selectedColor : ''}`}
-                        style={{ backgroundColor: color }}
-                        onClick={() => setSelectedColor(color)}
-                      ></span>
-                    ))}
+                    {product.color.map((color, index) => {
+                      const [colorCode, colorName] = color.split('-'); // '#ffffff', '블랙'
+                      return (
+                        <span
+                          key={index}
+                          className={`${styles.colorCircle} ${selectedColor === color ? styles.selectedColor : ''}`}
+                          style={{ backgroundColor: colorCode }}
+                          onClick={() => setSelectedColor(color)} // 저장할 값은 '#ffffff-블랙' 그대로
+                        ></span>
+                      );
+                    })}
                   </div>
                 </div>
 
@@ -208,7 +291,7 @@ const asks = [
 
                 {/* 장바구니 & 구매 버튼 */}
                 <div className={styles.buttonGroup}>
-                  <button className={styles.cartButton}>장바구니</button>
+                  <button className={styles.cartButton} onClick={() => handleAddToCart(product)}>장바구니</button>
                   <button className={styles.buyButton}>구매하기</button>
                 </div>
               </div>
@@ -348,7 +431,6 @@ const asks = [
 
               {/* REVIEW POST ID */}     
               <span className={styles.reviewId}>{review.idName}</span>
-         
 
               {/* REVIEW CONTENT */}
               <div className={styles.reviewContent}>{review.content}</div>
@@ -384,7 +466,7 @@ const asks = [
               )}
 
       
-<div className={styles.ask}>
+    <div className={styles.ask}>
       <div className={styles.askHeader}>
         <div className={styles.askTitle}>문의</div>
         <div className={styles.askWrite}>작성하기</div>

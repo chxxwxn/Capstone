@@ -17,8 +17,17 @@ function Header() {
   const [isFixed, setIsFixed] = useState(false);
   const [member, setMember] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false); // 드롭다운 메뉴 열림 여부
+  const [searchKeyword, setSearchKeyword] = useState('');
 
   const navigate = useNavigate();
+
+  const handleSearchKeyDown = (e) => {
+    if (e.key === 'Enter' && searchKeyword.trim() !== '') {
+      navigate(`/search?keyword=${encodeURIComponent(searchKeyword.trim())}`);
+      setSearchKeyword('');
+      setSearchVisible(false); // 검색창 닫기 (선택)
+    }
+  };
 
   const toggleSearch = () => {
     setSearchVisible(!searchVisible);
@@ -39,7 +48,11 @@ function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsFixed(window.scrollY > 50);
+      if (window.scrollY > 50) {
+        setIsFixed(true);
+      } else {
+        setIsFixed(false);
+      }
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -126,6 +139,9 @@ function Header() {
               placeholder="Search"
               className={styles.searchInput}
               ref={searchInputRef}
+              value={searchKeyword}
+              onChange={(e) => setSearchKeyword(e.target.value)}
+              onKeyDown={handleSearchKeyDown}
             />
           </div>
 

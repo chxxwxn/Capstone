@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './ProductRegister.module.css';
 import { useNavigate } from "react-router-dom";
-//import path from 'path-browserify'; // 경로 추출을 위해 설치 필요: npm install path-browserify
 
 
 const ProductRegister = () => {
@@ -9,12 +8,12 @@ const ProductRegister = () => {
     const navigate = useNavigate();
     const [mainCategory, setMainCategory] = useState("");
     const [subCategories, setSubCategories] = useState([]);
-    const [colors, setColors] = useState([]);
+    const [colors, setColors] = useState([{ color: '#000000', name: '' }]);
     const categoryOptions = {
-        OUTER: ["PADDING", "JACKET", "COAT", "Cardigan"],
-        TOP: ["MTM", "hoodie", "Knit", "Shirts", "Tee"],
-        BOTTOM: ["Jeans", "Slacks", "Shorts", "Skirt"],
-        ETC: ["Bag", "Shoes", "Cap", "Acc"],
+        OUTER: ["Padding", "Jacket", "Coat", "Cardigan"],
+        TOP: ["MTM", "Hoodie", "Knit", "Shirts", "Tee"],
+        BOTTOM: ["Denim", "Skirt", "Pants"],
+        ETC: ["Ring"],
     };
 
     const [formData, setFormData] = useState({
@@ -46,30 +45,34 @@ const ProductRegister = () => {
     });
 
     const handleAddColor = () => {
-        setColors([...colors, "#000000"]); // 기본값: 검정색
+        setColors([...colors, { color: '#000000', name: '' }]);
     };
 
     const handleColorChange = (index, newColor) => {
-    const updatedColors = [...colors];
-    updatedColors[index] = newColor;
-    setColors(updatedColors);
-    setFormData({ ...formData, colorCodes: updatedColors.join(',') });
+        const updatedColors = [...colors];
+        updatedColors[index].color = newColor;
+        setColors(updatedColors);
+    };
+
+    const handleColorNameChange = (index, newName) => {
+        const updatedColors = [...colors];
+        updatedColors[index].name = newName;
+        setColors(updatedColors);
     };
 
     const handleRemoveColor = (index) => {
-    const updatedColors = [...colors];
-    updatedColors.splice(index, 1); // 해당 색상 제거
-    setColors(updatedColors);
-    setFormData({ ...formData, colorCodes: updatedColors.join(',') });
+        const updatedColors = colors.filter((_, i) => i !== index);
+        setColors(updatedColors);
     };
 
     // 이미지 선택 핸들러
     const handleImageChange = (e, index) => {
         const file = e.target.files[0];
         if (file) {
+            const main = mainCategory.toLowerCase();      // 예: 'OUTER' → 'outer'
             const category = formData.cateCode.toLowerCase(); // 예: 'PADDING' → 'padding'
             const fileName = file.name; // '1-1.jpg'
-            const imageUrl = `/${category}/${fileName}`; // '/padding/1-1.jpg'
+            const imageUrl = `/${main}/${category}/${fileName}`; // '/outer/padding/1-1.jpg'
     
             setFormData((prevData) => {
                 const updatedImages = [...prevData.images];
@@ -86,12 +89,6 @@ const ProductRegister = () => {
         }
     };
 
-    // 경로에서 카테고리/파일명 추출
-    const extractCategoryPath = (file) => {
-        const fakePath = file.name;
-        const category = formData.cateCode.toLowerCase(); // 예: 'coat'
-        return `${category}/${fakePath}`;
-    };
 
     useEffect(() => {
         fetch("http://localhost:8090/admin/main") // ✅ Spring Boot API 호출
@@ -118,13 +115,24 @@ const ProductRegister = () => {
         console.log("전송 직전 이미지 데이터 확인", formData.images);
         e.preventDefault(); // 기본 동작 방지
 
+        const colorCodeString = colors
+        .map((item) => `${item.color}-${item.name}`)
+        .join(', '); // → "#ffffff-화이트, #000000-블랙"
+
+        const updatedFormData = {
+            ...formData,
+            colorCodes: colorCodeString
+        };
+
+        console.log("색상 코드 확인", updatedFormData.colorCodes);
+
         try {
             const response = await fetch("http://localhost:8090/products", { // 백엔드 API 주소
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(formData), // 입력된 데이터 전송
+                body: JSON.stringify(updatedFormData), // 입력된 데이터 전송
             });
 
             if (response.ok) {
@@ -136,7 +144,7 @@ const ProductRegister = () => {
             }
         } catch (error) {
             console.error("상품 등록 중 오류 발생:", error);
-            alert("상품 등록 중 오류가 발생했습니다.");
+            alert("상품 등록 중 오류가 발생했습니다.(모든 입력란 입력 필수)");
         }
     };
 
@@ -158,12 +166,6 @@ const ProductRegister = () => {
                             </li>
                             <li onClick={() => navigate("/admin/ProductManage")}>
                                 <a className={styles.admin_list_02}>상품 관리</a>
-                            </li>
-                            <li onClick={() => navigate("/admin/author-register")}>
-                                <a className={styles.admin_list_03}>작가 등록</a>
-                            </li>
-                            <li onClick={() => navigate("/admin/author-manage")}>
-                                <a className={styles.admin_list_04}>작가 관리</a>
                             </li>
                             <li onClick={() => navigate("/admin/UserManage")}>
                                 <a className={styles.admin_list_05}>회원 관리</a>
@@ -248,34 +250,47 @@ const ProductRegister = () => {
                                         <label>상품 색상</label>
                                     </div>
                                     <div className={styles.form_section_content}>
-                                        {colors.map((color, index) => (
-                                        <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '6px' }}>
+                                        {colors.map((item, index) => (
+                                            <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '6px' }}>
                                             <input
-                                            type="color"
-                                            value={color}
-                                            onChange={(e) => handleColorChange(index, e.target.value)}
-                                            style={{ marginRight: '8px' }}
+                                                type="color"
+                                                value={item.color}
+                                                onChange={(e) => handleColorChange(index, e.target.value)}
+                                                style={{ marginRight: '8px' }}
+                                            />
+                                            <input
+                                                type="text"
+                                                placeholder="색상 이름 (필수)"
+                                                value={item.name}
+                                                onChange={(e) => handleColorNameChange(index, e.target.value)}
+                                                required
+                                                style={{
+                                                marginRight: '8px',
+                                                padding: '4px',
+                                                border: '1px solid #ccc',
+                                                borderRadius: '4px'
+                                                }}
                                             />
                                             <button
-                                            type="button"
-                                            onClick={() => handleRemoveColor(index)}
-                                            style={{
+                                                type="button"
+                                                onClick={() => handleRemoveColor(index)}
+                                                style={{
                                                 backgroundColor: '#ff5e5e',
                                                 color: 'white',
                                                 border: 'none',
                                                 padding: '4px 8px',
                                                 borderRadius: '4px',
                                                 cursor: 'pointer'
-                                            }}
+                                                }}
                                             >
-                                            삭제
+                                                삭제
                                             </button>
-                                        </div>
+                                            </div>
                                         ))}
                                         <button
-                                        type="button"
-                                        onClick={handleAddColor}
-                                        style={{
+                                            type="button"
+                                            onClick={handleAddColor}
+                                            style={{
                                             marginTop: '6px',
                                             padding: '6px 12px',
                                             backgroundColor: '#4CAF50',
@@ -283,12 +298,12 @@ const ProductRegister = () => {
                                             border: 'none',
                                             borderRadius: '4px',
                                             cursor: 'pointer'
-                                        }}
+                                            }}
                                         >
-                                        색상 추가
+                                            색상 추가
                                         </button>
                                     </div>
-                                    </div>
+                                </div>
 
                                 <div className={styles.form_section}>
                                     <div className={styles.form_section_title}>
@@ -336,7 +351,7 @@ const ProductRegister = () => {
                                         ))}
                                         </select>
                                     </div>
-                                    </div>
+                                </div>
 
 
                                 <div className={styles.form_section}>

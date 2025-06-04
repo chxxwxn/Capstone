@@ -1,16 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Icon } from '@iconify/react';
 import styles from '../Pre.module.css';
 import { useNavigate, useLocation } from "react-router-dom";
+import { LoginContext } from "../../Login/LoginContext";
 
 const Preview = () => {
   const [wishlist, setWishlist] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [sortedProducts, setSortedProducts] = useState([]);
   const [selectedSort, setSelectedSort] = useState('best'); // 초기 상태를 'best'로 설정
+  const [products, setProducts] = useState([]); // API로부터 불러올 제품 데이터
   const itemsPerPage = 9;
   const navigate = useNavigate();
   const location = useLocation(); // 현재 경로 가져오기
+  const { member } = useContext(LoginContext); // member 정보 가져오기
+  const memberMail = member?.memberMail || '';
   
   const categories = [
     { name: "Denim", path: "Denim" },
@@ -18,18 +22,50 @@ const Preview = () => {
     { name: "Pants", path: "Pants" },
     
   ];
-  const products = [
-    { id: 1, name: '2WAY HOOD DOWN JACKET', image: '/padding/1-1.jpg', price: 200000, color: ['#778D72', '#C3E5F0', '#303030'], date: '2025-02-01' },
-    { id: 2, name: 'COLLAR DOWN JACKET', image: '/padding/2-1.jpg', price: 458000, color: ['#EECACA', '#332a25', '#1e2535'], date: '2025-01-01' },
-    { id: 3, name: 'LIGHT DOWN JACKET', image: '/padding/3-1.jpg', price: 358000, color: ['#ADA38C', '#adb5be', '#303030'], date: '2025-01-20' },
-    { id: 4, name: '2WAY HOOD DOWN JACKET', image: '/padding/1-1.jpg', price: 200000, color: ['#778D72', '#C3E5F0', '#303030'], date: '2025-02-01' },
-    { id: 5, name: 'COLLAR DOWN JACKET', image: '/padding/2-1.jpg', price: 458000, color: ['#EECACA', '#332a25', '#1e2535'], date: '2025-01-01' },
-    { id: 6, name: 'LIGHT DOWN JACKET', image: '/padding/3-1.jpg', price: 358000, color: ['#ADA38C', '#adb5be', '#303030'], date: '2025-01-20' },
-    { id: 7, name: '2WAY HOOD DOWN JACKET', image: '/padding/1-1.jpg', price: 200000, color: ['#778D72', '#C3E5F0', '#303030'], date: '2025-02-01' },
-    { id: 8, name: 'COLLAR DOWN JACKET', image: '/padding/2-1.jpg', price: 458000, color: ['#EECACA', '#332a25', '#1e2535'], date: '2025-01-01' },
-    { id: 9, name: 'LIGHT DOWN JACKET', image: '/padding/3-1.jpg', price: 358000, color: ['#ADA38C', '#adb5be', '#303030'], date: '2025-01-20' },
-    { id: 10, name: 'LIGHT DOWN JACKET', image: '/padding/3-1.jpg', price: 358000, color: ['#ADA38C', '#adb5be', '#303030'], date: '2025-02-10' },
-  ];
+
+  const fetchProducts = async () => {
+    try {
+      const response = await fetch("http://localhost:8090/products/bottom");
+      const data = await response.json();
+  
+      // 서버 데이터를 ClothVo 형식으로 매핑
+      const mappedData = data.map(item => ({
+        id: item.productId,
+        name: item.productName,
+        price: item.productPrice,
+        color: item.colorCodes.split(',').map(color => color.trim().split('-')[0]),
+        date: item.registerYear,
+        image: item.imageUrl,
+      }));
+  
+      setProducts(mappedData); // 매핑된 데이터를 상태에 저장
+      setSortedProducts(mappedData); // 처음에는 정렬된 상태로 설정
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
+
+  // 로그인된 사용자의 찜 목록 불러오기
+  const fetchWishlist = async () => {
+    if (!member?.memberMail) return; // 로그인되지 않은 경우는 패스
+
+    try {
+      const response = await fetch(`http://localhost:8090/wishlist/list?memberMail=${memberMail}`);
+      if (!response.ok) throw new Error("찜 목록 로딩 실패");
+
+      const data = await response.json(); // 예: [{ productId: 1 }, { productId: 2 }]
+      const ids = data.map(item => item.productId); // ID 배열만 추출
+      setWishlist(ids); // 찜 상태로 설정
+    } catch (error) {
+      console.error("Wishlist fetch error:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts(); // 컴포넌트가 마운트될 때 API 호출
+    fetchWishlist(); // 찜 목록 불러오기
+  }, [member?.memberMail]);
+  
   const handleNavigation = (subcategory) => {
     // 현재 경로에서 마지막 슬래시 이후의 부분을 제외하고 사용
     const basePath = location.pathname.split("/")[1]; // 첫 번째 경로(segment) 가져오기
@@ -37,9 +73,37 @@ const Preview = () => {
   };
   
   const toggleWishlist = (id) => {
+    const isWishlisted = wishlist.includes(id);
+  
     setWishlist((prevWishlist) =>
-      prevWishlist.includes(id) ? prevWishlist.filter((item) => item !== id) : [...prevWishlist, id]
+      isWishlisted ? prevWishlist.filter((item) => item !== id) : [...prevWishlist, id]
     );
+  
+    const wishlistData = {
+      memberMail: member?.memberMail || '', // 실제 로그인된 사용자 ID로 교체 필요
+      productId: id,
+    };
+  
+    fetch(`http://localhost:8090/wishlist/${isWishlisted ? 'delete' : 'insert'}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(wishlistData),
+    })
+      .then((res) => {
+        if (res.status === 409) {
+          alert('이미 등록된 상품입니다.');
+          throw new Error('서버 응답 오류');
+        }
+        if (!res.ok) {
+          throw new Error('서버 응답 오류');
+        }
+        console.log(`${isWishlisted ? '삭제' : '추가'} 완료`);
+      })
+      .catch((err) => {
+        console.error('찜 처리 중 오류:', err);
+      });
   };
 
   const totalPages = Math.ceil(sortedProducts.length / itemsPerPage);
@@ -92,7 +156,6 @@ const Preview = () => {
   
   return (
     <>
- 
       {/* Category Header 컴포넌트 */}
       <div className={styles.categoryHeader}>
         <div className={styles.categoryTop}>

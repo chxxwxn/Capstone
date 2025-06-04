@@ -37,7 +37,9 @@ public class SecurityConfig {
                     "/payment/cancel",
                     "/payment/fail",
                     "/payment/refund",
-                    "/member/list"
+                    "/member/list",
+                    "/wishlist/**", 
+                    "/cart/**"
                 ).permitAll()                     // 인증 없이 접근 허용
                 .anyRequest().authenticated()     // 그 외는 인증 필요
             )
