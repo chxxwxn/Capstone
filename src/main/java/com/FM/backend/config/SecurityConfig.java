@@ -37,7 +37,8 @@ public class SecurityConfig {
                     "/address/**",
                     "/coupon/**",
                     "/point/**",
-                    "/order/**"
+                    "/order/**",
+                    "/api/chat/**"
                 ).permitAll()
                 .anyRequest().authenticated()
             )
