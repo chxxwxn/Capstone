@@ -22,4 +22,8 @@ public interface MemberService {
 
   public List<MemberVO> getAllMembers() throws Exception;
 
+  public void updateMemberInfo(MemberVO member);
+
+  void useCouponAndPoint(String memberMail, int usedPoint, boolean usedCoupon);
+
 }

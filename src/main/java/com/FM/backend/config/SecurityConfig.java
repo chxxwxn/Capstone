@@ -7,46 +7,59 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-    // 🔐 비밀번호 암호화 설정
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // 🔐 Spring Security 설정
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable())         // CSRF 비활성화
-            .cors(cors -> {})                    // CORS 활성화 (위 필터와 함께 동작)
+            .csrf(csrf -> csrf.disable())
+            .cors(cors -> {}) // CORS 활성화
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
-                    "/member/mailChk",
-                    "/member/Join2",
-                    "/member/login.do",
-                    "/member/kakao/callback",
+                    "/member/**",
                     "/products",
                     "/products/**",
-                    "/payment/ready",
-                    "/payment/success",
-                    "/payment/cancel",
-                    "/payment/fail",
-                    "/payment/refund",
-                    "/member/list",
+                    "/payment/**",
                     "/wishlist/**", 
-                    "/cart/**"
-                ).permitAll()                     // 인증 없이 접근 허용
-                .anyRequest().authenticated()     // 그 외는 인증 필요
+                    "/cart/**",
+                    "/api/**",
+                    "/address/**",
+                    "/coupon/**",
+                    "/point/**",
+                    "/order/**",
+                    "/api/chat/**"
+                ).permitAll()
+                .anyRequest().authenticated()
             )
-            .formLogin(form -> form.disable())    // 기본 로그인 폼 비활성화 (프론트에서 처리 시)
-            .httpBasic(httpBasic -> httpBasic.disable()) // 기본 인증 비활성화
-            .logout(logout -> logout.logoutSuccessUrl("/")); // 로그아웃 리다이렉트 설정
+            .formLogin(form -> form.disable())
+            .httpBasic(httpBasic -> httpBasic.disable())
+            .logout(logout -> logout.logoutSuccessUrl("/"));
 
         return http.build();
     }
+    
+    @Bean
+public CorsConfigurationSource corsConfigurationSource() {
+    CorsConfiguration config = new CorsConfiguration();
+    config.setAllowCredentials(true);
+    config.addAllowedOrigin("http://localhost:3000");
+    config.addAllowedHeader("*");
+    config.addAllowedMethod("*");
+
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", config);
+    return source;
+}
+
 }

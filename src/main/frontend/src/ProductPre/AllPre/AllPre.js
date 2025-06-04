@@ -193,8 +193,8 @@ const Preview = () => {
           {paginatedProducts.map((product) => (
             <div key={product.id} className={styles.product}>
               <a href={`/all/${product.id}`}>
-                  <img src={product.image} alt={product.name} className={styles.productImage} />
-                </a>
+                <img src={product.image} alt={product.name} className={styles.productImage} />
+              </a>
 
               <div className={styles.productHeader}>
                 <p className={styles.productName}>{product.name}</p>

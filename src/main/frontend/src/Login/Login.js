@@ -4,7 +4,7 @@ import styles from './Login.module.css';
 import { LoginContext } from "../Login/LoginContext";
 
 
-const KAKAO_JS_KEY = "116129a2f6241bd118d98c52c1758667"; 
+const KAKAO_JS_KEY = "e0004ba73de38814f9c3d941049efff8"; 
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -74,7 +74,8 @@ function Login() {
   const handleKakaoLogin = () => {
     if (window.Kakao) {
       window.Kakao.Auth.authorize({
-        redirectUri: "http://localhost:8090/member/kakao/callback" // 백엔드와 맞춤
+        redirectUri: "http://localhost:8090/member/kakao/callback",
+        scope: "profile_nickname account_email phone_number" // ✅ 꼭 포함해야 함
       });
     } else {
       console.error("Kakao SDK not initialized");
