@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import styles from "./Saving&Rate.module.css";
+import { Link } from 'react-router-dom'; // Link 컴포넌트 import
+import { LoginContext } from "../Login/LoginContext";
 
 const SavingRate = () => {
   const [savingCode, setSavingCode] = useState('');
@@ -8,6 +10,37 @@ const SavingRate = () => {
   const [currentRate, setCurrentRate] = useState("Enjoy"); // 현재 등급 상태
   const [showAll, setShowAll] = useState(false); // 전체 내역 표시 여부
 
+  const [savings, setSavings] = useState([]);
+
+  useEffect(() => {
+    const fetchSavings = async () => {
+      try {
+        const res = await fetch('http://localhost:8090/point/history', {
+          method: 'GET',
+          credentials: 'include',
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          const formatted = data.map((item, index) => ({
+            id: index + 1,
+            amount: (item.amount > 0 ? "+" : "") + item.amount.toLocaleString() + "원",
+            productName: item.description || "내역 없음",
+            dead: item.expire_at ? `( ${item.expire_at} 소멸 예정)` : "-",
+            date: item.created_at.substring(0, 10),
+            use: item.type
+          }));
+          setSavings(formatted);
+        } else {
+          console.warn("적립금 내역 조회 실패");
+        }
+      } catch (error) {
+        console.error("적립금 내역 불러오기 오류:", error);
+      }
+    };
+
+    fetchSavings();
+  }, []);
 
   const getDateRange = (period) => {
     const today = new Date();
@@ -35,17 +68,6 @@ const SavingRate = () => {
 
     return startDate;
   };
-
-  const [savings] = useState([
-    { id: 1, amount: "+3,000원", productName: "운동화 구매", dead: "( 2025-03-25 소멸 예정)", date: "2025-03-23", use: "적립" },
-    { id: 2, amount: "+2,000원", productName: "가방 구매", dead: "( 2025-03-30 소멸 예정)", date: "2025-03-24", use: "적립" },
-    { id: 3, amount: "-1,000원", productName: "옷 구매", dead: "( 2025-05-20 소멸 예정)", date: "2025-03-22", use: "사용" },
-    { id: 4, amount: "-500원", productName: "옷 구매", dead: "( 2025-05-20 소멸 예정)", date: "2025-03-22", use: "사용" },
-    { id: 5, amount: "+500원", productName: "옷 구매", dead: "( 2025-05-20 소멸 예정)", date: "2025-03-22", use: "사용" },
-    { id: 5, amount: "+500원", productName: "옷 구매", dead: "( 2025-05-20 소멸 예정)", date: "2025-03-22", use: "사용" },
-
-  ]);
-
  
 
 // 현재 날짜
@@ -95,7 +117,7 @@ const filteredSavings = filteredByPeriodSavings.filter((saving) => {
   return saving.use === filter;
 });
 
-const [visibleIndex, setVisibleIndex] = useState(null);
+  const [visibleIndex, setVisibleIndex] = useState(null);
 
   const handleToggle = (index) => {
     setVisibleIndex(visibleIndex === index ? null : index);
@@ -106,7 +128,7 @@ const [visibleIndex, setVisibleIndex] = useState(null);
     { icon: "T", text: "Trendy \n 등급", ex1: "유행을 \n 잘 따르는 사람<br/>전체 주문 금액 60만원 이상", ex2: "2% 할인 및 \n적립 적용<br />5%, 10% \n할인 쿠폰 매월 지급" },
     { icon: "Y", text: "Youth \n등급", ex1: "젊게 사는 사람<br/>전체 주문 금액 30만원 이상", ex2: "2% 할인 및 \n적립 적용<br />5% 할인 쿠폰 매월 2개 지급" },
     { icon: "L", text: "Learn \n등급", ex1: "패션 학습자<br/>전체 주문 금액 10만원 이상", ex2: "1% 할인 및 \n적립 적용<br />2% 할인 쿠폰 매월 2개 지급" },
-    { icon: "E", text: "Enjoy \n등급", ex1: "패션을 \n즐기는 자<br/>첫 가입 시", ex2: "1% 적립 적용<br />5% 환영 쿠폰 지급" },
+    { icon: "E", text: "Enjoy \n등급", ex1: "패션을 \n즐기는 자<br/>첫 가입 시", ex2: "1% 적립 적용<br />10% 환영 쿠폰 및 배송비 무료 쿠폰 지급" },
   ];
 
   
@@ -176,14 +198,29 @@ const [visibleIndex, setVisibleIndex] = useState(null);
   
   const lostTotal = calculateLostSavings().toLocaleString() + "원";
   
+  const { isLoggedIn } = useContext(LoginContext);
+  const [member, setMember] = useState(null);
 
+  useEffect(() => {
+      const storedMember = sessionStorage.getItem('member');
+      if (storedMember) {
+        try {
+          setMember(JSON.parse(storedMember)); // JSON 변환
+        } catch (error) {
+          console.error('JSON parsing error:', error);
+          sessionStorage.removeItem('member'); // 오류 발생 시 데이터 삭제
+        }
+      }
+    }, []);
 
   return (
+    isLoggedIn && member ? (
+      <>
     <div className={styles.SavingRate}>
       <div className={styles.Saving}>
         <div className={styles.SavingRateTitle}>적립금 및 회원등급</div>
         <div className={styles.SavingTitle}>현재 적립금</div>
-        <div className={styles.SavingTotal}>{savingTotal}</div>
+        <div className={styles.SavingTotal}>{member.point}</div>
         <div className={styles.Lost}>
           <span className={styles.LostText}>소멸 예정 적립금 (30일 이내)</span>
           <span className={styles.LostTotal}>{lostTotal}</span>
@@ -299,6 +336,10 @@ const [visibleIndex, setVisibleIndex] = useState(null);
         </div>
       </div>
     </div>
+    </>
+    ): (
+      <Link to="/login"></Link>
+    )
   );
 };
 

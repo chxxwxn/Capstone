@@ -1,23 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Main.module.css';
-import Header from '../Header/Header';   // 로그인 안 했을 때
-import Footer from '../Footer/Footer'; // Footer 불러오기
 
 function Main() {
   const products = [
-    { id: 1, name: '2WAY HOOD\nDOWN JACKET', image: '/padding/1-1.jpg' },
-    { id: 2, name: 'CROPPED\nKNIT CARDIGAN', image: '/cardigan/1-1.jpg' },
-    { id: 3, name: 'WOOL\nFISHERMAN KNIT CARDIGAN', image: '/top/2-1.jpg' },
-    { id: 4, name: 'VELVET HOOD ZIP-UP', image: '/top/1-1.jpg' },
+    { id: 1, name: '2WAY HOOD\nDOWN JACKET', image: 'outer/padding/2WayHoodDown-b1.jpg' },
+    { id: 2, name: 'CROPPED\nKNIT CARDIGAN', image: 'outer/cardigan/CroppedKnit-b1.jpg' },
+    { id: 3, name: 'CrewNeck KNIT', image: 'top/knit/CrewNeck-g1.jpg' },
+    { id: 4, name: 'VelvetCropped hoodie', image: 'top/hoodie/VelvetCropped-b1.jpg' },
   ];
 
   const [scrollY, setScrollY] = useState(0);
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <div className={styles.container}>
-      {/* 🔹 로그인 상태에 따라 다른 Header 표시 */}
       <main className={styles.main}>
         {/* 📌 카테고리 섹션 추가 */}
 

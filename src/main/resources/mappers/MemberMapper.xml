@@ -1,32 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-	<mapper namespace="com.FM.backend.mapper.MemberMapper">
-	<!-- 회원가입 -->  
-  	<insert id="memberJoin" parameterType="com.FM.backend.model.MemberVO">
-		INSERT INTO cloth.fm_member 
-		(memberMail, memberPw, memberFn, memberLn, memberNum1, memberNum2, memberNum3, adminCk, regDate, memberRating, Point)
-		VALUES (#{memberMail}, #{memberPw}, #{memberFn}, #{memberLn}, #{memberNum1}, #{memberNum2}, #{memberNum3}, 0, NOW(), "Enjoy", 5000);
-	</insert>
-  	
-  	<!-- 메일 유무 -->
-  	<select id="checkEmail" resultType="int" parameterType="String">
-		SELECT COUNT(*) FROM fm_member WHERE memberMail = #{memberMail}
-	</select>
-  	
-  	<!-- 로그인 -->
-  	<select id="memberLogin" resultType="com.FM.backend.model.MemberVO">
-  		select memberMail, memberPw, memberFn, memberLn, adminck, memberRating, point from fm_member where memberMail = #{memberMail}
-  		<!-- select memberMail, memberName, adminck, memberRating, point from fm_member where memberMail = #{memberMail} and memberPw = #{memberPw} -->
-  	</select>
+<mapper namespace="com.FM.backend.mapper.MemberMapper">
 
-	<insert id="KakaoMember" parameterType="com.FM.backend.model.MemberVO">
-		INSERT INTO cloth.fm_member
-		(memberMail, memberPw, memberFn, memberLn, memberNum1, memberNum2, memberNum3, adminCk, regDate, memberRating, Point )
-		VALUES (#{memberMail}, #{memberPw}, #{memberFn}, #{memberLn}, #{memberNum1}, #{memberNum2}, #{memberNum3}, 0, NOW(), 'Enjoy', 5000);
-	</insert>
+  <!-- 회원가입 -->
+  <insert id="memberJoin" parameterType="com.FM.backend.model.MemberVO">
+    INSERT INTO cloth.fm_member 
+    (memberMail, memberPw, memberFn, memberLn, memberNum1, memberNum2, memberNum3, adminCk, regDate, memberRating, Point, memberCoupon)
+    VALUES (#{memberMail}, #{memberPw}, #{memberFn}, #{memberLn}, #{memberNum1}, #{memberNum2}, #{memberNum3}, 0, NOW(), "Enjoy", 5000, 2);
+  </insert>
+  
+  <!-- 메일 유무 -->
+  <select id="checkEmail" resultType="int" parameterType="String">
+    SELECT COUNT(*) FROM fm_member WHERE memberMail = #{memberMail}
+  </select>
+  
+  <!-- 로그인 -->
+  <select id="memberLogin" resultType="com.FM.backend.model.MemberVO">
+    SELECT memberMail, memberPw, memberFn, memberLn, adminck, memberRating, point 
+    FROM fm_member 
+    WHERE memberMail = #{memberMail}
+  </select>
 
-	<select id="findByEmail" parameterType="string" resultType="com.FM.backend.model.MemberVO">
-		select * from fm_member where memberMail= #{email}
-	</select>
-  </mapper>
+  <insert id="KakaoMember" parameterType="com.FM.backend.model.MemberVO">
+    INSERT INTO cloth.fm_member
+    (memberMail, memberPw, memberFn, memberLn, memberNum1, memberNum2, memberNum3, adminCk, regDate, memberRating, Point )
+    VALUES (#{memberMail}, #{memberPw}, #{memberFn}, #{memberLn}, #{memberNum1}, #{memberNum2}, #{memberNum3}, 0, NOW(), 'Enjoy', 5000);
+  </insert>
+
+  <select id="findByEmail" parameterType="string" resultType="com.FM.backend.model.MemberVO">
+    SELECT * FROM fm_member WHERE memberMail = #{email}
+  </select>
+
+  <select id="getAllMembers" resultType="com.FM.backend.model.MemberVO">
+    SELECT * FROM fm_member
+  </select>
+
+  <update id="updateMemberInfo" parameterType="com.FM.backend.model.MemberVO">
+    UPDATE fm_member
+    SET
+      memberPw = #{memberPw},
+      memberNum1 = #{memberNum1},
+      memberNum2 = #{memberNum2},
+      memberNum3 = #{memberNum3},
+      gender = #{gender},
+      birth = #{birth},
+      height = #{height},
+      weight = #{weight}
+    WHERE memberMail = #{memberMail}
+  </update>
+
+  <update id="useCouponAndPoint">
+    UPDATE fm_member
+    SET
+        point = point - #{usedPoint}
+        <if test="usedCoupon == true">
+            , memberCoupon = memberCoupon - 1
+        </if>
+    WHERE memberMail = #{memberMail}
+</update>
+
+</mapper>

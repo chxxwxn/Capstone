@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styles from './Cart.module.css';
 import { Link } from "react-router-dom";
+import { LoginContext } from "../Login/LoginContext";
 
 // 장바구니 항목을 표시하는 컴포넌트
 const CartItem = ({ item, selectedItems, onQuantityChange, onRemoveItem, onSelectItem }) => (
-    <div key={item.id} className={styles.OrderBox}>
+    <div key={item.cartid} className={styles.OrderBox}>
         <div className={styles.productInfo}>
             {/* 체크박스 - 해당 상품 선택 여부 */}
             <input
                 type="checkbox"
                 className={styles.productCheckbox}
-                checked={selectedItems.includes(item.id)} // 해당 상품이 선택되었는지 확인
-                onChange={() => onSelectItem(item.id)} // 선택 여부 토글
+                checked={selectedItems.includes(item.cartid)} // 해당 상품이 선택되었는지 확인
+                onChange={() => onSelectItem(item.cartid)} // 선택 여부 토글
             />
             <img src={item.image} alt={item.name} />
             <div className={styles.ProductLine}></div>
@@ -22,7 +23,7 @@ const CartItem = ({ item, selectedItems, onQuantityChange, onRemoveItem, onSelec
                         <div className={styles.ProductName}>{item.name}</div>
                         <div className={styles.ProductInfo}>
                             <div className={styles.Size}>{item.size}</div> /
-                            <div className={styles.Color}>{item.color}</div>
+                            <div className={styles.Color}>{item.color.split("-")[1]}</div>
                         </div>
                     </div>
                     <div className={styles.BuyInfo}>
@@ -36,14 +37,14 @@ const CartItem = ({ item, selectedItems, onQuantityChange, onRemoveItem, onSelec
                 {/* 수량 조정 및 삭제 버튼 */}
                 <div className={styles.controlsContainer}>
                     <div className={styles.quantityControl}>
-                        <button onClick={() => onQuantityChange(item.id, -1)}>-</button>
+                        <button onClick={() => onQuantityChange(item.cartid, -1)}>-</button>
                         <span>{item.quantity}</span>
-                        <button onClick={() => onQuantityChange(item.id, 1)}>+</button>
+                        <button onClick={() => onQuantityChange(item.cartid, 1)}>+</button>
                     </div>
 
                     <div className={styles.removeButtonContainer}>
                         {/* 삭제 버튼 */}
-                        <button className={styles.removeButton} onClick={() => onRemoveItem(item.id)}>삭제</button>
+                        <button className={styles.removeButton} onClick={() => onRemoveItem(item.cartid)}>삭제</button>
                     </div>
                 </div>
             </div>
@@ -55,25 +56,51 @@ const CartItem = ({ item, selectedItems, onQuantityChange, onRemoveItem, onSelec
 const Cart = () => {
     const [paymentAgreement, setPaymentAgreement] = useState(false); // 결제 동의 상태
     const [selectedItems, setSelectedItems] = useState([]); // 선택된 상품 목록
-    const [cartItems, setCartItems] = useState([  // 장바구니에 담긴 상품 목록
-        { id: 1, name: 'REGLAN SYMBOL KNIT ZIP-UP', size: 'S', color: 'CHARCOAL', price: 59900, quantity: 1, image: 'cardigan/1-1.jpg' },
-        { id: 2, name: 'COTTON HOODIE', size: 'M', color: 'BLACK', price: 49900, quantity: 1, image: 'cardigan/1-1.jpg' },
-    ]);
-
+    const { member } = useContext(LoginContext); // member 정보 가져오기
+    const [cartItems, setCartItems] = useState([]);
+    const memberMail = member?.memberMail || '';
+    
     const shippingCost = 3000; // 배송비
     const discount = 0; // 할인 금액 고정
+
+    useEffect(() => {
+        if (!memberMail) return; // 이메일 없으면 fetch 안 함
+
+        fetch(`http://localhost:8090/cart/list?memberMail=${memberMail}`)
+            .then((response) => {
+                if (!response.ok) throw new Error("네트워크 응답 실패");
+                return response.json();
+            })
+            .then((data) => {
+                const mappedData = data.map(item => ({
+                    cartid: item.cartId,
+                    id: item.productId,
+                    name: item.product.productName,
+                    price: item.product.productPrice,
+                    size: item.productSize,
+                    color: item.productColor,
+                    image: item.imageUrl,
+                    quantity: item.productQuantity
+                }));
+                setCartItems(mappedData);
+            })
+            .catch((error) => {
+                console.error("장바구니 불러오기 실패:", error);
+            });
+    }, [memberMail]);
+    
 
     // 선택된 상품들의 금액 합계 계산
     const productPrice = selectedItems.length === 0 
         ? 0 
         : cartItems
-            .filter((item) => selectedItems.includes(item.id)) // 선택된 상품 필터링
+            .filter((item) => selectedItems.includes(item.cartid)) // 선택된 상품 필터링
             .reduce((acc, item) => acc + item.price * item.quantity, 0); // 금액 합산
 
     // 총 결제 금액 계산
     const calculateTotal = () => {
         const selectedProductPrice = cartItems
-            .filter((item) => selectedItems.includes(item.id)) // 선택된 상품 필터링
+            .filter((item) => selectedItems.includes(item.cartid)) // 선택된 상품 필터링
             .reduce((acc, item) => acc + item.price * item.quantity, 0); // 금액 합산
 
         return selectedItems.length === 0 ? 0 : selectedProductPrice + shippingCost - discount; // 총합 계산
@@ -83,62 +110,110 @@ const Cart = () => {
 
     // 결제 버튼 클릭 시 동작
     const handlePayButtonClick = (event) => {
-        if (selectedItems.length === 0) {
-            alert('상품을 선택하세요.'); // 상품이 선택되지 않으면 경고
-            event.preventDefault();
-        } else if (!paymentAgreement) {
-            alert('결제 내용을 확인하고 동의해야 합니다.'); // 결제 동의가 없으면 경고
-            event.preventDefault();
+        const selectedCartItems = cartItems.filter(item => selectedItems.includes(item.cartid));
+        if (selectedCartItems.length === 0) {
+            alert("결제할 상품을 선택해주세요.");
+            return;
         }
+
+        sessionStorage.setItem("paymentItems", JSON.stringify(selectedCartItems));
+        window.location.href = "/payment";
     };
 
     // 수량 변경 핸들러
-    const handleQuantityChange = (id, delta) => {
+    const handleQuantityChange = (cartid, delta) => {
         setCartItems((prevItems) =>
             prevItems.map((item) =>
-                item.id === id
-                    ? { ...item, quantity: Math.max(1, item.quantity + delta) } // 수량 최소 1개로 제한
+                item.cartid === cartid
+                    ? { ...item, quantity: Math.max(1, item.quantity + delta) }
                     : item
             )
         );
+    
+        // 변경된 수량 계산
+        const item = cartItems.find(item => item.cartid === cartid);
+        if (!item) return;
+    
+        const newQuantity = Math.max(1, item.quantity + delta);
+    
+        // 서버에 수량 변경 요청 보내기
+        fetch(`http://localhost:8090/cart/updateQuantity`, {
+            method: "PUT",  // 또는 PATCH 가능
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                cartId: cartid,
+                productQuantity: newQuantity,
+            }),
+        })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("수량 업데이트 실패");
+            }
+            return response.text();
+        })
+        .then((data) => {
+            console.log("수량 업데이트 성공:", data);
+            // 필요 시 추가 상태 업데이트 가능
+        })
+        .catch((error) => {
+            alert("수량 업데이트에 실패했습니다.");
+            console.error(error);
+        });
     };
+    
 
-    // 상품 삭제 핸들러
-    const handleRemoveItem = (id) => {
+    // 단일 삭제
+    const handleRemoveItem = (cartid) => {
         const confirmDelete = window.confirm("상품을 삭제하시겠습니까?");
         if (confirmDelete) {
-            setCartItems((prevItems) => prevItems.filter((item) => item.id !== id)); // 해당 상품 삭제
+            fetch(`http://localhost:8090/cart/delete/${cartid}`, {
+                method: "DELETE"
+            })
+            .then(() => {
+                setCartItems(prev => prev.filter(item => item.cartid !== cartid));
+            })
+            .catch(err => console.error("삭제 실패:", err));
         }
     };
 
-    // 선택된 상품들 삭제 핸들러
+    // 선택 삭제
     const handleRemoveSelectedItems = () => {
         if (selectedItems.length === 0) {
-            alert("삭제할 상품을 선택하세요."); // 선택된 상품 없으면 경고
+            alert("삭제할 상품을 선택하세요.");
             return;
         }
 
         const confirmDelete = window.confirm("선택한 상품을 삭제하시겠습니까?");
         if (confirmDelete) {
-            setCartItems((prevItems) =>
-                prevItems.filter((item) => !selectedItems.includes(item.id)) // 선택된 상품 삭제
-            );
-            setSelectedItems([]); // 선택된 상품 초기화
+            fetch(`http://localhost:8090/cart/deleteSelected`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(selectedItems)
+            })
+            .then(() => {
+                setCartItems(prev => prev.filter(item => !selectedItems.includes(item.cartid)));
+                setSelectedItems([]);
+            })
+            .catch(err => console.error("삭제 실패:", err));
         }
     };
 
     // 개별 상품 선택 핸들러
-    const handleSelectItem = (id) => {
+    const handleSelectItem = (cartid) => {
         setSelectedItems((prevSelected) =>
-            prevSelected.includes(id)
-                ? prevSelected.filter((itemId) => itemId !== id) // 선택 해제
-                : [...prevSelected, id] // 선택 추가
+            prevSelected.includes(cartid)
+                ? prevSelected.filter((itemId) => itemId !== cartid) // 선택 해제
+                : [...prevSelected, cartid] // 선택 추가
         );
     };
 
     // 전체 선택/해제 핸들러
     const handleSelectAll = () => {
-        setSelectedItems(selectedItems.length === cartItems.length ? [] : cartItems.map((item) => item.id)); // 전체 선택 또는 해제
+        setSelectedItems(selectedItems.length === cartItems.length ? [] : cartItems.map((item) => item.cartid)); // 전체 선택 또는 해제
     };
 
     return (
@@ -168,7 +243,7 @@ const Cart = () => {
                     ) : (
                         cartItems.map((item) => (
                             <CartItem 
-                                key={item.id}
+                                key={item.cartid}
                                 item={item}
                                 selectedItems={selectedItems}
                                 onQuantityChange={handleQuantityChange}
@@ -204,11 +279,9 @@ const Cart = () => {
                             />
                             결제 내용을 확인하고 동의합니다.
                         </label>
-                        <Link to="/Payment" className={styles.payButtonWrapper}>
                             <button className={styles.payButton} onClick={handlePayButtonClick}>
                                 결제하기
                             </button>
-                        </Link>
                     </div>
                 </div>
             </div>

@@ -36,13 +36,7 @@ const Admin = () => {
                     <li onClick={() => navigate("/admin/ProductManage")}>
                         <a className={styles.admin_list_02}>상품 관리</a>
                     </li>
-                    <li onClick={() => navigate("/admin/author-register")}>
-                        <a className={styles.admin_list_03}>작가 등록</a>
-                    </li>
-                    <li onClick={() => navigate("/admin/author-manage")}>
-                        <a className={styles.admin_list_04}>작가 관리</a>
-                    </li>
-                    <li onClick={() => navigate("/admin/user-manage")}>
+                    <li onClick={() => navigate("/admin/UserManage")}>
                         <a className={styles.admin_list_05}>회원 관리</a>
                     </li>
                     </ul>

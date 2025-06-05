@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.FM.backend.model.KakaoApproveResponse;
@@ -50,11 +51,21 @@ public class KakaoPayController {
 }
 
   /* 결제 성공 */
-  @GetMapping("/success")
-  public ResponseEntity afterPayRequest(@RequestParam("pg_token") String pgToken){
-    KakaoApproveResponse kakaoApprove = kakaoPayService.ApproveResponse(pgToken);
+  @GetMapping("/payment/success")
+  public ResponseEntity<?> afterPayRequest(
+          @RequestParam("pg_token") String pgToken,
+          @RequestParam("tid") String tid) {
 
-    return new ResponseEntity<>(kakaoApprove,HttpStatus.OK);
+      try {
+          KakaoApproveResponse response = kakaoPayService.approveResponse(pgToken, tid);
+          return ResponseEntity.ok(response);
+      } catch (HttpClientErrorException e) {
+          // ✅ 이미 결제된 경우 무시하거나 안내
+          if (e.getResponseBodyAsString().contains("payment is already done")) {
+              return ResponseEntity.status(HttpStatus.OK).body("이미 승인된 결제입니다.");
+          }
+          return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("결제 승인 실패");
+      }
   }
 
   /* 결제 진행 중 취소 */

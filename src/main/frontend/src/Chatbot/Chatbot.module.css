@@ -88,15 +88,6 @@
     flex-direction: column;
   }
   
-  input[type="text"] {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    margin-right: 8px;
-    font-size: 1rem;
-  }
-  
   .optionContainer {
     margin-top: 10px;
     display: flex;
@@ -203,7 +194,7 @@
   gap: 8px;
 }
 
-input[type="text"] {
+.inputBar input[type="text"] {
   flex: 1;
   padding: 10px;
   border: 1px solid #ccc;
@@ -220,3 +211,31 @@ input[type="text"] {
   display: none;
 }
   
+/* 슬라이드 가능한 상품 리스트 */
+.productList {
+  display: flex;
+  flex-wrap: nowrap;           /* 줄바꿈 금지 */
+  overflow-x: auto;            /* 가로 스크롤 활성화 */
+  gap: 20px;
+  padding: 10px;
+  scroll-behavior: smooth;     /* 부드러운 스크롤 (선택사항) */
+}
+
+.product {
+  flex: 0 0 auto;              /* 가로로 고정된 크기 유지 */
+  width: 120px;
+  text-align: center;
+  transition: transform 0.2s ease-in-out;
+}
+
+.productImage {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.product:hover {
+  transform: scale(1.05);
+}

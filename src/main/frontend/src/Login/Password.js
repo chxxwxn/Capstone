@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom"; // 페이지 이동을 위한 훅 추가
 import { Eye, EyeOff } from "lucide-react"; // 아이콘 라이브러리 사용
 import styles from "./Password.module.css";
+import { LoginContext } from "../Login/LoginContext";
+import { Link } from 'react-router-dom';
 
 function Password() {
   const [password, setPassword] = useState("");
@@ -21,6 +23,10 @@ function Password() {
     setShowPassword(!showPassword);
   };
 
+  const gomain = () => {
+    navigate('/');
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -38,9 +44,9 @@ function Password() {
       if (data.success && data.member) {
         sessionStorage.setItem('member', JSON.stringify(data.member));
         if (data.member.adminCk === 1) {
-          navigate('/admin');
+          navigate('/admin', { replace: true });
         } else {
-          navigate('/');
+          navigate('/', { replace: true });
         }
         window.location.reload();
       } else {
@@ -52,8 +58,15 @@ function Password() {
     }
   };
 
+  const { isLoggedIn } = useContext(LoginContext);
+
   return (
-    <div className={styles.container}>
+    isLoggedIn ? (
+      <>
+        {gomain}
+      </>
+    ) : (
+      <div className={styles.container}>
       <main className={styles.main}>
         <form id="login_form" method="post" onSubmit={handleSubmit}>
           <h1 className={styles.title}>PASSWORD</h1>
@@ -67,20 +80,24 @@ function Password() {
               onChange={(e) => setPassword(e.target.value)}
               name="memberPw"
             />
-            <button className={styles.eyeButton} onClick={togglePasswordVisibility}>
-              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            <button type="button" 
+                    className={styles.eyeButton} onClick={togglePasswordVisibility}
+                  >
+                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
           </div>
-          <button 
-            className={styles.findPasswordButton} 
-            onClick={() => navigate("/FindPw")} // 클릭 시 findPw로 이동
-          >
-            비밀번호 찾기
-          </button>
+          
           <button className={styles.button} type="submit">로그인</button>
         </form>
+        <button 
+          className={styles.findPasswordButton} 
+          onClick={() => navigate("/FindPw")} // 클릭 시 findPw로 이동
+        >
+          비밀번호 찾기
+        </button>
       </main>
-    </div>
+    </div>  
+    )
   );
 }
 

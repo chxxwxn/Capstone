@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Login.module.css';
+import { LoginContext } from "../Login/LoginContext";
 
-const KAKAO_JS_KEY = "116129a2f6241bd118d98c52c1758667"; 
+
+const KAKAO_JS_KEY = "e0004ba73de38814f9c3d941049efff8"; 
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -35,14 +37,22 @@ function Login() {
 
       const data = await response.json();
       if (data.exists) {
-        navigate('/Password', { state: { email } });
+        navigate('/Password', { state: { email }, replace: true });
       } else {
-        navigate('/Join');
+        navigate('/Join', { replace: true });
       }
     } catch (error) {
       console.error('로그인 중 오류 발생:', error);
     }
   };
+
+  const { isLoggedIn } = useContext(LoginContext);
+  
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate('/', { replace: true });
+    }
+  }, [isLoggedIn, navigate]);
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -64,14 +74,24 @@ function Login() {
   const handleKakaoLogin = () => {
     if (window.Kakao) {
       window.Kakao.Auth.authorize({
-        redirectUri: "http://localhost:8090/member/kakao/callback" // ✅ 백엔드와 맞춤
+        redirectUri: "http://localhost:8090/member/kakao/callback",
+        scope: "profile_nickname account_email phone_number" // ✅ 꼭 포함해야 함
       });
     } else {
       console.error("Kakao SDK not initialized");
     }
   };
 
+  const gomain = () => {
+    navigate('/');
+  };
+
   return (
+    isLoggedIn ? (
+      <>
+        {gomain}
+      </>
+    ) : (
     <div className={styles.container}>
       <main className={styles.main}>
         <h1 className={styles.title}>LOGIN</h1>
@@ -108,6 +128,7 @@ function Login() {
         </button>
       </main>
     </div>
+    )
   );
 }
 

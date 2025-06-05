@@ -1,18 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Icon } from '@iconify/react';
 import styles from '../Product.module.css';
-import { useNavigate, useLocation } from "react-router-dom";
-
-
+import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { LoginContext } from "../../Login/LoginContext";
 
 const Preview = () => {
+  const { id } = useParams(); // /all/:id 에서 id 추출
+  const productId = parseInt(id);
   const [wishlist, setWishlist] = useState([]);
   const [selectedSize, setSelectedSize] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
+  const [products, setProducts] = useState([]); // API로부터 불러올 제품 데이터
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(null); // 모달 이미지 상태 추가
   const navigate = useNavigate();
-  const location = useLocation(); // 현재 경로 가져오기
+  const location = useLocation(); // 현재 경로 가져오기 
+  const { member } = useContext(LoginContext); // member 정보 가져오기
+  const memberMail = member?.memberMail || '';
 
   const handleNavigation = (subcategory) => {
     // 현재 경로에서 마지막 슬래시 이후의 부분을 제외하고 사용
@@ -21,24 +25,115 @@ const Preview = () => {
   };
   const categories = [
     { name: "Ring", path: "Ring" },
- 
   ];
   
-  const products = [
-    {
-      id: 1,
-      name: '2WAY HOOD DOWN JACKET',
-      image: '/padding/1-1.jpg',
-      price: 200000,
-      color: ['#778D72', '#C3E5F0', '#303030'],
-      date: '2025-02-01',
-    },
-  ];
+  const fetchProducts = async () => {
+    try {
+      const response = await fetch(`http://localhost:8090/products/${productId}`);
+      const data = await response.json();
+  
+    // 단일 객체를 배열로 감싸서 매핑
+    const mappedData = [{
+      id: data.productId,
+      name: data.productName,
+      price: data.productPrice,
+      color: data.colorCodes.split(',').map(color => color.trim()),
+      date: data.registerYear,
+      image: data.images,
+    }];
+    console.log("data from server:", data);
+      setProducts(mappedData); // 매핑된 데이터를 상태에 저장
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
 
+  // 로그인된 사용자의 찜 목록 불러오기
+  const fetchWishlist = async () => {
+    if (!member?.memberMail) return; // 로그인되지 않은 경우는 패스
+
+    try {
+      const response = await fetch(`http://localhost:8090/wishlist/list?memberMail=${memberMail}`);
+      if (!response.ok) throw new Error("찜 목록 로딩 실패");
+
+      const data = await response.json(); // 예: [{ productId: 1 }, { productId: 2 }]
+      const ids = data.map(item => item.productId); // ID 배열만 추출
+      setWishlist(ids); // 찜 상태로 설정
+    } catch (error) {
+      console.error("Wishlist fetch error:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts(); // 컴포넌트가 마운트될 때 API 호출
+    fetchWishlist(); // 찜 목록 불러오기
+  }, [member?.memberMail]);
+
+  const handleAddToCart = async (product) => {
+    const memberMail = member?.memberMail || ''; // 로그인한 사용자 이메일
+    const productId = product.id;       // 상품 ID
+    const productQuantity = quantity;          // 수량 (필요시 선택 기능 추가 가능)
+    const productColor = selectedColor; // 기본값 예시
+    const productSize = selectedSize;        // 기본값 예시
+  
+    try {
+      const response = await fetch("http://localhost:8090/cart/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          memberMail,
+          productId,
+          productQuantity,
+          productColor,
+          productSize
+        })
+      });
+  
+      if (!response.ok) {
+        throw new Error("서버 오류 발생");
+      }
+  
+      const result = await response.text(); // 백에서 메시지 반환 시
+  
+      alert("장바구니에 담겼습니다!");
+      console.log(result);
+    } catch (error) {
+      console.error("장바구니 담기 실패:", error);
+      alert("장바구니 담기에 실패했습니다.");
+    }
+  };
+
+  
   const toggleWishlist = (id) => {
+    const isWishlisted = wishlist.includes(id);
+  
     setWishlist((prevWishlist) =>
-      prevWishlist.includes(id) ? prevWishlist.filter((item) => item !== id) : [...prevWishlist, id]
+      isWishlisted ? prevWishlist.filter((item) => item !== id) : [...prevWishlist, id]
     );
+  
+    const wishlistData = {
+      memberMail: member?.memberMail || '', // 실제 로그인된 사용자 ID로 교체 필요
+      productId: id,
+    };
+  
+    fetch(`http://localhost:8090/wishlist/${isWishlisted ? 'delete' : 'insert'}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(wishlistData),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('서버 응답 오류');
+        }
+        console.log(`${isWishlisted ? '삭제' : '추가'} 완료`);
+      })
+      .catch((err) => {
+        console.error('찜 처리 중 오류:', err);
+      });
   };
 
   const reviews = [
@@ -52,7 +147,7 @@ const Preview = () => {
       date: "2024.12.30",
       idName: "abcd***",
       content: "옷이 예뻐요",
-      images: ["/padding/1-4.jpg", "/padding/1-5.jpg"] // 리뷰 사진 추가
+      images: ["/outer/cardigan/CroppedKnit-b4.jpg", "/outer/cardigan/CroppedKnit-b5.jpg"] // 리뷰 사진 추가
     },
     { 
       id: 2,
@@ -110,7 +205,6 @@ const asks = [
 
   return (
     <>
-     
       {/* 카테고리 헤더 */}
       <div className={styles.categoryHeader}>
         <div className={styles.categoryTop}>
@@ -161,8 +255,8 @@ const asks = [
           {/* 이미지 영역 */}
           <div className={styles.productImageContainer}>
             {products.map((product) => (
-              <a key={product.id} href={`/product/${product.id}`}>
-                <img src={product.image} alt={product.name} className={styles.productImage} />
+              <a key={product.id}>
+                <img src={product.image[0].imageUrl} alt={product.name} className={styles.productImage} />
               </a>
             ))}
           </div>
@@ -191,14 +285,17 @@ const asks = [
                 <div className={styles.productColorOptions}>
                   <p className={styles.optionTitle}>색상</p>
                   <div className={styles.colorOptions}>
-                    {product.color.map((color, index) => (
-                      <span
-                        key={index}
-                        className={`${styles.colorCircle} ${selectedColor === color ? styles.selectedColor : ''}`}
-                        style={{ backgroundColor: color }}
-                        onClick={() => setSelectedColor(color)}
-                      ></span>
-                    ))}
+                    {product.color.map((color, index) => {
+                      const [colorCode, colorName] = color.split('-'); // '#ffffff', '블랙'
+                      return (
+                        <span
+                          key={index}
+                          className={`${styles.colorCircle} ${selectedColor === color ? styles.selectedColor : ''}`}
+                          style={{ backgroundColor: colorCode }}
+                          onClick={() => setSelectedColor(color)} // 저장할 값은 '#ffffff-블랙' 그대로
+                        ></span>
+                      );
+                    })}
                   </div>
                 </div>
 
@@ -214,7 +311,7 @@ const asks = [
 
                 {/* 장바구니 & 구매 버튼 */}
                 <div className={styles.buttonGroup}>
-                  <button className={styles.cartButton}>장바구니</button>
+                  <button className={styles.cartButton} onClick={() => handleAddToCart(product)}>장바구니</button>
                   <button className={styles.buyButton}>구매하기</button>
                 </div>
               </div>
@@ -229,37 +326,53 @@ const asks = [
         <div className={styles.productDetailInfo}>FRONT</div>
       </div>
       <div className={styles.imageGrid}>
-        <img src="/padding/1-1.jpg" alt="Image 1" />
-        <img src="/padding/1-1.jpg" alt="Image 2" />
-        <img src="/padding/1-1.jpg" alt="Image 3" />
+        {products.map((product) => (
+          <>
+            <img src={product.image[1].imageUrl} alt="Image 1" />
+            <img src={product.image[2].imageUrl} alt="Image 2" />
+            <img src={product.image[3].imageUrl} alt="Image 3" />
+          </>
+        ))}
       </div>
       <div className={styles.productDetail}>
         <div className={styles.productDetailInfo}>SIDE</div>
       </div>
       <div className={styles.imageGrid}>
-        <img src="/padding/1-2.jpg" alt="Image 1" />
-        <img src="/padding/1-2.jpg" alt="Image 2" />
-        <img src="/padding/1-2.jpg" alt="Image 3" />
+        {products.map((product) => (
+          <>
+            <img src={product.image[4].imageUrl} alt="Image 4" />
+            <img src={product.image[5].imageUrl} alt="Image 5" />
+            <img src={product.image[6].imageUrl} alt="Image 6" />
+          </>
+        ))}
       </div>
       <div className={styles.productDetail}>
         <div className={styles.productDetailInfo}>BACK</div>
       </div>
       <div className={styles.imageGrid}>
-        <img src="/padding/1-3.jpg" alt="Image 1" />
-        <img src="/padding/1-3.jpg" alt="Image 2" />
-        <img src="/padding/1-3.jpg" alt="Image 3" />
+        {products.map((product) => (
+          <>
+            <img src={product.image[7].imageUrl} alt="Image 7" />
+            <img src={product.image[8].imageUrl} alt="Image 8" />
+            <img src={product.image[9].imageUrl} alt="Image 9" />
+          </>
+        ))}
       </div>
       <div className={styles.productDetail}>
         <div className={styles.productDetailLine}></div>
         <div className={styles.productDetailInfo}>DEATAIL</div>
       </div>
       <div className={styles.imageGridDetail}>
-        <img src="/padding/1-4.jpg" alt="Image 1" />
-        <img src="/padding/1-4.jpg" alt="Image 2" />
-        <img src="/padding/1-4.jpg" alt="Image 3" />
-        <img src="/padding/1-5.jpg" alt="Image 1" />
-        <img src="/padding/1-5.jpg" alt="Image 2" />
-        <img src="/padding/1-5.jpg" alt="Image 3" />
+        {products.map((product) => (
+          <>
+            <img src={product.image[10].imageUrl} alt="Image 10" />
+            <img src={product.image[11].imageUrl} alt="Image 11" />
+            <img src={product.image[12].imageUrl} alt="Image 12" />
+            <img src={product.image[13].imageUrl} alt="Image 13" />
+            <img src={product.image[14].imageUrl} alt="Image 14" />
+            <img src={product.image[15].imageUrl} alt="Image 15" />
+          </>
+        ))}
       </div>
       <div className={styles.productDetail}>
         <div className={styles.productDetailLine}></div>

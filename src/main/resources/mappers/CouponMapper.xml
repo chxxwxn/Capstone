@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.FM.backend.mapper.CouponMapper">
+
+    <insert id="insertCoupon" parameterType="com.FM.backend.model.CouponVO">
+        INSERT INTO fm_coupon (
+            member_mail, coupon_code, name, discount_type, discount_value, status, issue_date, expire_date
+        )
+        VALUES (
+            #{memberMail}, #{couponCode}, #{name}, #{discountType}, #{discountValue}, #{status}, #{issueDate}, #{expireDate}
+        )
+    </insert>
+
+    <select id="getCouponsByMember" resultType="com.FM.backend.model.CouponVO">
+        SELECT * FROM fm_coupon WHERE member_mail = #{memberMail}
+    </select>
+
+    <update id="updateCouponStatus">
+        UPDATE fm_coupon
+        SET status = #{status}
+        WHERE coupon_code = #{couponCode} AND member_mail = #{memberMail}
+    </update>
+
+</mapper>
