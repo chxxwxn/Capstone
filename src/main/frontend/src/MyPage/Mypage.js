@@ -92,7 +92,7 @@ const Mypage = () => {
             />
             </Link>
             </div>
-                  <div className={styles.SavingPcs}>{member.point}</div>
+                  <div className={styles.SavingPcs}>0</div>
               <div className={styles.SavingTotal}>총 적립금</div>
             </div>
           </div>
@@ -106,7 +106,7 @@ const Mypage = () => {
                 />
               </Link>
             </div>
-                  <div className={styles.CouponPcs}>{member.memberCoupon}개</div>
+                  <div className={styles.CouponPcs}>1개</div>
               <div className={styles.CouponTotal}>총 쿠폰</div>
             </div>
           </div>
