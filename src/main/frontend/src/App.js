@@ -76,6 +76,7 @@ import ProductManage from './Admin/ProductManage'
 import UserManage from './Admin/UserManage'
 
 import Chatbot from './Chatbot/Chatbot';
+import ScrollToTop from './ScrollToTop'; 
 
 function App() {
   useEffect(() => {
@@ -98,7 +99,7 @@ function App() {
     <>
     <LoginProvider>
       <Header />
-      
+         <ScrollToTop />
       <Routes>
         
         <Route path="/" element={<><Banner /><Main /></>} />
