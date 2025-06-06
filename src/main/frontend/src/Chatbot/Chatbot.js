@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import * as tmImage from '@teachablemachine/image';
 import styles from './Chatbot.module.css';
 import { Link } from 'react-router-dom';
+import { Icon } from '@iconify/react';
 
 function PersonalColorChat() {
   const [model, setModel] = useState(null);
@@ -9,12 +10,22 @@ function PersonalColorChat() {
   const [inputText, setInputText] = useState('');
   const [isAwaitingImage, setIsAwaitingImage] = useState(false);
   const [isGenderMale] = useState(true);
-  const [mode, setMode] = useState(null);
   const [personalColor, setPersonalColor] = useState(null);
   const [products, setProducts] = useState([]); // API로부터 불러올 제품 데이터
+const [inputValue, setInputValue] = useState('');
 
   const hasInitialized = useRef(false);
   const chatboxRef = useRef(null);
+
+  const [mode, setMode] = useState('default'); 
+  const [placeholder, setPlaceholder] = useState('메시지를 입력해주세요');
+
+  const startFreeChat = () => {
+  setMode('gpt');
+  setPlaceholder("자유채팅을 끝내려면 '자유채팅 끝내기'를 입력해주세요");
+};
+
+
 
   useEffect(() => {
     if (chatboxRef.current) {
@@ -45,22 +56,29 @@ function PersonalColorChat() {
         어떤 서비스를 원하시나요?
         <div className={styles.optionContainer}>
           <button
-            className={styles.buttonStyle1}
+            className={styles.buttonStyle}
             onClick={() => handleOptionSelect(1)}
           >
-            스타일링 추천
+            상황별 스타일링 추천
           </button>
           <button
-            className={styles.buttonStyle2}
+            className={styles.buttonStyle}
             onClick={() => handleOptionSelect(2)}
           >
             퍼스널컬러 맞춤 추천
+          </button>
+          <button
+            className={styles.buttonStyle}
+            onClick={() => handleOptionSelect(3)}
+          >
+            자유 채팅
           </button>
         </div>
       </div>
     ));
   }, []);
 
+  
 
   const addMessage = (sender, content, isImage = false) => {
     setMessages((prev) => [...prev, { sender, content, isImage }]);
@@ -70,6 +88,7 @@ function PersonalColorChat() {
     if (option === 1) {
       setMode('style');
       setIsAwaitingImage(false);
+       setPlaceholder('메시지를 입력해주세요');
       addMessage('user', '스타일링 추천');
       addMessage('bot', (
         <div>
@@ -79,23 +98,62 @@ function PersonalColorChat() {
       ));    } else if (option === 2) {
       setMode('color');
       setIsAwaitingImage(true);
+       setPlaceholder('메시지를 입력해주세요');
       addMessage('user', '퍼스널컬러 맞춤 추천');
       addMessage('bot', '사진을 업로드해주세요.');
     } else if (option === 3) {  // 여기 옵션 3 추가
       setMode('gpt');
       setIsAwaitingImage(false);
       addMessage('user', '자유채팅 모드 선택');
+       startFreeChat();
       addMessage('bot', '무엇이든 물어보세요! 자유롭게 대화할 수 있어요.');
-    }
+      
+      
+    } else {
+    setMode('default');  // 자유채팅 아니면 기본 모드
+    setPlaceholder('메시지를 입력해주세요');
+  }
   };
 
   const knownStyleKeywords = ['꾸안꾸', '데이트', '댄디']; // 현재 DB에 있는 키워드들
 
-  const handleSendText = async () => {
-    if (!inputText.trim()) return;
-    const userText = inputText.trim();
-    addMessage('user', userText);
-    setInputText('');
+
+  const renderModeOptions = (modesToShow) => (
+  <div className={styles.optionContainer}>
+    {modesToShow.includes('style') && (
+      <button
+        className={styles.buttonStyle}
+        onClick={() => handleOptionSelect(1)}
+      >
+        상황별 스타일링 추천
+      </button>
+    )}
+    {modesToShow.includes('color') && (
+      <button
+        className={styles.buttonStyle}
+        onClick={() => handleOptionSelect(2)}
+      >
+        퍼스널컬러 맞춤 추천
+      </button>
+    )}
+    {modesToShow.includes('gpt') && (
+      <button
+        className={styles.buttonStyle}
+        onClick={() => handleOptionSelect(3)}
+      >
+        자유 채팅
+      </button>
+    )}
+  </div>
+);
+
+
+
+ const handleSendText = async (text) => {
+  const userText = text?.trim() || inputValue.trim();  // inputValue 사용
+  if (!userText) return;
+  addMessage('user', userText);
+  setInputValue('');
 
     // 스타일 추천 기능
     if (mode === 'style') {
@@ -120,27 +178,44 @@ function PersonalColorChat() {
           setProducts(mappedData);
 
           if (mappedData.length > 0) {
-            addMessage('bot', (
-              <div>
-                <strong>{`"${matchedKeywords.join(', ')}"`} 스타일에 맞는 추천 옷이에요!</strong>
-                <div className={styles.productList}>
-                  {[...mappedData]
-                    .sort(() => Math.random() - 0.5)
-                    .slice(0, 3)
-                    .map((product) => (
-                      <div key={product.id} className={styles.product}>
-                        <Link to={`/all/${product.id}`}>
-                          <img 
-                            src={product.image} 
-                            alt={product.name} 
-                            className={styles.productImage} 
-                          />
-                        </Link>
-                      </div>
-                    ))}
-                </div>
+          // 텍스트 말풍선
+          addMessage('bot', (
+            <>
+              <div className={styles.styleRe}>
+                <strong className={styles.keywords}>{`"${matchedKeywords.join(', ')}"`}</strong>
+                <span className={styles.styleRetext}> 스타일에 맞는 추천 옷이에요!</span>
               </div>
-            ));
+
+              <div className={styles.productList}>
+                {[...mappedData]
+                  .sort(() => Math.random() - 0.5)
+                  .slice(0, 3)
+                  .map((product) => (
+                    <div key={product.id} className={styles.product}>
+                      <Link to={`/all/${product.id}`}>
+                        <img 
+                          src={product.image} 
+                          alt={product.name} 
+                          className={styles.productImage} 
+                        />
+                      </Link>
+                    </div>
+                  ))}
+              </div>
+            </>
+          ));
+
+
+          // 스타일 추천 메시지 다음에 안내 추가
+          addMessage('bot', (
+            <div>
+              계속 스타일을 추천받고 싶다면 키워드를 입력해 주세요.<br />
+              다른 서비스를 원하시면 아래 버튼을 눌러주세요.
+              {renderModeOptions(['color', 'gpt'])}
+            </div>
+          ));
+
+
           } else {
             addMessage('bot', `"${matchedKeywords.join(', ')}" 스타일에 맞는 상품이 아직 없습니다.`);
           }
@@ -158,8 +233,31 @@ function PersonalColorChat() {
       addMessage('bot', '사진을 업로드해주세요.');
       setIsAwaitingImage(true);
 
+      addMessage('bot', (
+        <div>
+          계속 추천을 받으시려면 이미지를 업로드해 주세요.<br />
+          다른 서비스를 원하시면 아래 버튼을 눌러주세요.
+          {renderModeOptions(['style', 'gpt'])}
+        </div>
+      ));
+
+
     // 일반 대화 (OpenAI)
     } else if (mode === 'gpt') {
+  // 자유채팅 종료 명령어 처리
+  if (userText === '자유채팅 끝내기') {
+    setMode('default');
+    setInputText('');
+    addMessage('bot', (
+      <div>
+        자유채팅을 종료했어요. 😊<br />
+        다른 서비스를 원하시면 아래 버튼을 눌러주세요.
+        {renderModeOptions(['style', 'color', 'gpt'])}
+      </div>
+    ));
+     setPlaceholder('메시지를 입력해주세요');
+    return;
+  }
       try {
         const res = await fetch('http://localhost:8090/api/chat/ask', {
           method: 'POST',
@@ -231,6 +329,14 @@ function PersonalColorChat() {
 
         await getResultAndShow();
         setIsAwaitingImage(false);
+
+        addMessage('bot', (
+        <div>
+          계속 추천을 받으시려면 이미지를 업로드해 주세요.<br />
+          다른 서비스를 원하시면 아래 버튼을 눌러주세요.
+          {renderModeOptions(['style', 'gpt'])}
+        </div>
+      ));
       }
     };
   };
@@ -253,7 +359,11 @@ function PersonalColorChat() {
 
     return (
       <div>
-        <strong>당신의 퍼스널컬러는 "{resultTitle}"입니다!</strong>
+        <div className={styles.styleRe}>
+          <span className={styles.styleRe}> 당신의 퍼스널컬러는</span>
+            <strong className={styles.keywords}>"{resultTitle}"</strong>
+            <span className={styles.styleRe}> 입니다!</span>
+          </div>
         <div style={{ marginTop: '10px' }}>
           {sorted.map((pred, index) => {
             const toneName = getToneName(pred.className);
@@ -281,6 +391,7 @@ function PersonalColorChat() {
               </div>
             );
           })}
+          
         </div>
         <div className={styles.recommendedClothes}>
           <h3>{getToneName(top.className)}에 맞는 추천 옷</h3>
@@ -301,6 +412,7 @@ function PersonalColorChat() {
             ))}
           </div>
         </div>
+        
       </div>
     );
   };
@@ -325,31 +437,26 @@ function PersonalColorChat() {
         </div>
 
         <div className={styles.inputcontatiner}>
-          <div className={styles.keywordBar}>
-            <button
-              className={`${styles.keywordButton} ${mode === 'style' ? styles.activeButton : ''}`}
-              onClick={() => handleOptionSelect(1)}
-            >
-              스타일링 추천
-            </button>
-            <button
-              className={`${styles.keywordButton} ${mode === 'color' ? styles.activeButton : ''}`}
-              onClick={() => handleOptionSelect(2)}
-            >
-              퍼스널컬러 맞춤 추천
-            </button>
-            <button
-              className={`${styles.keywordButton} ${mode === 'gpt' ? styles.activeButton : ''}`}
-              onClick={() => handleOptionSelect(3)}
-            >
-              자유채팅 모드
-            </button>
-          </div>
-
+          
           <div className={styles.inputArea}>
             <div className={styles.inputBar}>
+              
+              <input
+                type="text"
+                placeholder={placeholder}
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') handleSendText();
+                }}
+                 
+              />
+              <button onClick={() => handleSendText()} className={styles.sendButton}>
+              <Icon icon="ri:arrow-up-line" className={styles.sendIcon} />
+            </button>
+
               <label htmlFor="imageUpload" className={styles.imageUploadLabel}>
-                🖼️
+                 <Icon icon="material-symbols:photo-sharp" className={styles.imageIcon} />
               </label>
               <input
                 id="imageUpload"
@@ -358,16 +465,6 @@ function PersonalColorChat() {
                 onChange={handleImageUpload}
                 className={styles.fileInputHidden}
               />
-              <input
-                type="text"
-                value={inputText}
-                onChange={(e) => setInputText(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleSendText()}
-                placeholder="메시지를 입력하세요..."
-              />
-              <button onClick={handleSendText} className={styles.sendButton}>
-                전송
-              </button>
             </div>
           </div>
         </div>

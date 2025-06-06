@@ -105,7 +105,7 @@ function Header() {
               <img src="/icon/cart2.png" alt="장바구니" className={styles.icon} />
             </button>
           </Link>
-          <Link to="">
+          <Link to="/">
             <button type="button" className={styles.iconButton} aria-label="채팅">
               <img src="/icon/chat2.png" alt="채팅" className={styles.icon} />
             </button>
@@ -115,5 +115,5 @@ function Header() {
     </header>
   );
 }
-
+ 
 export default Header;

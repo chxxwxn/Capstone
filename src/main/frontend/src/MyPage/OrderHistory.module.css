@@ -80,6 +80,7 @@
     cursor: pointer;
     background: transparent;
     margin-left: 3px;
+    padding: 0px 5px;
 }
 
 .PeriodInput{

@@ -21,7 +21,6 @@ body {
 .MypageBox {
   display: flex; /* 박스를 가로로 정렬 */
   flex-wrap: wrap; /* 화면 크기에 따라 줄바꿈 */
-  gap: 20px; /* 박스 간격 추가 */
 }
 
 .Box1 {
@@ -45,7 +44,7 @@ body {
 .ProfileBox {
   display: flex; /* Profile과 TextBox를 가로로 배치 */
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   margin-bottom: 10px; /* 아래 여백 */
 }
 
@@ -54,6 +53,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-right: 12px;
 }
 
 .RateIcon {
@@ -285,7 +285,7 @@ body {
 
 .BoxContainer {
   display: flex;
-  flex: 3; 
+  flex: 4; 
 }
 
 @media (max-width: 479px) {

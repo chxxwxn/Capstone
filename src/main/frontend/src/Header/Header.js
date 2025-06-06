@@ -190,7 +190,7 @@ function Header() {
                   <img src="/icon/cart1.png" alt="장바구니" className={styles.icon} />
                 </button>
               </Link>
-              <Link to="">
+              <Link to="/chatbot">
                 <button type="button" className={styles.iconButton} aria-label="채팅">
                   <img src="/icon/chat1.png" alt="채팅" className={styles.icon} />
                 </button>

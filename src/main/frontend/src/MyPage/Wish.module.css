@@ -170,6 +170,7 @@
       display: block;
       border:  1px solid #ddd;
       border-bottom: none;
+      margin-bottom:10px;
     }
     
     .productHeader {
@@ -248,6 +249,7 @@
       height: 1px;
       background-color: #000;
       opacity: 0.5;
+      margin: 10px 0px;
   }
   
   .pagination {
