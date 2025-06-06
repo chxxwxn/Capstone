@@ -104,6 +104,8 @@
   /* 유효한 스타일 */
   .valid {
     color: green; /* 글자 색상 초록색 */
+    margin-top: 10px;
+    margin-bottom: 5px;
   }
   
   /* 유효하지 않은 스타일 */
