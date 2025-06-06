@@ -198,4 +198,9 @@ public class MemberServiceImpl implements MemberService{
   public void useCouponAndPoint(String memberMail, int usedPoint, boolean usedCoupon) {
       membermapper.useCouponAndPoint(memberMail, usedPoint, usedCoupon);
   }
+
+    @Override
+    public MemberVO getAllMember(String memberMail) {
+      return membermapper.findByEmail(memberMail); 
+    }
 }

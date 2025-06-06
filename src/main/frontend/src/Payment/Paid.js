@@ -106,7 +106,6 @@ const [visibleOrders, setVisibleOrders] = useState(0);
       try {
         const parsedOrders = JSON.parse(savedOrders);
         setRecentOrders(parsedOrders); // 그대로 화면에 출력
-        sessionStorage.removeItem("orderToSave");
       } catch (error) {
         console.error("orderToSave JSON 파싱 실패", error);
       }
@@ -150,7 +149,7 @@ const [visibleOrders, setVisibleOrders] = useState(0);
 
   return (
     isLoggedIn && member ? (
-    
+
     <div className={styles.Paid}>
         <div className={styles.PaidText}>결제가 완료되었습니다!</div>
       <div className={styles.PaidContainer}>
@@ -194,7 +193,7 @@ const [visibleOrders, setVisibleOrders] = useState(0);
           </div>
         </div>
 
-        
+
 
         <div className={styles.Buttons}>
             <button
@@ -203,13 +202,14 @@ const [visibleOrders, setVisibleOrders] = useState(0);
             >
             더 쇼핑하기
             </button>
+
         {filteredOrders.slice(0, visibleOrders).map((order) => (
           <button
               className={styles.OrderDetailButton}
               onClick={() => navigate(`/mypage/OrderHistory/${order.orderNum}`)}
             >
-              주문내역 보기
-          </button>
+            주문내역 보기
+            </button>
           ))}
         </div>
 

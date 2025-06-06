@@ -51,7 +51,7 @@ public class KakaoPayController {
 }
 
   /* 결제 성공 */
-  @GetMapping("/payment/success")
+  @GetMapping("/success")
   public ResponseEntity<?> afterPayRequest(
           @RequestParam("pg_token") String pgToken,
           @RequestParam("tid") String tid) {

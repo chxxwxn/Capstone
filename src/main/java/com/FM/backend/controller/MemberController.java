@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -232,13 +233,24 @@ public class MemberController {
   }
 
   @PutMapping("/use-benefits")
-  public ResponseEntity<?> useBenefits(
-    @RequestParam String memberMail,
-    @RequestParam int usedPoint,
-    @RequestParam boolean usedCoupon
-  ) {
-    membermapper.useCouponAndPoint(memberMail, usedPoint, usedCoupon);
-    return ResponseEntity.ok().build();
+  public ResponseEntity<MemberVO> useCouponAndPoint(@RequestParam String memberMail,
+                                                    @RequestParam int usedPoint,
+                                                    @RequestParam(required = false, defaultValue = "false") boolean usedCoupon,
+                                                    HttpSession session) {
+      memberservice.useCouponAndPoint(memberMail, usedPoint, usedCoupon);
+      MemberVO updatedMember = memberservice.getAllMember(memberMail);
+      session.setAttribute("member", updatedMember); // 세션도 갱신
+
+      return ResponseEntity.ok(updatedMember); // ✅ 프론트에 최신 데이터 전달
+  }
+
+ @GetMapping("/get")
+  public MemberVO getMember(HttpSession session) {
+    MemberVO sessionMember = (MemberVO) session.getAttribute("member");
+    if (sessionMember == null) {
+      throw new ResponseStatusException(HttpStatus.FORBIDDEN, "세션 없음");
+    }
+    return memberservice.getAllMember(sessionMember.getMemberMail());
   }
 
 }

@@ -109,6 +109,8 @@
   /* 유효하지 않은 스타일 */
   .invalid {
     color: red; /* 글자 색상 빨간색 */
+    margin-top: 10px;
+    margin-bottom: 5px;
   }
   
   /* 전화번호 컨테이너 스타일 */

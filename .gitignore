@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
@@ -22,7 +21,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-=======
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
@@ -57,4 +55,7 @@ build/
 ### VS Code ###
 .vscode/
 node_modules
->>>>>>> 9102341b60dfc8ade419ac35166d49fa5359699f
+
+/src/main/resources/application-private.properties
+
+/target/

@@ -5,6 +5,7 @@ C:\Users\rjsgh\backend\backend\src\main\java\com\FM\backend\config\WebConfig.jav
 C:\Users\rjsgh\backend\backend\src\main\java\com\FM\backend\controller\AddressController.java
 C:\Users\rjsgh\backend\backend\src\main\java\com\FM\backend\controller\AdminController.java
 C:\Users\rjsgh\backend\backend\src\main\java\com\FM\backend\controller\CartController.java
+C:\Users\rjsgh\backend\backend\src\main\java\com\FM\backend\controller\ChatController.java
 C:\Users\rjsgh\backend\backend\src\main\java\com\FM\backend\controller\ClothController.java
 C:\Users\rjsgh\backend\backend\src\main\java\com\FM\backend\controller\CouponController.java
 C:\Users\rjsgh\backend\backend\src\main\java\com\FM\backend\controller\KakaoPayController.java
@@ -48,6 +49,7 @@ C:\Users\rjsgh\backend\backend\src\main\java\com\FM\backend\service\CouponServic
 C:\Users\rjsgh\backend\backend\src\main\java\com\FM\backend\service\KakaoPayService.java
 C:\Users\rjsgh\backend\backend\src\main\java\com\FM\backend\service\MemberService.java
 C:\Users\rjsgh\backend\backend\src\main\java\com\FM\backend\service\MemberServiceImpl.java
+C:\Users\rjsgh\backend\backend\src\main\java\com\FM\backend\service\OpenAIService.java
 C:\Users\rjsgh\backend\backend\src\main\java\com\FM\backend\service\OrderService.java
 C:\Users\rjsgh\backend\backend\src\main\java\com\FM\backend\service\OrderServiceImpl.java
 C:\Users\rjsgh\backend\backend\src\main\java\com\FM\backend\service\PointService.java

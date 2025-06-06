@@ -26,4 +26,5 @@ public interface MemberService {
 
   void useCouponAndPoint(String memberMail, int usedPoint, boolean usedCoupon);
 
+  MemberVO getAllMember(String memberMail);
 }

@@ -5,7 +5,7 @@ function Banner() {
   return (
     <section className={styles.banner}>
       <img
-        src="/banner.jpeg"
+        src="/banner.jpg"
         alt="Main Banner"
         className={styles.bannerImage}
       />
