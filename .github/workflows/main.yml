@@ -53,7 +53,7 @@ jobs:
       - name: Make ZIP file
         run: zip -r ${{ github.sha }}.zip .
 
-      - name: Configure AWS credentials
+      - name: Configure AWS
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
