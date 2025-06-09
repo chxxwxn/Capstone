@@ -342,16 +342,16 @@
         WHERE
         <choose>
             <when test="'springWarm'.equals(personalColor)">
-                c.color_codes LIKE '%#000000%' OR c.color_codes LIKE '%#808080%'
+                c.color_codes LIKE '%#ffffff%' OR c.color_codes LIKE '%#fb93f2%' OR c.color_codes LIKE '%#b1d2ec%' OR c.color_codes LIKE '%#ccc7bb%'
             </when>
             <when test="'summerCool'.equals(personalColor)">
-                c.color_codes LIKE '%#000000%' OR c.color_codes LIKE '%#808080%'
+                c.color_codes LIKE '%#ffffff%' OR c.color_codes LIKE '%#808080%' OR c.color_codes LIKE '%#fb93f2%' OR c.color_codes LIKE '%#b1d2ec%' OR c.color_codes LIKE '%#a419d7%'
             </when>
             <when test="'autumnWarm'.equals(personalColor)">
-                c.color_codes LIKE '%#000000%' OR c.color_codes LIKE '%#808080%'
+                c.color_codes LIKE '%#815436%' OR c.color_codes LIKE '%#ccc7bb%' c.color_codes LIKE '%#a419d7%' c.color_codes LIKE '%#6d786d%'
             </when>
             <when test="'winterCool'.equals(personalColor)">
-                c.color_codes LIKE '%#000000%' OR c.color_codes LIKE '%#808080%'
+                c.color_codes LIKE '%#000000%' OR c.color_codes LIKE '%#808080%' OR c.color_codes LIKE '%#ffffff%' OR c.color_codes LIKE '%#a419d7%' OR c.color_codes LIKE '%#3e3d8a%' 
             </when>
             <otherwise>
                 1 = 0 <!-- 아무것도 안 나옴 -->

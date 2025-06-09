@@ -100,7 +100,12 @@ const [inputValue, setInputValue] = useState('');
       setIsAwaitingImage(true);
        setPlaceholder('메시지를 입력해주세요');
       addMessage('user', '퍼스널컬러 맞춤 추천');
-      addMessage('bot', '사진을 업로드해주세요.');
+      addMessage('bot', (
+        <div>
+          사진을 업로드해주세요.<br />
+          (증명사진과 같이 흰배경의 사진을 올려주시길 바랍니다!)
+        </div>
+      ));
     } else if (option === 3) {  // 여기 옵션 3 추가
       setMode('gpt');
       setIsAwaitingImage(false);

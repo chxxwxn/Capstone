@@ -267,7 +267,7 @@ const OrderHistory = () => {
                                             <div className={styles.ProductName}>{order.productName}</div>
                                             <div className={styles.ProductInfo}>
                                                 <div className={styles.Size}>{order.size}</div> /
-                                                <div className={styles.Color}>{order.color}</div>
+                                                <div className={styles.Color}>{order.color.split("-")[1]}</div>
                                             </div>
                                         </div>
                                         <div className={styles.BuyInfo}>
